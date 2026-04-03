@@ -5,8 +5,6 @@ const {
   PermissionsBitField, 
   ActionRowBuilder, 
   StringSelectMenuBuilder,
-  ButtonBuilder,
-  ButtonStyle,
   ChannelType,
   PermissionFlagsBits
 } = require('discord.js');
@@ -52,10 +50,9 @@ function saveData() {
 
 // Bot ready
 client.once('ready', () => {
-  console.log(`Logged in as ${client.user.tag}!`);
+  console.log(`Bot logado como ${client.user.tag}!`);
   client.user.setActivity('MM Bot | $help', { type: 'WATCHING' });
   
-  // Start auto-voucher if enabled
   if (botData.autoVoucherEnabled && botData.voucherChannel) {
     startAutoVoucher();
   }
@@ -105,26 +102,26 @@ const fakeUsernames = [
 ];
 
 const fakeReviews = [
-  'Very trusted middleman! Fast and secure transaction.',
-  'Amazing service, will definitely use again!',
-  'Super fast and professional. Highly recommended!',
-  'Legit MM, helped me with a big trade. Thanks!',
-  'Smooth transaction, no issues at all. 10/10!',
-  'Trusted seller, fast delivery and great communication.',
-  'Best middleman service I\'ve ever used!',
-  'Quick and reliable. Thank you for the help!',
-  'Very professional and trustworthy. Recommended!',
-  'Great experience, trade went perfectly!',
-  'Fast response time and secure process.',
-  'Legitimate trader, would trade again!',
-  'Excellent service, made the trade so easy!',
-  'Trustworthy and efficient. 5 stars!',
-  'Amazing help with my cross-trade. Thanks!',
-  'Very patient and helpful throughout the process.',
-  'Secure transaction, felt safe the whole time.',
-  'Top tier middleman service!',
-  'Flawless trade execution. Thank you!',
-  'Best in the business, no cap!'
+  'Middleman muito confiÃ¡vel! TransaÃ§Ã£o rÃ¡pida e segura.',
+  'ServiÃ§o incrÃ­vel, vou usar novamente com certeza!',
+  'Super rÃ¡pido e profissional. Altamente recomendado!',
+  'MM legÃ­timo, me ajudou com uma grande troca. Obrigado!',
+  'TransaÃ§Ã£o tranquila, sem problemas. 10/10!',
+  'Vendedor confiÃ¡vel, entrega rÃ¡pida e Ã³tima comunicaÃ§Ã£o.',
+  'Melhor serviÃ§o de middleman que jÃ¡ usei!',
+  'RÃ¡pido e confiÃ¡vel. Obrigado pela ajuda!',
+  'Muito profissional e confiÃ¡vel. Recomendado!',
+  'Ãtima experiÃªncia, troca perfeita!',
+  'Resposta rÃ¡pida e processo seguro.',
+  'Trader legÃ­timo, trocaria novamente!',
+  'Excelente serviÃ§o, facilitou muito a troca!',
+  'ConfiÃ¡vel e eficiente. 5 estrelas!',
+  'Ajuda incrÃ­vel com meu cross-trade. Obrigado!',
+  'Muito paciente e prestativo durante todo o processo.',
+  'TransaÃ§Ã£o segura, me senti seguro o tempo todo.',
+  'ServiÃ§o de middleman de primeira!',
+  'ExecuÃ§Ã£o de troca impecÃ¡vel. Obrigado!',
+  'O melhor do negÃ³cio, sem dÃºvida!'
 ];
 
 const tradeTypes = [
@@ -162,15 +159,15 @@ function startAutoVoucher() {
     
     const embed = new EmbedBuilder()
       .setColor('#5865F2')
-      .setTitle('â New Vouch Received!')
-      .setDescription(`**${username}** left a vouch!`)
+      .setTitle('â Novo Vouch Recebido!')
+      .setDescription(`**${username}** deixou um vouch!`)
       .addFields(
-        { name: 'ð Review', value: review, inline: false },
-        { name: 'ð° Trade Amount', value: `$${amount}`, inline: true },
-        { name: 'ð Trade Type', value: tradeType, inline: true },
-        { name: 'â­ Rating', value: stars, inline: true }
+        { name: 'ð AvaliaÃ§Ã£o', value: review, inline: false },
+        { name: 'ð° Valor da Troca', value: `$${amount}`, inline: true },
+        { name: 'ð Tipo de Troca', value: tradeType, inline: true },
+        { name: 'â­ Nota', value: stars, inline: true }
       )
-      .setFooter({ text: `Vouch System`, iconURL: client.user.displayAvatarURL() })
+      .setFooter({ text: 'Sistema de Vouches', iconURL: client.user.displayAvatarURL() })
       .setTimestamp();
     
     const guild = channel.guild;
@@ -202,10 +199,10 @@ async function createTranscript(channel, closer) {
   const messages = await channel.messages.fetch({ limit: 100 });
   const sortedMessages = Array.from(messages.values()).reverse();
   
-  let transcript = `=== TICKET TRANSCRIPT ===\n`;
-  transcript += `Channel: ${channel.name}\n`;
-  transcript += `Closed by: ${closer.tag}\n`;
-  transcript += `Date: ${new Date().toLocaleString()}\n`;
+  let transcript = `=== TRANSCRICAO DO TICKET ===\n`;
+  transcript += `Canal: ${channel.name}\n`;
+  transcript += `Fechado por: ${closer.tag}\n`;
+  transcript += `Data: ${new Date().toLocaleString()}\n`;
   transcript += `========================\n\n`;
   
   for (const msg of sortedMessages) {
@@ -213,7 +210,7 @@ async function createTranscript(channel, closer) {
     const time = msg.createdAt.toLocaleString();
     transcript += `[${time}] ${msg.author.tag}: ${msg.content}\n`;
     if (msg.embeds.length > 0) {
-      transcript += `  [EMBED: ${msg.embeds[0].title || 'No title'}]\n`;
+      transcript += `  [EMBED: ${msg.embeds[0].title || 'Sem titulo'}]\n`;
     }
   }
   
@@ -231,58 +228,58 @@ client.on('messageCreate', async (message) => {
   
   if (command === 'helpadmin') {
     if (!isAdmin(message.member)) {
-      return message.reply({ embeds: [createErrorEmbed('You do not have permission to use this command.')] });
+      return message.reply({ embeds: [createErrorEmbed('VocÃª nÃ£o tem permissÃ£o para usar este comando.')] });
     }
     
     const embed = new EmbedBuilder()
       .setColor('#5865F2')
-      .setTitle('Admin Commands')
-      .setDescription('All available $ commands, their purpose, and how to use them.')
+      .setTitle('Comandos de Administrador')
+      .setDescription('Todos os comandos $ disponÃ­veis, sua funÃ§Ã£o e como usÃ¡-los.')
       .addFields(
-        { name: 'Commands', value: 
-          '`$helpadmin` - Show every bot command with usage and role scope.\n' +
-          '`$helpstaff` - Show commands staff members can use.\n' +
-          '`$help` - Show commands everyone can use.\n' +
-          '`$vouch <1-5> <@user> <message>` - Send a manual vouch embed to the configured vouch channel.\n' +
-          '`$panel` - Open the auto-vouch admin panel.\n' +
-          '`$role_ids <@role>` - List all member IDs for a role.\n' +
-          '`$setadmin <@role>` - Set the minimum admin role threshold.\n' +
-          '`$setstaff <@role>` - Set the minimum staff role threshold.\n' +
-          '`$middleman <roleid>` - Set the middleman role.\n' +
-          '`$staff <roleid>` - Set the staff role.\n' +
-          '`$voucher <channelid>` - Set the voucher channel for auto-vouchers.\n' +
-          '`$supportcategory <categoryid>` - Set category for support tickets.\n' +
-          '`$middlemancategory <categoryid>` - Set category for middleman tickets.\n' +
-          '`$logchannel <channelid>` - Set the log channel.'
+        { name: 'Comandos', value: 
+          '`$helpadmin` - Mostrar todos os comandos de admin\n' +
+          '`$helpstaff` - Mostrar comandos para staff\n' +
+          '`$help` - Mostrar comandos pÃºblicos\n' +
+          '`$vouch <1-5> <@user> <mensagem>` - Enviar vouch manual\n' +
+          '`$panel` - Painel de controle do auto-vouch\n' +
+          '`$role_ids <@role>` - Listar IDs dos membros de um cargo\n' +
+          '`$setadmin <@role>` - Definir cargo de admin\n' +
+          '`$setstaff <@role>` - Definir cargo de staff\n' +
+          '`$middleman <roleid>` - Definir cargo de middleman\n' +
+          '`$staff <roleid>` - Definir cargo de staff\n' +
+          '`$voucher <channelid>` - Definir canal de vouches\n' +
+          '`$supportcategory <categoryid>` - Definir categoria de suporte\n' +
+          '`$middlemancategory <categoryid>` - Definir categoria de middleman\n' +
+          '`$logchannel <channelid>` - Definir canal de logs'
         },
-        { name: 'Commands 2', value:
-          '`$ticket support` - Send support ticket panel.\n' +
-          '`$ticket middleman` - Send middleman ticket panel.\n' +
-          '`$addprofit <@user> <amount>` - Add profit to a user (use negative to remove).\n' +
-          '`$tprofit <@user> <amount>` - Set a user\'s profit limit.\n' +
-          '`$profit <@user>` - Show a user\'s total profit.\n' +
-          '`$tnotes <@user> <amount>` - Set a user\'s notes limit.\n' +
-          '`$addnote <@user> <amount> [sidenote]` - Add notes to a user (use negative to remove).\n' +
-          '`$notes <@user>` - Show a user\'s note total and note history.\n' +
-          '`$search <@user>` - Show profit, limit, history, and note stats for a user.\n' +
-          '`$embed <channel_id>` - Send your next message as an embed to a channel.\n' +
-          '`$hit <@user>` - Send the preset hit message to a user.\n' +
-          '`$tutorial` - Post the tutorial embed.\n' +
-          '`$mminfo` - Post the middleman information embed.'
+        { name: 'Comandos 2', value:
+          '`$ticket support` - Enviar painel de suporte\n' +
+          '`$ticket middleman` - Enviar painel de middleman\n' +
+          '`$addprofit <@user> <amount>` - Adicionar/remover lucro (use negativo para remover)\n' +
+          '`$tprofit <@user> <amount>` - Definir lucro do usuÃ¡rio\n' +
+          '`$profit <@user>` - Mostrar lucro do usuÃ¡rio\n' +
+          '`$tnotes <@user> <amount>` - Definir notas do usuÃ¡rio\n' +
+          '`$addnote <@user> <amount> [sidenote]` - Adicionar/remover notas\n' +
+          '`$notes <@user>` - Mostrar notas do usuÃ¡rio\n' +
+          '`$search <@user>` - Pesquisar estatÃ­sticas do usuÃ¡rio\n' +
+          '`$embed <channel_id>` - Enviar mensagem como embed\n' +
+          '`$hit <@user>` - Enviar mensagem de hit\n' +
+          '`$tutorial` - Postar embed de tutorial\n' +
+          '`$mminfo` - Postar informaÃ§Ãµes do middleman'
         },
-        { name: 'Commands 3', value:
-          '`$taxamm` - Post the middleman tax decision embed.\n' +
-          '`$ban <@user> [reason]` - Ban a member.\n' +
-          '`$kick <@user> [reason]` - Kick a member.\n' +
-          '`$hackban <user_id> [reason]` - Ban a user by ID.\n' +
-          '`$softban <@user> [reason]` - Softban a member.\n' +
-          '`$timeout <@user> <duration> [reason]` - Timeout a member for a duration like 10m or 2h.\n' +
-          '`$unban <user_id>` - Unban a user by ID.\n' +
-          '`$unhackban <user_id>` - Undo a hackban by user ID.\n' +
-          '`$untimeout <@user> [reason]` - Remove a member\'s timeout.'
+        { name: 'Comandos 3', value:
+          '`$taxamm` - Postar embed de decisÃ£o de taxa\n' +
+          '`$ban <@user> [motivo]` - Banir membro\n' +
+          '`$kick <@user> [motivo]` - Expulsar membro\n' +
+          '`$hackban <user_id> [motivo]` - Banir por ID\n' +
+          '`$softban <@user> [motivo]` - Softban membro\n' +
+          '`$timeout <@user> <duracao> [motivo]` - Silenciar membro (10m, 2h, 1d)\n' +
+          '`$unban <user_id>` - Desbanir usuÃ¡rio\n' +
+          '`$unhackban <user_id>` - Desfazer hackban\n' +
+          '`$untimeout <@user> [motivo]` - Remover silenciamento'
         }
       )
-      .setFooter({ text: 'Admin Panel', iconURL: client.user.displayAvatarURL() })
+      .setFooter({ text: 'Painel de Admin', iconURL: client.user.displayAvatarURL() })
       .setTimestamp();
     
     message.channel.send({ embeds: [embed] });
@@ -290,36 +287,36 @@ client.on('messageCreate', async (message) => {
   
   else if (command === 'helpstaff') {
     if (!isStaff(message.member)) {
-      return message.reply({ embeds: [createErrorEmbed('You do not have permission to use this command.')] });
+      return message.reply({ embeds: [createErrorEmbed('VocÃª nÃ£o tem permissÃ£o para usar este comando.')] });
     }
     
     const embed = new EmbedBuilder()
       .setColor('#5865F2')
-      .setTitle('Staff Commands')
-      .setDescription('All $ commands staff members can use.')
+      .setTitle('Comandos de Staff')
+      .setDescription('Todos os comandos $ que membros da staff podem usar.')
       .addFields(
-        { name: 'Commands', value:
-          '`$helpstaff` - Show commands staff members can use.\n' +
-          '`$help` - Show commands everyone can use.\n' +
-          '`$profit <@user>` - Show a user\'s total profit.\n' +
-          '`$notes <@user>` - Show a user\'s note total and note history.\n' +
-          '`$search <@user>` - Show profit, limit, history, and note stats for a user.\n' +
-          '`$hit <@user>` - Send the preset hit message to a user.\n' +
-          '`$tutorial` - Post the tutorial embed.'
+        { name: 'Comandos', value:
+          '`$helpstaff` - Mostrar comandos de staff\n' +
+          '`$help` - Mostrar comandos pÃºblicos\n' +
+          '`$profit <@user>` - Mostrar lucro do usuÃ¡rio\n' +
+          '`$notes <@user>` - Mostrar notas do usuÃ¡rio\n' +
+          '`$search <@user>` - Pesquisar estatÃ­sticas do usuÃ¡rio\n' +
+          '`$hit <@user>` - Enviar mensagem de hit\n' +
+          '`$tutorial` - Postar embed de tutorial'
         },
-        { name: 'Commands 2', value:
-          '`$claim` - Claim the current ticket.\n' +
-          '`$unclaim` - Unclaim the current ticket.\n' +
-          '`$close` - Close the current ticket.\n' +
-          '`$transferir <@user>` - Transfer the current ticket to another user.\n' +
-          '`$adicionar <@user>` - Add a user to the current ticket.\n' +
-          '`$remover <@user>` - Remove a user from the current ticket.\n' +
-          '`$taxamm` - Post the middleman tax decision embed.\n' +
-          '`$timeout <@user> <duration> [reason]` - Timeout a member for a duration like 10m or 2h.\n' +
-          '`$untimeout <@user> [reason]` - Remove a member\'s timeout.'
+        { name: 'Comandos 2', value:
+          '`$claim` - Reivindicar ticket atual\n' +
+          '`$unclaim` - Desfazer reivindicaÃ§Ã£o do ticket\n' +
+          '`$close` - Fechar ticket atual\n' +
+          '`$transferir <@user>` - Transferir ticket para outro usuÃ¡rio\n' +
+          '`$adicionar <@user>` - Adicionar usuÃ¡rio ao ticket\n' +
+          '`$remover <@user>` - Remover usuÃ¡rio do ticket\n' +
+          '`$taxamm` - Postar embed de decisÃ£o de taxa\n' +
+          '`$timeout <@user> <duracao> [motivo]` - Silenciar membro\n' +
+          '`$untimeout <@user> [motivo]` - Remover silenciamento'
         }
       )
-      .setFooter({ text: 'Staff Panel', iconURL: client.user.displayAvatarURL() })
+      .setFooter({ text: 'Painel de Staff', iconURL: client.user.displayAvatarURL() })
       .setTimestamp();
     
     message.channel.send({ embeds: [embed] });
@@ -328,17 +325,17 @@ client.on('messageCreate', async (message) => {
   else if (command === 'help') {
     const embed = new EmbedBuilder()
       .setColor('#5865F2')
-      .setTitle('Public Commands')
-      .setDescription('All $ commands everyone can use.')
+      .setTitle('Comandos PÃºblicos')
+      .setDescription('Todos os comandos $ que todos podem usar.')
       .addFields(
-        { name: 'Commands', value:
-          '`$help` - Show commands everyone can use.\n' +
-          '`$close` - Close your current ticket.\n' +
-          '`$taxamm` - Post the middleman tax decision embed.\n' +
-          '`$vouch <@user> <message>` - Send a vouch for a user.'
+        { name: 'Comandos', value:
+          '`$help` - Mostrar comandos pÃºblicos\n' +
+          '`$close` - Fechar seu ticket atual\n' +
+          '`$taxamm` - Postar embed de decisÃ£o de taxa\n' +
+          '`$vouch <@user> <mensagem>` - Enviar vouch para um usuÃ¡rio'
         }
       )
-      .setFooter({ text: 'Help', iconURL: client.user.displayAvatarURL() })
+      .setFooter({ text: 'Ajuda', iconURL: client.user.displayAvatarURL() })
       .setTimestamp();
     
     message.channel.send({ embeds: [embed] });
@@ -348,7 +345,7 @@ client.on('messageCreate', async (message) => {
   
   else if (command === 'ticket') {
     if (!isAdmin(message.member)) {
-      return message.reply({ embeds: [createErrorEmbed('You do not have permission to use this command.')] });
+      return message.reply({ embeds: [createErrorEmbed('VocÃª nÃ£o tem permissÃ£o para usar este comando.')] });
     }
     
     const type = args[0]?.toLowerCase();
@@ -368,30 +365,30 @@ client.on('messageCreate', async (message) => {
               {
                 label: 'DÃºvidas ou perguntas gerais',
                 value: 'general',
-                description: 'General questions and doubts'
+                description: 'DÃºvidas e perguntas gerais'
               },
               {
                 label: 'DenÃºncias de scam',
                 value: 'scam',
-                description: 'Report a scam'
+                description: 'Reportar um scam'
               },
               {
                 label: 'Pedir suporte',
                 value: 'support',
-                description: 'Request support'
+                description: 'Solicitar suporte'
               }
             ])
         );
       
       await message.channel.send({ embeds: [embed], components: [row] });
-      await log(message.guild, 'ð« Support Panel', `Support panel created by ${message.author.tag}`, '#57F287');
+      await log(message.guild, 'ð« Painel de Suporte', `Painel de suporte criado por ${message.author.tag}`, '#57F287');
     }
     
     else if (type === 'middleman') {
       const embed = new EmbedBuilder()
         .setColor('#5865F2')
         .setTitle('Middleman')
-        .setDescription('ð¨ â Solicitar MM.\n\nTaxa normais.\n0.99R$ acima de 8R$.\n2.15R$ acima de 100R$.\n4.3R$ acima de 200R$.\n6.8R$ acima de 400R$.\n1.2% acima de 700R$.\nEm contas, Ã© TAXA NORMAL + 2.00R$.\n\nTaxas CrossTrade.\n40c 2 itens\n60c 3+ itens');
+        .setDescription('ð¨ â Solicitar MM.\n\nTaxas normais.\n0.99R$ acima de 8R$.\n2.15R$ acima de 100R$.\n4.3R$ acima de 200R$.\n6.8R$ acima de 400R$.\n1.2% acima de 700R$.\nEm contas, Ã© TAXA NORMAL + 2.00R$.\n\nTaxas CrossTrade.\n40c 2 itens\n60c 3+ itens');
       
       const row = new ActionRowBuilder()
         .addComponents(
@@ -402,37 +399,42 @@ client.on('messageCreate', async (message) => {
               {
                 label: 'NegociaÃ§Ãµes atÃ© R$100',
                 value: 'mm_100',
-                description: 'Trades up to R$100'
+                description: 'NegociaÃ§Ãµes atÃ© R$100'
               },
               {
                 label: 'NegociaÃ§Ãµes atÃ© R$250',
                 value: 'mm_250',
-                description: 'Trades up to R$250'
+                description: 'NegociaÃ§Ãµes atÃ© R$250'
               },
               {
                 label: 'NegociaÃ§Ãµes atÃ© R$500',
                 value: 'mm_500',
-                description: 'Trades up to R$500'
+                description: 'NegociaÃ§Ãµes atÃ© R$500'
               },
               {
                 label: 'NegociaÃ§Ãµes atÃ© R$1000',
                 value: 'mm_1000',
-                description: 'Trades up to R$1000'
+                description: 'NegociaÃ§Ãµes atÃ© R$1000'
               },
               {
                 label: 'NegociaÃ§Ãµes a partir de R$1000',
                 value: 'mm_1000plus',
-                description: 'Trades from R$1000+'
+                description: 'NegociaÃ§Ãµes a partir de R$1000'
+              },
+              {
+                label: 'CrossTrade',
+                value: 'crosstrade',
+                description: 'Troca entre diferentes jogos/plataformas'
               }
             ])
         );
       
       await message.channel.send({ embeds: [embed], components: [row] });
-      await log(message.guild, 'ð« Middleman Panel', `Middleman panel created by ${message.author.tag}`, '#57F287');
+      await log(message.guild, 'ð« Painel de Middleman', `Painel de middleman criado por ${message.author.tag}`, '#57F287');
     }
     
     else {
-      message.reply({ embeds: [createErrorEmbed('Usage: `$ticket support` or `$ticket middleman`')] });
+      message.reply({ embeds: [createErrorEmbed('Uso: `$ticket support` ou `$ticket middleman`')] });
     }
   }
   
@@ -440,17 +442,17 @@ client.on('messageCreate', async (message) => {
   
   else if (command === 'supportcategory') {
     if (!isAdmin(message.member)) {
-      return message.reply({ embeds: [createErrorEmbed('You do not have permission to use this command.')] });
+      return message.reply({ embeds: [createErrorEmbed('VocÃª nÃ£o tem permissÃ£o para usar este comando.')] });
     }
     
     const categoryId = args[0];
     if (!categoryId) {
-      return message.reply({ embeds: [createErrorEmbed('Usage: `$supportcategory <categoryid>`')] });
+      return message.reply({ embeds: [createErrorEmbed('Uso: `$supportcategory <categoryid>`')] });
     }
     
     const category = message.guild.channels.cache.get(categoryId.replace(/[<#>]/g, ''));
     if (!category || category.type !== ChannelType.GuildCategory) {
-      return message.reply({ embeds: [createErrorEmbed('Category not found. Please provide a valid category ID.')] });
+      return message.reply({ embeds: [createErrorEmbed('Categoria nÃ£o encontrada. ForneÃ§a um ID de categoria vÃ¡lido.')] });
     }
     
     botData.supportCategory = category.id;
@@ -458,28 +460,28 @@ client.on('messageCreate', async (message) => {
     
     const embed = new EmbedBuilder()
       .setColor('#57F287')
-      .setTitle('â Support Category Set')
-      .setDescription(`Support tickets will be created in category: **${category.name}**`)
-      .setFooter({ text: 'Configuration', iconURL: client.user.displayAvatarURL() })
+      .setTitle('â Categoria de Suporte Definida')
+      .setDescription(`Tickets de suporte serÃ£o criados na categoria: **${category.name}**`)
+      .setFooter({ text: 'ConfiguraÃ§Ã£o', iconURL: client.user.displayAvatarURL() })
       .setTimestamp();
     
     message.channel.send({ embeds: [embed] });
-    await log(message.guild, 'âï¸ Config Updated', `Support category set to ${category.name} by ${message.author.tag}`, '#57F287');
+    await log(message.guild, 'âï¸ Config Atualizada', `Categoria de suporte definida para ${category.name} por ${message.author.tag}`, '#57F287');
   }
   
   else if (command === 'middlemancategory') {
     if (!isAdmin(message.member)) {
-      return message.reply({ embeds: [createErrorEmbed('You do not have permission to use this command.')] });
+      return message.reply({ embeds: [createErrorEmbed('VocÃª nÃ£o tem permissÃ£o para usar este comando.')] });
     }
     
     const categoryId = args[0];
     if (!categoryId) {
-      return message.reply({ embeds: [createErrorEmbed('Usage: `$middlemancategory <categoryid>`')] });
+      return message.reply({ embeds: [createErrorEmbed('Uso: `$middlemancategory <categoryid>`')] });
     }
     
     const category = message.guild.channels.cache.get(categoryId.replace(/[<#>]/g, ''));
     if (!category || category.type !== ChannelType.GuildCategory) {
-      return message.reply({ embeds: [createErrorEmbed('Category not found. Please provide a valid category ID.')] });
+      return message.reply({ embeds: [createErrorEmbed('Categoria nÃ£o encontrada. ForneÃ§a um ID de categoria vÃ¡lido.')] });
     }
     
     botData.middlemanCategory = category.id;
@@ -487,28 +489,28 @@ client.on('messageCreate', async (message) => {
     
     const embed = new EmbedBuilder()
       .setColor('#57F287')
-      .setTitle('â Middleman Category Set')
-      .setDescription(`Middleman tickets will be created in category: **${category.name}**`)
-      .setFooter({ text: 'Configuration', iconURL: client.user.displayAvatarURL() })
+      .setTitle('â Categoria de Middleman Definida')
+      .setDescription(`Tickets de middleman serÃ£o criados na categoria: **${category.name}**`)
+      .setFooter({ text: 'ConfiguraÃ§Ã£o', iconURL: client.user.displayAvatarURL() })
       .setTimestamp();
     
     message.channel.send({ embeds: [embed] });
-    await log(message.guild, 'âï¸ Config Updated', `Middleman category set to ${category.name} by ${message.author.tag}`, '#57F287');
+    await log(message.guild, 'âï¸ Config Atualizada', `Categoria de middleman definida para ${category.name} por ${message.author.tag}`, '#57F287');
   }
   
   else if (command === 'logchannel') {
     if (!isAdmin(message.member)) {
-      return message.reply({ embeds: [createErrorEmbed('You do not have permission to use this command.')] });
+      return message.reply({ embeds: [createErrorEmbed('VocÃª nÃ£o tem permissÃ£o para usar este comando.')] });
     }
     
     const channelId = args[0];
     if (!channelId) {
-      return message.reply({ embeds: [createErrorEmbed('Usage: `$logchannel <channelid>`')] });
+      return message.reply({ embeds: [createErrorEmbed('Uso: `$logchannel <channelid>`')] });
     }
     
     const channel = message.guild.channels.cache.get(channelId.replace(/[<#>]/g, ''));
     if (!channel) {
-      return message.reply({ embeds: [createErrorEmbed('Channel not found.')] });
+      return message.reply({ embeds: [createErrorEmbed('Canal nÃ£o encontrado.')] });
     }
     
     botData.logChannel = channel.id;
@@ -516,9 +518,9 @@ client.on('messageCreate', async (message) => {
     
     const embed = new EmbedBuilder()
       .setColor('#57F287')
-      .setTitle('â Log Channel Set')
-      .setDescription(`Logs will be sent to: **${channel.name}**`)
-      .setFooter({ text: 'Configuration', iconURL: client.user.displayAvatarURL() })
+      .setTitle('â Canal de Logs Definido')
+      .setDescription(`Logs serÃ£o enviados para: **${channel.name}**`)
+      .setFooter({ text: 'ConfiguraÃ§Ã£o', iconURL: client.user.displayAvatarURL() })
       .setTimestamp();
     
     message.channel.send({ embeds: [embed] });
@@ -528,7 +530,7 @@ client.on('messageCreate', async (message) => {
   
   else if (command === 'mminfo') {
     if (!isStaff(message.member)) {
-      return message.reply({ embeds: [createErrorEmbed('You do not have permission to use this command.')] });
+      return message.reply({ embeds: [createErrorEmbed('VocÃª nÃ£o tem permissÃ£o para usar este comando.')] });
     }
     
     const embed = new EmbedBuilder()
@@ -540,7 +542,7 @@ client.on('messageCreate', async (message) => {
         '**2 forma:**\n' +
         'O Vendedor irÃ¡ entregar os itens ao middleman, apÃ³s isso, o Comprador ira enviar o pix para o Vendedor. Quando confirmado o recebimento do pix, o Middleman e irÃ¡ entregar os itens ao Comprador.'
       )
-      .setFooter({ text: 'Middleman Info', iconURL: client.user.displayAvatarURL() })
+      .setFooter({ text: 'InformaÃ§Ãµes do Middleman', iconURL: client.user.displayAvatarURL() })
       .setTimestamp();
     
     message.channel.send({ embeds: [embed] });
@@ -550,12 +552,12 @@ client.on('messageCreate', async (message) => {
   
   else if (command === 'setadmin') {
     if (!isAdmin(message.member)) {
-      return message.reply({ embeds: [createErrorEmbed('You do not have permission to use this command.')] });
+      return message.reply({ embeds: [createErrorEmbed('VocÃª nÃ£o tem permissÃ£o para usar este comando.')] });
     }
     
     const role = message.mentions.roles.first();
     if (!role) {
-      return message.reply({ embeds: [createErrorEmbed('Please mention a role. Usage: `$setadmin <@role>`')] });
+      return message.reply({ embeds: [createErrorEmbed('Mencione um cargo. Uso: `$setadmin <@role>`')] });
     }
     
     botData.adminRole = role.id;
@@ -563,9 +565,9 @@ client.on('messageCreate', async (message) => {
     
     const embed = new EmbedBuilder()
       .setColor('#57F287')
-      .setTitle('â Admin Role Set')
-      .setDescription(`Admin role has been set to ${role.name}`)
-      .setFooter({ text: 'Configuration', iconURL: client.user.displayAvatarURL() })
+      .setTitle('â Cargo de Admin Definido')
+      .setDescription(`Cargo de admin definido para ${role.name}`)
+      .setFooter({ text: 'ConfiguraÃ§Ã£o', iconURL: client.user.displayAvatarURL() })
       .setTimestamp();
     
     message.channel.send({ embeds: [embed] });
@@ -573,12 +575,12 @@ client.on('messageCreate', async (message) => {
   
   else if (command === 'setstaff') {
     if (!isAdmin(message.member)) {
-      return message.reply({ embeds: [createErrorEmbed('You do not have permission to use this command.')] });
+      return message.reply({ embeds: [createErrorEmbed('VocÃª nÃ£o tem permissÃ£o para usar este comando.')] });
     }
     
     const role = message.mentions.roles.first();
     if (!role) {
-      return message.reply({ embeds: [createErrorEmbed('Please mention a role. Usage: `$setstaff <@role>`')] });
+      return message.reply({ embeds: [createErrorEmbed('Mencione um cargo. Uso: `$setstaff <@role>`')] });
     }
     
     botData.staffRole = role.id;
@@ -586,9 +588,9 @@ client.on('messageCreate', async (message) => {
     
     const embed = new EmbedBuilder()
       .setColor('#57F287')
-      .setTitle('â Staff Role Set')
-      .setDescription(`Staff role has been set to ${role.name}`)
-      .setFooter({ text: 'Configuration', iconURL: client.user.displayAvatarURL() })
+      .setTitle('â Cargo de Staff Definido')
+      .setDescription(`Cargo de staff definido para ${role.name}`)
+      .setFooter({ text: 'ConfiguraÃ§Ã£o', iconURL: client.user.displayAvatarURL() })
       .setTimestamp();
     
     message.channel.send({ embeds: [embed] });
@@ -596,17 +598,17 @@ client.on('messageCreate', async (message) => {
   
   else if (command === 'middleman') {
     if (!isAdmin(message.member)) {
-      return message.reply({ embeds: [createErrorEmbed('You do not have permission to use this command.')] });
+      return message.reply({ embeds: [createErrorEmbed('VocÃª nÃ£o tem permissÃ£o para usar este comando.')] });
     }
     
     const roleId = args[0];
     if (!roleId) {
-      return message.reply({ embeds: [createErrorEmbed('Please provide a role ID. Usage: `$middleman <roleid>`')] });
+      return message.reply({ embeds: [createErrorEmbed('ForneÃ§a um ID de cargo. Uso: `$middleman <roleid>`')] });
     }
     
     const role = message.guild.roles.cache.get(roleId.replace(/[<@&>]/g, ''));
     if (!role) {
-      return message.reply({ embeds: [createErrorEmbed('Role not found. Please provide a valid role ID.')] });
+      return message.reply({ embeds: [createErrorEmbed('Cargo nÃ£o encontrado. ForneÃ§a um ID de cargo vÃ¡lido.')] });
     }
     
     botData.middlemanRole = role.id;
@@ -614,9 +616,9 @@ client.on('messageCreate', async (message) => {
     
     const embed = new EmbedBuilder()
       .setColor('#57F287')
-      .setTitle('â Middleman Role Set')
-      .setDescription(`Middleman role has been set to ${role.name}`)
-      .setFooter({ text: 'Configuration', iconURL: client.user.displayAvatarURL() })
+      .setTitle('â Cargo de Middleman Definido')
+      .setDescription(`Cargo de middleman definido para ${role.name}`)
+      .setFooter({ text: 'ConfiguraÃ§Ã£o', iconURL: client.user.displayAvatarURL() })
       .setTimestamp();
     
     message.channel.send({ embeds: [embed] });
@@ -624,17 +626,17 @@ client.on('messageCreate', async (message) => {
   
   else if (command === 'staff') {
     if (!isAdmin(message.member)) {
-      return message.reply({ embeds: [createErrorEmbed('You do not have permission to use this command.')] });
+      return message.reply({ embeds: [createErrorEmbed('VocÃª nÃ£o tem permissÃ£o para usar este comando.')] });
     }
     
     const roleId = args[0];
     if (!roleId) {
-      return message.reply({ embeds: [createErrorEmbed('Please provide a role ID. Usage: `$staff <roleid>`')] });
+      return message.reply({ embeds: [createErrorEmbed('ForneÃ§a um ID de cargo. Uso: `$staff <roleid>`')] });
     }
     
     const role = message.guild.roles.cache.get(roleId.replace(/[<@&>]/g, ''));
     if (!role) {
-      return message.reply({ embeds: [createErrorEmbed('Role not found. Please provide a valid role ID.')] });
+      return message.reply({ embeds: [createErrorEmbed('Cargo nÃ£o encontrado. ForneÃ§a um ID de cargo vÃ¡lido.')] });
     }
     
     botData.staffRole = role.id;
@@ -642,9 +644,9 @@ client.on('messageCreate', async (message) => {
     
     const embed = new EmbedBuilder()
       .setColor('#57F287')
-      .setTitle('â Staff Role Set')
-      .setDescription(`Staff role has been set to ${role.name}`)
-      .setFooter({ text: 'Configuration', iconURL: client.user.displayAvatarURL() })
+      .setTitle('â Cargo de Staff Definido')
+      .setDescription(`Cargo de staff definido para ${role.name}`)
+      .setFooter({ text: 'ConfiguraÃ§Ã£o', iconURL: client.user.displayAvatarURL() })
       .setTimestamp();
     
     message.channel.send({ embeds: [embed] });
@@ -652,17 +654,17 @@ client.on('messageCreate', async (message) => {
   
   else if (command === 'voucher') {
     if (!isAdmin(message.member)) {
-      return message.reply({ embeds: [createErrorEmbed('You do not have permission to use this command.')] });
+      return message.reply({ embeds: [createErrorEmbed('VocÃª nÃ£o tem permissÃ£o para usar este comando.')] });
     }
     
     const channelId = args[0];
     if (!channelId) {
-      return message.reply({ embeds: [createErrorEmbed('Please provide a channel ID. Usage: `$voucher <channelid>`')] });
+      return message.reply({ embeds: [createErrorEmbed('ForneÃ§a um ID de canal. Uso: `$voucher <channelid>`')] });
     }
     
     const channel = message.guild.channels.cache.get(channelId.replace(/[<#>]/g, ''));
     if (!channel) {
-      return message.reply({ embeds: [createErrorEmbed('Channel not found. Please provide a valid channel ID.')] });
+      return message.reply({ embeds: [createErrorEmbed('Canal nÃ£o encontrado. ForneÃ§a um ID de canal vÃ¡lido.')] });
     }
     
     botData.voucherChannel = channel.id;
@@ -671,9 +673,9 @@ client.on('messageCreate', async (message) => {
     
     const embed = new EmbedBuilder()
       .setColor('#57F287')
-      .setTitle('â Voucher Channel Set')
-      .setDescription(`Voucher channel has been set to ${channel.name}\nAuto-voucher system is now **ENABLED**`)
-      .setFooter({ text: 'Configuration', iconURL: client.user.displayAvatarURL() })
+      .setTitle('â Canal de Vouches Definido')
+      .setDescription(`Canal de vouches definido para ${channel.name}\nSistema de auto-vouch **ATIVADO**`)
+      .setFooter({ text: 'ConfiguraÃ§Ã£o', iconURL: client.user.displayAvatarURL() })
       .setTimestamp();
     
     message.channel.send({ embeds: [embed] });
@@ -682,35 +684,35 @@ client.on('messageCreate', async (message) => {
   
   else if (command === 'panel') {
     if (!isAdmin(message.member)) {
-      return message.reply({ embeds: [createErrorEmbed('You do not have permission to use this command.')] });
+      return message.reply({ embeds: [createErrorEmbed('VocÃª nÃ£o tem permissÃ£o para usar este comando.')] });
     }
     
     const embed = new EmbedBuilder()
       .setColor('#5865F2')
-      .setTitle('ðï¸ Auto-Voucher Admin Panel')
-      .setDescription('Control the auto-voucher system')
+      .setTitle('ðï¸ Painel de Admin do Auto-Vouch')
+      .setDescription('Controle o sistema de auto-vouch')
       .addFields(
-        { name: 'Status', value: botData.autoVoucherEnabled ? 'ð¢ Enabled' : 'ð´ Disabled', inline: true },
-        { name: 'Voucher Channel', value: botData.voucherChannel ? `<#${botData.voucherChannel}>` : 'Not set', inline: true },
-        { name: 'Commands', value: 
-          '`$panel on` - Enable auto-voucher\n' +
-          '`$panel off` - Disable auto-voucher\n' +
-          '`$panel status` - Check current status'
+        { name: 'Status', value: botData.autoVoucherEnabled ? 'ð¢ Ativado' : 'ð´ Desativado', inline: true },
+        { name: 'Canal de Vouches', value: botData.voucherChannel ? `<#${botData.voucherChannel}>` : 'NÃ£o definido', inline: true },
+        { name: 'Comandos', value: 
+          '`$panel on` - Ativar auto-vouch\n' +
+          '`$panel off` - Desativar auto-vouch\n' +
+          '`$panel status` - Ver status atual'
         }
       )
-      .setFooter({ text: 'Admin Panel', iconURL: client.user.displayAvatarURL() })
+      .setFooter({ text: 'Painel de Admin', iconURL: client.user.displayAvatarURL() })
       .setTimestamp();
     
     if (args[0] === 'on') {
       botData.autoVoucherEnabled = true;
       saveData();
       startAutoVoucher();
-      embed.setDescription('â Auto-voucher system has been **ENABLED**');
+      embed.setDescription('â Sistema de auto-vouch **ATIVADO**');
     } else if (args[0] === 'off') {
       botData.autoVoucherEnabled = false;
       saveData();
       if (voucherInterval) clearTimeout(voucherInterval);
-      embed.setDescription('ð´ Auto-voucher system has been **DISABLED**');
+      embed.setDescription('ð´ Sistema de auto-vouch **DESATIVADO**');
     }
     
     message.channel.send({ embeds: [embed] });
@@ -724,33 +726,33 @@ client.on('messageCreate', async (message) => {
     const reviewMessage = args.slice(2).join(' ');
     
     if (!rating || rating < 1 || rating > 5 || !user || !reviewMessage) {
-      return message.reply({ embeds: [createErrorEmbed('Usage: `$vouch <1-5> <@user> <message>`')] });
+      return message.reply({ embeds: [createErrorEmbed('Uso: `$vouch <1-5> <@user> <mensagem>`')] });
     }
     
     if (!botData.voucherChannel) {
-      return message.reply({ embeds: [createErrorEmbed('Voucher channel not set. Use `$voucher <channelid>`')] });
+      return message.reply({ embeds: [createErrorEmbed('Canal de vouches nÃ£o definido. Use `$voucher <channelid>`')] });
     }
     
     const channel = await client.channels.fetch(botData.voucherChannel).catch(() => null);
     if (!channel) {
-      return message.reply({ embeds: [createErrorEmbed('Voucher channel not found.')] });
+      return message.reply({ embeds: [createErrorEmbed('Canal de vouches nÃ£o encontrado.')] });
     }
     
     const stars = 'â­'.repeat(rating);
     
     const embed = new EmbedBuilder()
       .setColor('#5865F2')
-      .setTitle('â New Vouch Received!')
-      .setDescription(`**${message.author.username}** left a vouch for **${user.username}**!`)
+      .setTitle('â Novo Vouch Recebido!')
+      .setDescription(`**${message.author.username}** deixou um vouch para **${user.username}**!`)
       .addFields(
-        { name: 'ð Review', value: reviewMessage, inline: false },
-        { name: 'â­ Rating', value: stars, inline: true }
+        { name: 'ð AvaliaÃ§Ã£o', value: reviewMessage, inline: false },
+        { name: 'â­ Nota', value: stars, inline: true }
       )
-      .setFooter({ text: 'Vouch System', iconURL: client.user.displayAvatarURL() })
+      .setFooter({ text: 'Sistema de Vouches', iconURL: client.user.displayAvatarURL() })
       .setTimestamp();
     
     await channel.send({ embeds: [embed] });
-    message.reply({ embeds: [createSuccessEmbed('Vouch sent successfully!')] });
+    message.reply({ embeds: [createSuccessEmbed('Vouch enviado com sucesso!')] });
   }
   
   else if (command === 'vouch') {
@@ -758,44 +760,44 @@ client.on('messageCreate', async (message) => {
     const reviewMessage = args.slice(1).join(' ');
     
     if (!user || !reviewMessage) {
-      return message.reply({ embeds: [createErrorEmbed('Usage: `$vouch <@user> <message>`')] });
+      return message.reply({ embeds: [createErrorEmbed('Uso: `$vouch <@user> <mensagem>`')] });
     }
     
     if (!botData.voucherChannel) {
-      return message.reply({ embeds: [createErrorEmbed('Voucher channel not set.')] });
+      return message.reply({ embeds: [createErrorEmbed('Canal de vouches nÃ£o definido.')] });
     }
     
     const channel = await client.channels.fetch(botData.voucherChannel).catch(() => null);
     if (!channel) {
-      return message.reply({ embeds: [createErrorEmbed('Voucher channel not found.')] });
+      return message.reply({ embeds: [createErrorEmbed('Canal de vouches nÃ£o encontrado.')] });
     }
     
     const embed = new EmbedBuilder()
       .setColor('#5865F2')
-      .setTitle('â New Vouch Received!')
-      .setDescription(`**${message.author.username}** left a vouch for **${user.username}**!`)
+      .setTitle('â Novo Vouch Recebido!')
+      .setDescription(`**${message.author.username}** deixou um vouch para **${user.username}**!`)
       .addFields(
-        { name: 'ð Review', value: reviewMessage, inline: false }
+        { name: 'ð AvaliaÃ§Ã£o', value: reviewMessage, inline: false }
       )
-      .setFooter({ text: 'Vouch System', iconURL: client.user.displayAvatarURL() })
+      .setFooter({ text: 'Sistema de Vouches', iconURL: client.user.displayAvatarURL() })
       .setTimestamp();
     
     await channel.send({ embeds: [embed] });
-    message.reply({ embeds: [createSuccessEmbed('Vouch sent successfully!')] });
+    message.reply({ embeds: [createSuccessEmbed('Vouch enviado com sucesso!')] });
   }
   
   // ==================== PROFIT & NOTES COMMANDS ====================
   
   else if (command === 'addprofit') {
     if (!isAdmin(message.member)) {
-      return message.reply({ embeds: [createErrorEmbed('You do not have permission to use this command.')] });
+      return message.reply({ embeds: [createErrorEmbed('VocÃª nÃ£o tem permissÃ£o para usar este comando.')] });
     }
     
     const user = message.mentions.users.first();
     const amount = parseInt(args[1]);
     
     if (!user || isNaN(amount)) {
-      return message.reply({ embeds: [createErrorEmbed('Usage: `$addprofit <@user> <amount>` (use negative to remove)')] });
+      return message.reply({ embeds: [createErrorEmbed('Uso: `$addprofit <@user> <quantidade>` (use negativo para remover)')] });
     }
     
     if (!botData.users[user.id]) botData.users[user.id] = { profit: 0, notes: 0, history: [] };
@@ -803,31 +805,31 @@ client.on('messageCreate', async (message) => {
     botData.users[user.id].history.push({ type: 'profit', amount, date: new Date().toISOString() });
     saveData();
     
-    const action = amount >= 0 ? 'Added' : 'Removed';
+    const action = amount >= 0 ? 'Adicionado' : 'Removido';
     const embed = new EmbedBuilder()
       .setColor(amount >= 0 ? '#57F287' : '#ED4245')
-      .setTitle(`ð° Profit ${action}`)
-      .setDescription(`${action} $${Math.abs(amount)} ${amount >= 0 ? 'to' : 'from'} ${user.username}`)
+      .setTitle(`ð° Lucro ${action}`)
+      .setDescription(`${action} $${Math.abs(amount)} ${amount >= 0 ? 'para' : 'de'} ${user.username}`)
       .addFields(
-        { name: 'Total Profit', value: `$${botData.users[user.id].profit}`, inline: true }
+        { name: 'Lucro Total', value: `$${botData.users[user.id].profit}`, inline: true }
       )
-      .setFooter({ text: 'Profit System', iconURL: client.user.displayAvatarURL() })
+      .setFooter({ text: 'Sistema de Lucros', iconURL: client.user.displayAvatarURL() })
       .setTimestamp();
     
     message.channel.send({ embeds: [embed] });
-    await log(message.guild, `ð° Profit ${action}`, `${action} $${Math.abs(amount)} ${amount >= 0 ? 'to' : 'from'} ${user.tag} by ${message.author.tag}`, amount >= 0 ? '#57F287' : '#ED4245');
+    await log(message.guild, `ð° Lucro ${action}`, `${action} $${Math.abs(amount)} ${amount >= 0 ? 'para' : 'de'} ${user.tag} por ${message.author.tag}`, amount >= 0 ? '#57F287' : '#ED4245');
   }
   
   else if (command === 'tprofit') {
     if (!isAdmin(message.member)) {
-      return message.reply({ embeds: [createErrorEmbed('You do not have permission to use this command.')] });
+      return message.reply({ embeds: [createErrorEmbed('VocÃª nÃ£o tem permissÃ£o para usar este comando.')] });
     }
     
     const user = message.mentions.users.first();
     const amount = parseInt(args[1]);
     
     if (!user || isNaN(amount)) {
-      return message.reply({ embeds: [createErrorEmbed('Usage: `$tprofit <@user> <amount>`')] });
+      return message.reply({ embeds: [createErrorEmbed('Uso: `$tprofit <@user> <quantidade>`')] });
     }
     
     if (!botData.users[user.id]) botData.users[user.id] = { profit: 0, notes: 0, history: [] };
@@ -836,18 +838,18 @@ client.on('messageCreate', async (message) => {
     
     const embed = new EmbedBuilder()
       .setColor('#5865F2')
-      .setTitle('ð° Profit Set')
-      .setDescription(`Set ${user.username}'s profit to $${amount}`)
-      .setFooter({ text: 'Profit System', iconURL: client.user.displayAvatarURL() })
+      .setTitle('ð° Lucro Definido')
+      .setDescription(`Lucro de ${user.username} definido para $${amount}`)
+      .setFooter({ text: 'Sistema de Lucros', iconURL: client.user.displayAvatarURL() })
       .setTimestamp();
     
     message.channel.send({ embeds: [embed] });
-    await log(message.guild, 'ð° Profit Set', `Set ${user.tag}'s profit to $${amount} by ${message.author.tag}`);
+    await log(message.guild, 'ð° Lucro Definido', `Lucro de ${user.tag} definido para $${amount} por ${message.author.tag}`);
   }
   
   else if (command === 'profit') {
     if (!isStaff(message.member)) {
-      return message.reply({ embeds: [createErrorEmbed('You do not have permission to use this command.')] });
+      return message.reply({ embeds: [createErrorEmbed('VocÃª nÃ£o tem permissÃ£o para usar este comando.')] });
     }
     
     const user = message.mentions.users.first() || message.author;
@@ -855,12 +857,12 @@ client.on('messageCreate', async (message) => {
     
     const embed = new EmbedBuilder()
       .setColor('#5865F2')
-      .setTitle('ð° User Profit')
-      .setDescription(`${user.username}'s profit information`)
+      .setTitle('ð° Lucro do UsuÃ¡rio')
+      .setDescription(`InformaÃ§Ãµes de lucro de ${user.username}`)
       .addFields(
-        { name: 'Total Profit', value: `$${userData.profit || 0}`, inline: true }
+        { name: 'Lucro Total', value: `$${userData.profit || 0}`, inline: true }
       )
-      .setFooter({ text: 'Profit System', iconURL: client.user.displayAvatarURL() })
+      .setFooter({ text: 'Sistema de Lucros', iconURL: client.user.displayAvatarURL() })
       .setTimestamp();
     
     message.channel.send({ embeds: [embed] });
@@ -868,14 +870,14 @@ client.on('messageCreate', async (message) => {
   
   else if (command === 'tnotes') {
     if (!isAdmin(message.member)) {
-      return message.reply({ embeds: [createErrorEmbed('You do not have permission to use this command.')] });
+      return message.reply({ embeds: [createErrorEmbed('VocÃª nÃ£o tem permissÃ£o para usar este comando.')] });
     }
     
     const user = message.mentions.users.first();
     const amount = parseInt(args[1]);
     
     if (!user || isNaN(amount)) {
-      return message.reply({ embeds: [createErrorEmbed('Usage: `$tnotes <@user> <amount>`')] });
+      return message.reply({ embeds: [createErrorEmbed('Uso: `$tnotes <@user> <quantidade>`')] });
     }
     
     if (!botData.users[user.id]) botData.users[user.id] = { profit: 0, notes: 0, history: [] };
@@ -884,26 +886,26 @@ client.on('messageCreate', async (message) => {
     
     const embed = new EmbedBuilder()
       .setColor('#5865F2')
-      .setTitle('ð Notes Set')
-      .setDescription(`Set ${user.username}'s notes to ${amount}`)
-      .setFooter({ text: 'Notes System', iconURL: client.user.displayAvatarURL() })
+      .setTitle('ð Notas Definidas')
+      .setDescription(`Notas de ${user.username} definidas para ${amount}`)
+      .setFooter({ text: 'Sistema de Notas', iconURL: client.user.displayAvatarURL() })
       .setTimestamp();
     
     message.channel.send({ embeds: [embed] });
-    await log(message.guild, 'ð Notes Set', `Set ${user.tag}'s notes to ${amount} by ${message.author.tag}`);
+    await log(message.guild, 'ð Notas Definidas', `Notas de ${user.tag} definidas para ${amount} por ${message.author.tag}`);
   }
   
   else if (command === 'addnote') {
     if (!isAdmin(message.member)) {
-      return message.reply({ embeds: [createErrorEmbed('You do not have permission to use this command.')] });
+      return message.reply({ embeds: [createErrorEmbed('VocÃª nÃ£o tem permissÃ£o para usar este comando.')] });
     }
     
     const user = message.mentions.users.first();
     const amount = parseInt(args[1]);
-    const sidenote = args.slice(2).join(' ') || 'No sidenote';
+    const sidenote = args.slice(2).join(' ') || 'Sem observaÃ§Ã£o';
     
     if (!user || isNaN(amount)) {
-      return message.reply({ embeds: [createErrorEmbed('Usage: `$addnote <@user> <amount> [sidenote]` (use negative to remove)')] });
+      return message.reply({ embeds: [createErrorEmbed('Uso: `$addnote <@user> <quantidade> [observacao]` (use negativo para remover)')] });
     }
     
     if (!botData.users[user.id]) botData.users[user.id] = { profit: 0, notes: 0, history: [] };
@@ -911,43 +913,43 @@ client.on('messageCreate', async (message) => {
     botData.users[user.id].history.push({ type: 'note', amount, sidenote, date: new Date().toISOString() });
     saveData();
     
-    const action = amount >= 0 ? 'Added' : 'Removed';
+    const action = amount >= 0 ? 'Adicionadas' : 'Removidas';
     const embed = new EmbedBuilder()
       .setColor(amount >= 0 ? '#57F287' : '#ED4245')
-      .setTitle(`ð Note ${action}`)
-      .setDescription(`${action} ${Math.abs(amount)} notes ${amount >= 0 ? 'to' : 'from'} ${user.username}`)
+      .setTitle(`ð Notas ${action}`)
+      .setDescription(`${action} ${Math.abs(amount)} notas ${amount >= 0 ? 'para' : 'de'} ${user.username}`)
       .addFields(
-        { name: 'Total Notes', value: `${botData.users[user.id].notes}`, inline: true },
-        { name: 'Sidenote', value: sidenote, inline: false }
+        { name: 'Total de Notas', value: `${botData.users[user.id].notes}`, inline: true },
+        { name: 'ObservaÃ§Ã£o', value: sidenote, inline: false }
       )
-      .setFooter({ text: 'Notes System', iconURL: client.user.displayAvatarURL() })
+      .setFooter({ text: 'Sistema de Notas', iconURL: client.user.displayAvatarURL() })
       .setTimestamp();
     
     message.channel.send({ embeds: [embed] });
-    await log(message.guild, `ð Note ${action}`, `${action} ${Math.abs(amount)} notes ${amount >= 0 ? 'to' : 'from'} ${user.tag} by ${message.author.tag}`, amount >= 0 ? '#57F287' : '#ED4245');
+    await log(message.guild, `ð Notas ${action}`, `${action} ${Math.abs(amount)} notas ${amount >= 0 ? 'para' : 'de'} ${user.tag} por ${message.author.tag}`, amount >= 0 ? '#57F287' : '#ED4245');
   }
   
   else if (command === 'notes') {
     if (!isStaff(message.member)) {
-      return message.reply({ embeds: [createErrorEmbed('You do not have permission to use this command.')] });
+      return message.reply({ embeds: [createErrorEmbed('VocÃª nÃ£o tem permissÃ£o para usar este comando.')] });
     }
     
     const user = message.mentions.users.first() || message.author;
     const userData = botData.users[user.id] || { notes: 0, history: [] };
     
     const noteHistory = userData.history?.filter(h => h.type === 'note').slice(-5).map(h => 
-      `â¢ ${h.amount > 0 ? '+' : ''}${h.amount} notes - ${h.sidenote || 'No note'} (${new Date(h.date).toLocaleDateString()})`
-    ).join('\n') || 'No notes history';
+      `â¢ ${h.amount > 0 ? '+' : ''}${h.amount} notas - ${h.sidenote || 'Sem nota'} (${new Date(h.date).toLocaleDateString()})`
+    ).join('\n') || 'Sem histÃ³rico de notas';
     
     const embed = new EmbedBuilder()
       .setColor('#5865F2')
-      .setTitle('ð User Notes')
-      .setDescription(`${user.username}'s notes information`)
+      .setTitle('ð Notas do UsuÃ¡rio')
+      .setDescription(`InformaÃ§Ãµes de notas de ${user.username}`)
       .addFields(
-        { name: 'Total Notes', value: `${userData.notes || 0}`, inline: true },
-        { name: 'Recent History', value: noteHistory, inline: false }
+        { name: 'Total de Notas', value: `${userData.notes || 0}`, inline: true },
+        { name: 'HistÃ³rico Recente', value: noteHistory, inline: false }
       )
-      .setFooter({ text: 'Notes System', iconURL: client.user.displayAvatarURL() })
+      .setFooter({ text: 'Sistema de Notas', iconURL: client.user.displayAvatarURL() })
       .setTimestamp();
     
     message.channel.send({ embeds: [embed] });
@@ -955,7 +957,7 @@ client.on('messageCreate', async (message) => {
   
   else if (command === 'search') {
     if (!isStaff(message.member)) {
-      return message.reply({ embeds: [createErrorEmbed('You do not have permission to use this command.')] });
+      return message.reply({ embeds: [createErrorEmbed('VocÃª nÃ£o tem permissÃ£o para usar este comando.')] });
     }
     
     const user = message.mentions.users.first() || message.author;
@@ -963,14 +965,14 @@ client.on('messageCreate', async (message) => {
     
     const embed = new EmbedBuilder()
       .setColor('#5865F2')
-      .setTitle('ð User Search Results')
-      .setDescription(`Information for ${user.username}`)
+      .setTitle('ð Resultados da Pesquisa')
+      .setDescription(`InformaÃ§Ãµes de ${user.username}`)
       .addFields(
-        { name: 'ð° Total Profit', value: `$${userData.profit || 0}`, inline: true },
-        { name: 'ð Total Notes', value: `${userData.notes || 0}`, inline: true },
-        { name: 'ð History Entries', value: `${userData.history?.length || 0}`, inline: true }
+        { name: 'ð° Lucro Total', value: `$${userData.profit || 0}`, inline: true },
+        { name: 'ð Total de Notas', value: `${userData.notes || 0}`, inline: true },
+        { name: 'ð Entradas no HistÃ³rico', value: `${userData.history?.length || 0}`, inline: true }
       )
-      .setFooter({ text: 'Search System', iconURL: client.user.displayAvatarURL() })
+      .setFooter({ text: 'Sistema de Pesquisa', iconURL: client.user.displayAvatarURL() })
       .setTimestamp();
     
     message.channel.send({ embeds: [embed] });
@@ -978,24 +980,24 @@ client.on('messageCreate', async (message) => {
   
   else if (command === 'role_ids') {
     if (!isAdmin(message.member)) {
-      return message.reply({ embeds: [createErrorEmbed('You do not have permission to use this command.')] });
+      return message.reply({ embeds: [createErrorEmbed('VocÃª nÃ£o tem permissÃ£o para usar este comando.')] });
     }
     
     const role = message.mentions.roles.first();
     if (!role) {
-      return message.reply({ embeds: [createErrorEmbed('Usage: `$role_ids <@role>`')] });
+      return message.reply({ embeds: [createErrorEmbed('Uso: `$role_ids <@role>`')] });
     }
     
-    const members = role.members.map(m => `${m.user.username}: ${m.id}`).join('\n') || 'No members with this role';
+    const members = role.members.map(m => `${m.user.username}: ${m.id}`).join('\n') || 'Nenhum membro com este cargo';
     
     const embed = new EmbedBuilder()
       .setColor('#5865F2')
-      .setTitle('ð¥ Role Member IDs')
-      .setDescription(`Members with role: ${role.name}`)
+      .setTitle('ð¥ IDs dos Membros do Cargo')
+      .setDescription(`Membros com o cargo: ${role.name}`)
       .addFields(
-        { name: 'Members', value: members.substring(0, 1024) || 'None' }
+        { name: 'Membros', value: members.substring(0, 1024) || 'Nenhum' }
       )
-      .setFooter({ text: 'Role System', iconURL: client.user.displayAvatarURL() })
+      .setFooter({ text: 'Sistema de Cargos', iconURL: client.user.displayAvatarURL() })
       .setTimestamp();
     
     message.channel.send({ embeds: [embed] });
@@ -1005,292 +1007,336 @@ client.on('messageCreate', async (message) => {
   
   else if (command === 'ban') {
     if (!isAdmin(message.member)) {
-      return message.reply({ embeds: [createErrorEmbed('You do not have permission to use this command.')] });
+      return message.reply({ embeds: [createErrorEmbed('VocÃª nÃ£o tem permissÃ£o para usar este comando.')] });
     }
     
     const user = message.mentions.users.first();
-    const reason = args.slice(1).join(' ') || 'No reason provided';
+    const reason = args.slice(1).join(' ') || 'Motivo nÃ£o fornecido';
     
     if (!user) {
-      return message.reply({ embeds: [createErrorEmbed('Usage: `$ban <@user> [reason]`')] });
+      return message.reply({ embeds: [createErrorEmbed('Uso: `$ban <@user> [motivo]`')] });
     }
     
     const member = message.guild.members.cache.get(user.id);
     if (!member) {
-      return message.reply({ embeds: [createErrorEmbed('User not found in this server.')] });
+      return message.reply({ embeds: [createErrorEmbed('UsuÃ¡rio nÃ£o encontrado neste servidor.')] });
     }
     
-    await member.ban({ reason });
-    
-    const embed = new EmbedBuilder()
-      .setColor('#ED4245')
-      .setTitle('ð¨ User Banned')
-      .setDescription(`${user.username} has been banned`)
-      .addFields({ name: 'Reason', value: reason, inline: false })
-      .setFooter({ text: 'Moderation', iconURL: client.user.displayAvatarURL() })
-      .setTimestamp();
-    
-    message.channel.send({ embeds: [embed] });
-    await log(message.guild, 'ð¨ User Banned', `${user.tag} was banned by ${message.author.tag}. Reason: ${reason}`, '#ED4245');
+    try {
+      await member.ban({ reason });
+      
+      const embed = new EmbedBuilder()
+        .setColor('#ED4245')
+        .setTitle('ð¨ UsuÃ¡rio Banido')
+        .setDescription(`${user.username} foi banido`)
+        .addFields({ name: 'Motivo', value: reason, inline: false })
+        .setFooter({ text: 'ModeraÃ§Ã£o', iconURL: client.user.displayAvatarURL() })
+        .setTimestamp();
+      
+      message.channel.send({ embeds: [embed] });
+      await log(message.guild, 'ð¨ UsuÃ¡rio Banido', `${user.tag} foi banido por ${message.author.tag}. Motivo: ${reason}`, '#ED4245');
+    } catch (error) {
+      message.reply({ embeds: [createErrorEmbed('Erro ao banir usuÃ¡rio. Verifique as permissÃµes.')] });
+    }
   }
   
   else if (command === 'kick') {
     if (!isAdmin(message.member)) {
-      return message.reply({ embeds: [createErrorEmbed('You do not have permission to use this command.')] });
+      return message.reply({ embeds: [createErrorEmbed('VocÃª nÃ£o tem permissÃ£o para usar este comando.')] });
     }
     
     const user = message.mentions.users.first();
-    const reason = args.slice(1).join(' ') || 'No reason provided';
+    const reason = args.slice(1).join(' ') || 'Motivo nÃ£o fornecido';
     
     if (!user) {
-      return message.reply({ embeds: [createErrorEmbed('Usage: `$kick <@user> [reason]`')] });
+      return message.reply({ embeds: [createErrorEmbed('Uso: `$kick <@user> [motivo]`')] });
     }
     
     const member = message.guild.members.cache.get(user.id);
     if (!member) {
-      return message.reply({ embeds: [createErrorEmbed('User not found in this server.')] });
+      return message.reply({ embeds: [createErrorEmbed('UsuÃ¡rio nÃ£o encontrado neste servidor.')] });
     }
     
-    await member.kick(reason);
-    
-    const embed = new EmbedBuilder()
-      .setColor('#FEE75C')
-      .setTitle('ð¢ User Kicked')
-      .setDescription(`${user.username} has been kicked`)
-      .addFields({ name: 'Reason', value: reason, inline: false })
-      .setFooter({ text: 'Moderation', iconURL: client.user.displayAvatarURL() })
-      .setTimestamp();
-    
-    message.channel.send({ embeds: [embed] });
-    await log(message.guild, 'ð¢ User Kicked', `${user.tag} was kicked by ${message.author.tag}. Reason: ${reason}`, '#FEE75C');
+    try {
+      await member.kick(reason);
+      
+      const embed = new EmbedBuilder()
+        .setColor('#FEE75C')
+        .setTitle('ð¢ UsuÃ¡rio Expulso')
+        .setDescription(`${user.username} foi expulso`)
+        .addFields({ name: 'Motivo', value: reason, inline: false })
+        .setFooter({ text: 'ModeraÃ§Ã£o', iconURL: client.user.displayAvatarURL() })
+        .setTimestamp();
+      
+      message.channel.send({ embeds: [embed] });
+      await log(message.guild, 'ð¢ UsuÃ¡rio Expulso', `${user.tag} foi expulso por ${message.author.tag}. Motivo: ${reason}`, '#FEE75C');
+    } catch (error) {
+      message.reply({ embeds: [createErrorEmbed('Erro ao expulsar usuÃ¡rio. Verifique as permissÃµes.')] });
+    }
   }
   
   else if (command === 'hackban') {
     if (!isAdmin(message.member)) {
-      return message.reply({ embeds: [createErrorEmbed('You do not have permission to use this command.')] });
+      return message.reply({ embeds: [createErrorEmbed('VocÃª nÃ£o tem permissÃ£o para usar este comando.')] });
     }
     
     const userId = args[0];
-    const reason = args.slice(1).join(' ') || 'No reason provided';
+    const reason = args.slice(1).join(' ') || 'Motivo nÃ£o fornecido';
     
     if (!userId) {
-      return message.reply({ embeds: [createErrorEmbed('Usage: `$hackban <user_id> [reason]`')] });
+      return message.reply({ embeds: [createErrorEmbed('Uso: `$hackban <user_id> [motivo]`')] });
     }
     
-    await message.guild.members.ban(userId, { reason });
-    
-    const embed = new EmbedBuilder()
-      .setColor('#ED4245')
-      .setTitle('ð¨ User Hackbanned')
-      .setDescription(`User ID ${userId} has been banned`)
-      .addFields({ name: 'Reason', value: reason, inline: false })
-      .setFooter({ text: 'Moderation', iconURL: client.user.displayAvatarURL() })
-      .setTimestamp();
-    
-    message.channel.send({ embeds: [embed] });
-    await log(message.guild, 'ð¨ User Hackbanned', `User ID ${userId} was banned by ${message.author.tag}. Reason: ${reason}`, '#ED4245');
+    try {
+      await message.guild.members.ban(userId, { reason });
+      
+      const embed = new EmbedBuilder()
+        .setColor('#ED4245')
+        .setTitle('ð¨ UsuÃ¡rio Hackbanido')
+        .setDescription(`ID de usuÃ¡rio ${userId} foi banido`)
+        .addFields({ name: 'Motivo', value: reason, inline: false })
+        .setFooter({ text: 'ModeraÃ§Ã£o', iconURL: client.user.displayAvatarURL() })
+        .setTimestamp();
+      
+      message.channel.send({ embeds: [embed] });
+      await log(message.guild, 'ð¨ UsuÃ¡rio Hackbanido', `ID ${userId} foi banido por ${message.author.tag}. Motivo: ${reason}`, '#ED4245');
+    } catch (error) {
+      message.reply({ embeds: [createErrorEmbed('Erro ao banir usuÃ¡rio. Verifique se o ID Ã© vÃ¡lido.')] });
+    }
   }
   
   else if (command === 'softban') {
     if (!isAdmin(message.member)) {
-      return message.reply({ embeds: [createErrorEmbed('You do not have permission to use this command.')] });
+      return message.reply({ embeds: [createErrorEmbed('VocÃª nÃ£o tem permissÃ£o para usar este comando.')] });
     }
     
     const user = message.mentions.users.first();
-    const reason = args.slice(1).join(' ') || 'No reason provided';
+    const reason = args.slice(1).join(' ') || 'Motivo nÃ£o fornecido';
     
     if (!user) {
-      return message.reply({ embeds: [createErrorEmbed('Usage: `$softban <@user> [reason]`')] });
+      return message.reply({ embeds: [createErrorEmbed('Uso: `$softban <@user> [motivo]`')] });
     }
     
     const member = message.guild.members.cache.get(user.id);
     if (!member) {
-      return message.reply({ embeds: [createErrorEmbed('User not found in this server.')] });
+      return message.reply({ embeds: [createErrorEmbed('UsuÃ¡rio nÃ£o encontrado neste servidor.')] });
     }
     
-    await member.ban({ reason, days: 1 });
-    await message.guild.members.unban(user.id);
-    
-    const embed = new EmbedBuilder()
-      .setColor('#ED4245')
-      .setTitle('ð¨ User Softbanned')
-      .setDescription(`${user.username} has been softbanned (messages deleted)`)
-      .addFields({ name: 'Reason', value: reason, inline: false })
-      .setFooter({ text: 'Moderation', iconURL: client.user.displayAvatarURL() })
-      .setTimestamp();
-    
-    message.channel.send({ embeds: [embed] });
-    await log(message.guild, 'ð¨ User Softbanned', `${user.tag} was softbanned by ${message.author.tag}. Reason: ${reason}`, '#ED4245');
+    try {
+      await member.ban({ reason, deleteMessageDays: 1 });
+      await message.guild.members.unban(user.id);
+      
+      const embed = new EmbedBuilder()
+        .setColor('#ED4245')
+        .setTitle('ð¨ UsuÃ¡rio Softbanido')
+        .setDescription(`${user.username} foi softbanido (mensagens deletadas)`)
+        .addFields({ name: 'Motivo', value: reason, inline: false })
+        .setFooter({ text: 'ModeraÃ§Ã£o', iconURL: client.user.displayAvatarURL() })
+        .setTimestamp();
+      
+      message.channel.send({ embeds: [embed] });
+      await log(message.guild, 'ð¨ UsuÃ¡rio Softbanido', `${user.tag} foi softbanido por ${message.author.tag}. Motivo: ${reason}`, '#ED4245');
+    } catch (error) {
+      message.reply({ embeds: [createErrorEmbed('Erro ao softbanir usuÃ¡rio. Verifique as permissÃµes.')] });
+    }
   }
   
+  // FIXED TIMEOUT COMMAND
   else if (command === 'timeout') {
     if (!isStaff(message.member)) {
-      return message.reply({ embeds: [createErrorEmbed('You do not have permission to use this command.')] });
+      return message.reply({ embeds: [createErrorEmbed('VocÃª nÃ£o tem permissÃ£o para usar este comando.')] });
     }
     
     const user = message.mentions.users.first();
-    const duration = args[1];
-    const reason = args.slice(2).join(' ') || 'No reason provided';
+    const durationStr = args[1];
+    const reason = args.slice(2).join(' ') || 'Motivo nÃ£o fornecido';
     
-    if (!user || !duration) {
-      return message.reply({ embeds: [createErrorEmbed('Usage: `$timeout <@user> <duration> [reason]`\nExample: `$timeout @user 10m spam`')] });
+    if (!user || !durationStr) {
+      return message.reply({ embeds: [createErrorEmbed('Uso: `$timeout <@user> <duracao> [motivo]`\nExemplo: `$timeout @user 10m spam`')] });
     }
     
     const member = message.guild.members.cache.get(user.id);
     if (!member) {
-      return message.reply({ embeds: [createErrorEmbed('User not found in this server.')] });
+      return message.reply({ embeds: [createErrorEmbed('UsuÃ¡rio nÃ£o encontrado neste servidor.')] });
     }
     
-    const ms = parseDuration(duration);
+    const ms = parseDuration(durationStr);
     if (!ms) {
-      return message.reply({ embeds: [createErrorEmbed('Invalid duration. Use format like: 10m, 2h, 1d')] });
+      return message.reply({ embeds: [createErrorEmbed('DuraÃ§Ã£o invÃ¡lida. Use formato como: 10m, 2h, 1d, 7d')] });
     }
     
-    await member.timeout(ms, reason);
+    // Max timeout is 28 days in Discord
+    if (ms > 2419200000) {
+      return message.reply({ embeds: [createErrorEmbed('DuraÃ§Ã£o mÃ¡xima Ã© 28 dias (4 semanas).')] });
+    }
     
-    const embed = new EmbedBuilder()
-      .setColor('#FEE75C')
-      .setTitle('â±ï¸ User Timed Out')
-      .setDescription(`${user.username} has been timed out`)
-      .addFields(
-        { name: 'Duration', value: duration, inline: true },
-        { name: 'Reason', value: reason, inline: false }
-      )
-      .setFooter({ text: 'Moderation', iconURL: client.user.displayAvatarURL() })
-      .setTimestamp();
-    
-    message.channel.send({ embeds: [embed] });
-    await log(message.guild, 'â±ï¸ User Timed Out', `${user.tag} was timed out for ${duration} by ${message.author.tag}. Reason: ${reason}`, '#FEE75C');
+    try {
+      // Discord.js v14 timeout - use disableCommunicationUntil
+      const timeoutUntil = new Date(Date.now() + ms);
+      await member.disableCommunicationUntil(timeoutUntil, reason);
+      
+      const embed = new EmbedBuilder()
+        .setColor('#FEE75C')
+        .setTitle('â±ï¸ UsuÃ¡rio Silenciado')
+        .setDescription(`${user.username} foi silenciado`)
+        .addFields(
+          { name: 'DuraÃ§Ã£o', value: durationStr, inline: true },
+          { name: 'Motivo', value: reason, inline: false }
+        )
+        .setFooter({ text: 'ModeraÃ§Ã£o', iconURL: client.user.displayAvatarURL() })
+        .setTimestamp();
+      
+      message.channel.send({ embeds: [embed] });
+      await log(message.guild, 'â±ï¸ UsuÃ¡rio Silenciado', `${user.tag} foi silenciado por ${durationStr} por ${message.author.tag}. Motivo: ${reason}`, '#FEE75C');
+    } catch (error) {
+      console.error('Timeout error:', error);
+      message.reply({ embeds: [createErrorEmbed('Erro ao silenciar usuÃ¡rio. Verifique as permissÃµes e se o bot estÃ¡ acima do usuÃ¡rio na hierarquia.')] });
+    }
   }
   
+  // FIXED UNTIMEOUT COMMAND
   else if (command === 'untimeout') {
     if (!isStaff(message.member)) {
-      return message.reply({ embeds: [createErrorEmbed('You do not have permission to use this command.')] });
+      return message.reply({ embeds: [createErrorEmbed('VocÃª nÃ£o tem permissÃ£o para usar este comando.')] });
     }
     
     const user = message.mentions.users.first();
-    const reason = args.slice(1).join(' ') || 'No reason provided';
+    const reason = args.slice(1).join(' ') || 'Motivo nÃ£o fornecido';
     
     if (!user) {
-      return message.reply({ embeds: [createErrorEmbed('Usage: `$untimeout <@user> [reason]`')] });
+      return message.reply({ embeds: [createErrorEmbed('Uso: `$untimeout <@user> [motivo]`')] });
     }
     
     const member = message.guild.members.cache.get(user.id);
     if (!member) {
-      return message.reply({ embeds: [createErrorEmbed('User not found in this server.')] });
+      return message.reply({ embeds: [createErrorEmbed('UsuÃ¡rio nÃ£o encontrado neste servidor.')] });
     }
     
-    await member.timeout(null, reason);
-    
-    const embed = new EmbedBuilder()
-      .setColor('#57F287')
-      .setTitle('â Timeout Removed')
-      .setDescription(`${user.username}'s timeout has been removed`)
-      .addFields({ name: 'Reason', value: reason, inline: false })
-      .setFooter({ text: 'Moderation', iconURL: client.user.displayAvatarURL() })
-      .setTimestamp();
-    
-    message.channel.send({ embeds: [embed] });
-    await log(message.guild, 'â Timeout Removed', `${user.tag}'s timeout was removed by ${message.author.tag}. Reason: ${reason}`, '#57F287');
+    try {
+      // Remove timeout by setting communication disabled until to null
+      await member.disableCommunicationUntil(null, reason);
+      
+      const embed = new EmbedBuilder()
+        .setColor('#57F287')
+        .setTitle('â Silenciamento Removido')
+        .setDescription(`O silenciamento de ${user.username} foi removido`)
+        .addFields({ name: 'Motivo', value: reason, inline: false })
+        .setFooter({ text: 'ModeraÃ§Ã£o', iconURL: client.user.displayAvatarURL() })
+        .setTimestamp();
+      
+      message.channel.send({ embeds: [embed] });
+      await log(message.guild, 'â Silenciamento Removido', `Silenciamento de ${user.tag} removido por ${message.author.tag}. Motivo: ${reason}`, '#57F287');
+    } catch (error) {
+      console.error('Untimeout error:', error);
+      message.reply({ embeds: [createErrorEmbed('Erro ao remover silenciamento. Verifique as permissÃµes.')] });
+    }
   }
   
   else if (command === 'unban') {
     if (!isAdmin(message.member)) {
-      return message.reply({ embeds: [createErrorEmbed('You do not have permission to use this command.')] });
+      return message.reply({ embeds: [createErrorEmbed('VocÃª nÃ£o tem permissÃ£o para usar este comando.')] });
     }
     
     const userId = args[0];
     if (!userId) {
-      return message.reply({ embeds: [createErrorEmbed('Usage: `$unban <user_id>`')] });
+      return message.reply({ embeds: [createErrorEmbed('Uso: `$unban <user_id>`')] });
     }
     
-    await message.guild.members.unban(userId);
-    
-    const embed = new EmbedBuilder()
-      .setColor('#57F287')
-      .setTitle('â User Unbanned')
-      .setDescription(`User ID ${userId} has been unbanned`)
-      .setFooter({ text: 'Moderation', iconURL: client.user.displayAvatarURL() })
-      .setTimestamp();
-    
-    message.channel.send({ embeds: [embed] });
-    await log(message.guild, 'â User Unbanned', `User ID ${userId} was unbanned by ${message.author.tag}`, '#57F287');
+    try {
+      await message.guild.members.unban(userId);
+      
+      const embed = new EmbedBuilder()
+        .setColor('#57F287')
+        .setTitle('â UsuÃ¡rio Desbanido')
+        .setDescription(`ID de usuÃ¡rio ${userId} foi desbanido`)
+        .setFooter({ text: 'ModeraÃ§Ã£o', iconURL: client.user.displayAvatarURL() })
+        .setTimestamp();
+      
+      message.channel.send({ embeds: [embed] });
+      await log(message.guild, 'â UsuÃ¡rio Desbanido', `ID ${userId} foi desbanido por ${message.author.tag}`, '#57F287');
+    } catch (error) {
+      message.reply({ embeds: [createErrorEmbed('Erro ao desbanir usuÃ¡rio. Verifique se o ID estÃ¡ correto.')] });
+    }
   }
   
   else if (command === 'unhackban') {
     if (!isAdmin(message.member)) {
-      return message.reply({ embeds: [createErrorEmbed('You do not have permission to use this command.')] });
+      return message.reply({ embeds: [createErrorEmbed('VocÃª nÃ£o tem permissÃ£o para usar este comando.')] });
     }
     
     const userId = args[0];
     if (!userId) {
-      return message.reply({ embeds: [createErrorEmbed('Usage: `$unhackban <user_id>`')] });
+      return message.reply({ embeds: [createErrorEmbed('Uso: `$unhackban <user_id>`')] });
     }
     
-    await message.guild.members.unban(userId);
-    
-    const embed = new EmbedBuilder()
-      .setColor('#57F287')
-      .setTitle('â Hackban Removed')
-      .setDescription(`User ID ${userId} has been unbanned`)
-      .setFooter({ text: 'Moderation', iconURL: client.user.displayAvatarURL() })
-      .setTimestamp();
-    
-    message.channel.send({ embeds: [embed] });
-    await log(message.guild, 'â Hackban Removed', `User ID ${userId} was unbanned by ${message.author.tag}`, '#57F287');
+    try {
+      await message.guild.members.unban(userId);
+      
+      const embed = new EmbedBuilder()
+        .setColor('#57F287')
+        .setTitle('â Hackban Removido')
+        .setDescription(`ID de usuÃ¡rio ${userId} foi desbanido`)
+        .setFooter({ text: 'ModeraÃ§Ã£o', iconURL: client.user.displayAvatarURL() })
+        .setTimestamp();
+      
+      message.channel.send({ embeds: [embed] });
+      await log(message.guild, 'â Hackban Removido', `ID ${userId} foi desbanido por ${message.author.tag}`, '#57F287');
+    } catch (error) {
+      message.reply({ embeds: [createErrorEmbed('Erro ao remover hackban. Verifique se o ID estÃ¡ correto.')] });
+    }
   }
   
   // ==================== UTILITY COMMANDS ====================
   
   else if (command === 'embed') {
     if (!isAdmin(message.member)) {
-      return message.reply({ embeds: [createErrorEmbed('You do not have permission to use this command.')] });
+      return message.reply({ embeds: [createErrorEmbed('VocÃª nÃ£o tem permissÃ£o para usar este comando.')] });
     }
     
     const channelId = args[0];
     if (!channelId) {
-      return message.reply({ embeds: [createErrorEmbed('Usage: `$embed <channel_id>`')] });
+      return message.reply({ embeds: [createErrorEmbed('Uso: `$embed <channel_id>`')] });
     }
     
     const channel = await client.channels.fetch(channelId.replace(/[<#>]/g, '')).catch(() => null);
     if (!channel) {
-      return message.reply({ embeds: [createErrorEmbed('Channel not found.')] });
+      return message.reply({ embeds: [createErrorEmbed('Canal nÃ£o encontrado.')] });
     }
     
     const filter = m => m.author.id === message.author.id;
-    message.reply('Please send the message you want to embed:');
+    message.reply('Envie a mensagem que deseja transformar em embed:');
     
     const collected = await message.channel.awaitMessages({ filter, max: 1, time: 60000 });
     if (!collected.size) {
-      return message.reply('Timeout - no message received.');
+      return message.reply('Tempo esgotado - nenhuma mensagem recebida.');
     }
     
     const embedContent = collected.first().content;
     const embed = new EmbedBuilder()
       .setColor('#5865F2')
       .setDescription(embedContent)
-      .setFooter({ text: `Sent by ${message.author.username}`, iconURL: message.author.displayAvatarURL() })
+      .setFooter({ text: `Enviado por ${message.author.username}`, iconURL: message.author.displayAvatarURL() })
       .setTimestamp();
     
     await channel.send({ embeds: [embed] });
-    message.reply({ embeds: [createSuccessEmbed('Embed sent successfully!')] });
+    message.reply({ embeds: [createSuccessEmbed('Embed enviado com sucesso!')] });
   }
   
   else if (command === 'hit') {
     if (!isStaff(message.member)) {
-      return message.reply({ embeds: [createErrorEmbed('You do not have permission to use this command.')] });
+      return message.reply({ embeds: [createErrorEmbed('VocÃª nÃ£o tem permissÃ£o para usar este comando.')] });
     }
     
     const user = message.mentions.users.first();
     if (!user) {
-      return message.reply({ embeds: [createErrorEmbed('Usage: `$hit <@user>`')] });
+      return message.reply({ embeds: [createErrorEmbed('Uso: `$hit <@user>`')] });
     }
     
     const embed = new EmbedBuilder()
       .setColor('#5865F2')
-      .setTitle('ð¯ Hit Message')
-      .setDescription(`Hey ${user}, you've been hit! Please respond to this message.`)
-      .setFooter({ text: 'Hit System', iconURL: client.user.displayAvatarURL() })
+      .setTitle('ð¯ Mensagem de Hit')
+      .setDescription(`Ei ${user}, vocÃª foi hitado! Por favor responda esta mensagem.`)
+      .setFooter({ text: 'Sistema de Hit', iconURL: client.user.displayAvatarURL() })
       .setTimestamp();
     
     message.channel.send({ content: `<@${user.id}>`, embeds: [embed] });
@@ -1298,18 +1344,18 @@ client.on('messageCreate', async (message) => {
   
   else if (command === 'tutorial') {
     if (!isStaff(message.member)) {
-      return message.reply({ embeds: [createErrorEmbed('You do not have permission to use this command.')] });
+      return message.reply({ embeds: [createErrorEmbed('VocÃª nÃ£o tem permissÃ£o para usar este comando.')] });
     }
     
     const embed = new EmbedBuilder()
       .setColor('#5865F2')
-      .setTitle('ð How to Use Our Middleman Service')
-      .setDescription('Welcome! Here\'s how our middleman service works:')
+      .setTitle('ð Como Usar Nosso ServiÃ§o de Middleman')
+      .setDescription('Bem-vindo! Veja como funciona nosso serviÃ§o de middleman:')
       .addFields(
-        { name: 'ð Step 1', value: 'Create a ticket using the menu below or type `$close` to close your ticket.', inline: false },
-        { name: 'ð¤ Step 2', value: 'Wait for a middleman to claim your ticket.', inline: false },
-        { name: 'ð° Step 3', value: 'Follow the middleman\'s instructions to complete your trade safely.', inline: false },
-        { name: 'â Step 4', value: 'Once the trade is complete, leave a vouch using `$vouch @middleman <message>`!', inline: false }
+        { name: 'ð Passo 1', value: 'Crie um ticket usando o menu abaixo ou digite `$close` para fechar seu ticket.', inline: false },
+        { name: 'ð¤ Passo 2', value: 'Aguarde um middleman reivindicar seu ticket.', inline: false },
+        { name: 'ð° Passo 3', value: 'Siga as instruÃ§Ãµes do middleman para completar sua troca com seguranÃ§a.', inline: false },
+        { name: 'â Passo 4', value: 'Quando a troca for concluÃ­da, deixe um vouch usando `$vouch @middleman <mensagem>`!', inline: false }
       )
       .setFooter({ text: 'Tutorial', iconURL: client.user.displayAvatarURL() })
       .setTimestamp();
@@ -1320,14 +1366,14 @@ client.on('messageCreate', async (message) => {
   else if (command === 'taxamm') {
     const embed = new EmbedBuilder()
       .setColor('#5865F2')
-      .setTitle('ð° Middleman Tax Decision')
-      .setDescription('Please select who will pay the middleman fee:')
+      .setTitle('ð° DecisÃ£o de Taxa do Middleman')
+      .setDescription('Selecione quem pagarÃ¡ a taxa do middleman:')
       .addFields(
-        { name: 'Option 1', value: 'Buyer pays the fee', inline: true },
-        { name: 'Option 2', value: 'Seller pays the fee', inline: true },
-        { name: 'Option 3', value: 'Split 50/50', inline: true }
+        { name: 'OpÃ§Ã£o 1', value: 'Comprador paga a taxa', inline: true },
+        { name: 'OpÃ§Ã£o 2', value: 'Vendedor paga a taxa', inline: true },
+        { name: 'OpÃ§Ã£o 3', value: 'Dividir 50/50', inline: true }
       )
-      .setFooter({ text: 'Tax System', iconURL: client.user.displayAvatarURL() })
+      .setFooter({ text: 'Sistema de Taxas', iconURL: client.user.displayAvatarURL() })
       .setTimestamp();
     
     message.channel.send({ embeds: [embed] });
@@ -1337,7 +1383,7 @@ client.on('messageCreate', async (message) => {
   
   else if (command === 'claim') {
     if (!isMiddleman(message.member)) {
-      return message.reply({ embeds: [createErrorEmbed('Only middlemen can claim tickets.')] });
+      return message.reply({ embeds: [createErrorEmbed('Apenas middlemen podem reivindicar tickets.')] });
     }
     
     if (!botData.tickets[message.channel.id]) {
@@ -1349,22 +1395,22 @@ client.on('messageCreate', async (message) => {
     
     const embed = new EmbedBuilder()
       .setColor('#57F287')
-      .setTitle('â Ticket Claimed')
-      .setDescription(`This ticket has been claimed by ${message.author.username}`)
-      .setFooter({ text: 'Ticket System', iconURL: client.user.displayAvatarURL() })
+      .setTitle('â Ticket Reivindicado')
+      .setDescription(`Este ticket foi reivindicado por ${message.author.username}`)
+      .setFooter({ text: 'Sistema de Tickets', iconURL: client.user.displayAvatarURL() })
       .setTimestamp();
     
     message.channel.send({ embeds: [embed] });
-    await log(message.guild, 'â Ticket Claimed', `Ticket ${message.channel.name} claimed by ${message.author.tag}`, '#57F287');
+    await log(message.guild, 'â Ticket Reivindicado', `Ticket ${message.channel.name} reivindicado por ${message.author.tag}`, '#57F287');
   }
   
   else if (command === 'unclaim') {
     if (!isMiddleman(message.member)) {
-      return message.reply({ embeds: [createErrorEmbed('Only middlemen can unclaim tickets.')] });
+      return message.reply({ embeds: [createErrorEmbed('Apenas middlemen podem desfazer reivindicaÃ§Ã£o.')] });
     }
     
     if (botData.tickets[message.channel.id]?.claimedBy !== message.author.id && !isAdmin(message.member)) {
-      return message.reply({ embeds: [createErrorEmbed('You can only unclaim tickets you claimed.')] });
+      return message.reply({ embeds: [createErrorEmbed('VocÃª sÃ³ pode desfazer reivindicaÃ§Ã£o de tickets que vocÃª reivindicou.')] });
     }
     
     if (botData.tickets[message.channel.id]) {
@@ -1374,13 +1420,13 @@ client.on('messageCreate', async (message) => {
     
     const embed = new EmbedBuilder()
       .setColor('#FEE75C')
-      .setTitle('ð Ticket Unclaimed')
-      .setDescription(`This ticket is now unclaimed`)
-      .setFooter({ text: 'Ticket System', iconURL: client.user.displayAvatarURL() })
+      .setTitle('ð Ticket Liberado')
+      .setDescription(`Este ticket agora estÃ¡ liberado`)
+      .setFooter({ text: 'Sistema de Tickets', iconURL: client.user.displayAvatarURL() })
       .setTimestamp();
     
     message.channel.send({ embeds: [embed] });
-    await log(message.guild, 'ð Ticket Unclaimed', `Ticket ${message.channel.name} unclaimed by ${message.author.tag}`, '#FEE75C');
+    await log(message.guild, 'ð Ticket Liberado', `Ticket ${message.channel.name} liberado por ${message.author.tag}`, '#FEE75C');
   }
   
   else if (command === 'close') {
@@ -1389,7 +1435,7 @@ client.on('messageCreate', async (message) => {
     if (!isStaff(message.member) && ticket?.claimedBy !== message.author.id) {
       const channelName = message.channel.name;
       if (!channelName.includes(message.author.username.toLowerCase()) && !isStaff(message.member)) {
-        return message.reply({ embeds: [createErrorEmbed('You do not have permission to close this ticket.')] });
+        return message.reply({ embeds: [createErrorEmbed('VocÃª nÃ£o tem permissÃ£o para fechar este ticket.')] });
       }
     }
     
@@ -1399,9 +1445,9 @@ client.on('messageCreate', async (message) => {
     
     const embed = new EmbedBuilder()
       .setColor('#ED4245')
-      .setTitle('ð Closing Ticket')
-      .setDescription('This ticket will be closed in 5 seconds...')
-      .setFooter({ text: 'Ticket System', iconURL: client.user.displayAvatarURL() })
+      .setTitle('ð Fechando Ticket')
+      .setDescription('Este ticket serÃ¡ fechado em 5 segundos...')
+      .setFooter({ text: 'Sistema de Tickets', iconURL: client.user.displayAvatarURL() })
       .setTimestamp();
     
     await message.channel.send({ embeds: [embed] });
@@ -1412,13 +1458,13 @@ client.on('messageCreate', async (message) => {
       if (logCh) {
         const logEmbed = new EmbedBuilder()
           .setColor('#ED4245')
-          .setTitle('ð Ticket Closed')
-          .setDescription(`Ticket: ${message.channel.name}\nClosed by: ${message.author.tag}`)
+          .setTitle('ð Ticket Fechado')
+          .setDescription(`Ticket: ${message.channel.name}\nFechado por: ${message.author.tag}`)
           .setTimestamp();
         
         await logCh.send({ 
           embeds: [logEmbed], 
-          files: [{ attachment: transcriptBuffer, name: `transcript-${message.channel.name}.txt` }] 
+          files: [{ attachment: transcriptBuffer, name: `transcricao-${message.channel.name}.txt` }] 
         });
       }
     }
@@ -1430,17 +1476,17 @@ client.on('messageCreate', async (message) => {
   
   else if (command === 'transferir') {
     if (!isMiddleman(message.member)) {
-      return message.reply({ embeds: [createErrorEmbed('Only middlemen can transfer tickets.')] });
+      return message.reply({ embeds: [createErrorEmbed('Apenas middlemen podem transferir tickets.')] });
     }
     
     const user = message.mentions.users.first();
     if (!user) {
-      return message.reply({ embeds: [createErrorEmbed('Usage: `$transferir <@user>`')] });
+      return message.reply({ embeds: [createErrorEmbed('Uso: `$transferir <@user>`')] });
     }
     
     const member = message.guild.members.cache.get(user.id);
     if (!isMiddleman(member)) {
-      return message.reply({ embeds: [createErrorEmbed('Can only transfer to other middlemen.')] });
+      return message.reply({ embeds: [createErrorEmbed('SÃ³ pode transferir para outros middlemen.')] });
     }
     
     if (!botData.tickets[message.channel.id]) {
@@ -1452,23 +1498,23 @@ client.on('messageCreate', async (message) => {
     
     const embed = new EmbedBuilder()
       .setColor('#5865F2')
-      .setTitle('ð Ticket Transferred')
-      .setDescription(`This ticket has been transferred to ${user.username}`)
-      .setFooter({ text: 'Ticket System', iconURL: client.user.displayAvatarURL() })
+      .setTitle('ð Ticket Transferido')
+      .setDescription(`Este ticket foi transferido para ${user.username}`)
+      .setFooter({ text: 'Sistema de Tickets', iconURL: client.user.displayAvatarURL() })
       .setTimestamp();
     
     message.channel.send({ embeds: [embed] });
-    await log(message.guild, 'ð Ticket Transferred', `Ticket ${message.channel.name} transferred to ${user.tag} by ${message.author.tag}`);
+    await log(message.guild, 'ð Ticket Transferido', `Ticket ${message.channel.name} transferido para ${user.tag} por ${message.author.tag}`);
   }
   
   else if (command === 'adicionar') {
     if (!isMiddleman(message.member)) {
-      return message.reply({ embeds: [createErrorEmbed('Only middlemen can add users to tickets.')] });
+      return message.reply({ embeds: [createErrorEmbed('Apenas middlemen podem adicionar usuÃ¡rios aos tickets.')] });
     }
     
     const user = message.mentions.users.first();
     if (!user) {
-      return message.reply({ embeds: [createErrorEmbed('Usage: `$adicionar <@user>`')] });
+      return message.reply({ embeds: [createErrorEmbed('Uso: `$adicionar <@user>`')] });
     }
     
     await message.channel.permissionOverwrites.edit(user.id, {
@@ -1483,9 +1529,9 @@ client.on('messageCreate', async (message) => {
     
     const embed = new EmbedBuilder()
       .setColor('#57F287')
-      .setTitle('â User Added')
-      .setDescription(`${user.username} has been added to this ticket`)
-      .setFooter({ text: 'Ticket System', iconURL: client.user.displayAvatarURL() })
+      .setTitle('â UsuÃ¡rio Adicionado')
+      .setDescription(`${user.username} foi adicionado a este ticket`)
+      .setFooter({ text: 'Sistema de Tickets', iconURL: client.user.displayAvatarURL() })
       .setTimestamp();
     
     message.channel.send({ embeds: [embed] });
@@ -1493,12 +1539,12 @@ client.on('messageCreate', async (message) => {
   
   else if (command === 'remover') {
     if (!isMiddleman(message.member)) {
-      return message.reply({ embeds: [createErrorEmbed('Only middlemen can remove users from tickets.')] });
+      return message.reply({ embeds: [createErrorEmbed('Apenas middlemen podem remover usuÃ¡rios dos tickets.')] });
     }
     
     const user = message.mentions.users.first();
     if (!user) {
-      return message.reply({ embeds: [createErrorEmbed('Usage: `$remover <@user>`')] });
+      return message.reply({ embeds: [createErrorEmbed('Uso: `$remover <@user>`')] });
     }
     
     await message.channel.permissionOverwrites.delete(user.id);
@@ -1510,9 +1556,9 @@ client.on('messageCreate', async (message) => {
     
     const embed = new EmbedBuilder()
       .setColor('#ED4245')
-      .setTitle('â User Removed')
-      .setDescription(`${user.username} has been removed from this ticket`)
-      .setFooter({ text: 'Ticket System', iconURL: client.user.displayAvatarURL() })
+      .setTitle('â UsuÃ¡rio Removido')
+      .setDescription(`${user.username} foi removido deste ticket`)
+      .setFooter({ text: 'Sistema de Tickets', iconURL: client.user.displayAvatarURL() })
       .setTimestamp();
     
     message.channel.send({ embeds: [embed] });
@@ -1522,7 +1568,7 @@ client.on('messageCreate', async (message) => {
   
   else if (command === 'add') {
     if (!args[0]) {
-      return message.reply({ embeds: [createErrorEmbed('Usage: `$add <user_id>`')] });
+      return message.reply({ embeds: [createErrorEmbed('Uso: `$add <user_id>`')] });
     }
     
     const userId = args[0].replace(/[<@!>]/g, '');
@@ -1537,14 +1583,14 @@ client.on('messageCreate', async (message) => {
       
       const embed = new EmbedBuilder()
         .setColor('#57F287')
-        .setTitle('â User Added')
-        .setDescription(`${member.user.username} has been added to this ticket`)
-        .setFooter({ text: 'Ticket System', iconURL: client.user.displayAvatarURL() })
+        .setTitle('â UsuÃ¡rio Adicionado')
+        .setDescription(`${member.user.username} foi adicionado a este ticket`)
+        .setFooter({ text: 'Sistema de Tickets', iconURL: client.user.displayAvatarURL() })
         .setTimestamp();
       
       message.channel.send({ embeds: [embed] });
     } catch (error) {
-      return message.reply({ embeds: [createErrorEmbed('User not found in this server.')] });
+      return message.reply({ embeds: [createErrorEmbed('UsuÃ¡rio nÃ£o encontrado neste servidor.')] });
     }
   }
 });
@@ -1558,7 +1604,7 @@ client.on('interactionCreate', async (interaction) => {
   
   if (customId === 'support_ticket') {
     if (!botData.supportCategory) {
-      return interaction.reply({ embeds: [createErrorEmbed('Support category not set. Contact an admin.')], ephemeral: true });
+      return interaction.reply({ embeds: [createErrorEmbed('Categoria de suporte nÃ£o definida. Contate um admin.')], ephemeral: true });
     }
     
     botData.ticketCounter++;
@@ -1572,7 +1618,7 @@ client.on('interactionCreate', async (interaction) => {
     };
     
     const channel = await guild.channels.create({
-      name: `support-${typeLabels[value]}-${ticketNumber}`,
+      name: `suporte-${typeLabels[value]}-${ticketNumber}`,
       type: ChannelType.GuildText,
       parent: botData.supportCategory,
       permissionOverwrites: [
@@ -1596,19 +1642,19 @@ client.on('interactionCreate', async (interaction) => {
     
     const embed = new EmbedBuilder()
       .setColor('#5865F2')
-      .setTitle('ð« Support Ticket')
-      .setDescription(`Welcome <@${user.id}>! A staff member will assist you shortly.\n\nType: **${typeLabels[value]}**`)
-      .setFooter({ text: 'Ticket System', iconURL: client.user.displayAvatarURL() })
+      .setTitle('ð« Ticket de Suporte')
+      .setDescription(`Bem-vindo <@${user.id}>! Um membro da staff irÃ¡ ajudÃ¡-lo em breve.\n\nTipo: **${typeLabels[value]}**`)
+      .setFooter({ text: 'Sistema de Tickets', iconURL: client.user.displayAvatarURL() })
       .setTimestamp();
     
     await channel.send({ content: `<@${user.id}>`, embeds: [embed] });
-    await interaction.reply({ content: `Ticket created: ${channel}`, ephemeral: true });
-    await log(guild, 'ð« Support Ticket Created', `Ticket ${channel.name} created by ${user.tag}`);
+    await interaction.reply({ content: `Ticket criado: ${channel}`, ephemeral: true });
+    await log(guild, 'ð« Ticket de Suporte Criado', `Ticket ${channel.name} criado por ${user.tag}`);
   }
   
   else if (customId === 'middleman_ticket') {
     if (!botData.middlemanCategory) {
-      return interaction.reply({ embeds: [createErrorEmbed('Middleman category not set. Contact an admin.')], ephemeral: true });
+      return interaction.reply({ embeds: [createErrorEmbed('Categoria de middleman nÃ£o definida. Contate um admin.')], ephemeral: true });
     }
     
     botData.ticketCounter++;
@@ -1620,7 +1666,8 @@ client.on('interactionCreate', async (interaction) => {
       'mm_250': 'ate-250',
       'mm_500': 'ate-500',
       'mm_1000': 'ate-1000',
-      'mm_1000plus': '1000plus'
+      'mm_1000plus': '1000plus',
+      'crosstrade': 'crosstrade'
     };
     
     const channel = await guild.channels.create({
@@ -1646,17 +1693,25 @@ client.on('interactionCreate', async (interaction) => {
     };
     saveData();
     
-    // Try to detect and add user by ID from message
+    const typeNames = {
+      'mm_100': 'atÃ© R$100',
+      'mm_250': 'atÃ© R$250',
+      'mm_500': 'atÃ© R$500',
+      'mm_1000': 'atÃ© R$1000',
+      'mm_1000plus': 'a partir de R$1000',
+      'crosstrade': 'CrossTrade'
+    };
+    
     const embed = new EmbedBuilder()
       .setColor('#5865F2')
-      .setTitle('ð« Middleman Ticket')
-      .setDescription(`Welcome <@${user.id}>!\n\nTrade Type: **${tradeAmounts[value]}**\n\nPlease provide the ID of the other party in this trade (if any). Use \`$add <user_id>\` to add them.`)
-      .setFooter({ text: 'Ticket System', iconURL: client.user.displayAvatarURL() })
+      .setTitle('ð« Ticket de Middleman')
+      .setDescription(`Bem-vindo <@${user.id}>!\n\nTipo de NegociaÃ§Ã£o: **${typeNames[value]}**\n\nPor favor, forneÃ§a o ID da outra parte nesta troca (se houver). Use \`$add <user_id>\` para adicionÃ¡-los.`)
+      .setFooter({ text: 'Sistema de Tickets', iconURL: client.user.displayAvatarURL() })
       .setTimestamp();
     
     await channel.send({ content: `<@${user.id}>`, embeds: [embed] });
-    await interaction.reply({ content: `Ticket created: ${channel}`, ephemeral: true });
-    await log(guild, 'ð« Middleman Ticket Created', `Ticket ${channel.name} created by ${user.tag}`);
+    await interaction.reply({ content: `Ticket criado: ${channel}`, ephemeral: true });
+    await log(guild, 'ð« Ticket de Middleman Criado', `Ticket ${channel.name} criado por ${user.tag}`);
   }
 });
 
@@ -1664,7 +1719,7 @@ client.on('interactionCreate', async (interaction) => {
 function createErrorEmbed(description) {
   return new EmbedBuilder()
     .setColor('#ED4245')
-    .setTitle('â Error')
+    .setTitle('â Erro')
     .setDescription(description)
     .setTimestamp();
 }
@@ -1672,13 +1727,13 @@ function createErrorEmbed(description) {
 function createSuccessEmbed(description) {
   return new EmbedBuilder()
     .setColor('#57F287')
-    .setTitle('â Success')
+    .setTitle('â Sucesso')
     .setDescription(description)
     .setTimestamp();
 }
 
 function parseDuration(duration) {
-  const match = duration.match(/^(\d+)([smhd])$/);
+  const match = duration.match(/^(\d+)([smhdw])$/);
   if (!match) return null;
   
   const value = parseInt(match[1]);
@@ -1688,7 +1743,8 @@ function parseDuration(duration) {
     's': 1000,
     'm': 60000,
     'h': 3600000,
-    'd': 86400000
+    'd': 86400000,
+    'w': 604800000
   };
   
   return value * multipliers[unit];
