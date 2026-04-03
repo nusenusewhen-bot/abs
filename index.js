@@ -102,39 +102,39 @@ const fakeUsernames = [
 ];
 
 const fakeReviews = [
-  'Middleman muito confiÃ¡vel! TransaÃ§Ã£o rÃ¡pida e segura.',
-  'ServiÃ§o incrÃ­vel, vou usar novamente com certeza!',
-  'Super rÃ¡pido e profissional. Altamente recomendado!',
-  'MM legÃ­timo, me ajudou com uma grande troca. Obrigado!',
-  'TransaÃ§Ã£o tranquila, sem problemas. 10/10!',
-  'Vendedor confiÃ¡vel, entrega rÃ¡pida e Ã³tima comunicaÃ§Ã£o.',
-  'Melhor serviÃ§o de middleman que jÃ¡ usei!',
-  'RÃ¡pido e confiÃ¡vel. Obrigado pela ajuda!',
-  'Muito profissional e confiÃ¡vel. Recomendado!',
-  'Ãtima experiÃªncia, troca perfeita!',
-  'Resposta rÃ¡pida e processo seguro.',
-  'Trader legÃ­timo, trocaria novamente!',
-  'Excelente serviÃ§o, facilitou muito a troca!',
-  'ConfiÃ¡vel e eficiente. 5 estrelas!',
-  'Ajuda incrÃ­vel com meu cross-trade. Obrigado!',
+  'Middleman muito confiavel! Transacao rapida e segura.',
+  'Servico incrivel, vou usar novamente com certeza!',
+  'Super rapido e profissional. Altamente recomendado!',
+  'MM legitimo, me ajudou com uma grande troca. Obrigado!',
+  'Transacao tranquila, sem problemas. 10/10!',
+  'Vendedor confiavel, entrega rapida e otima comunicacao.',
+  'Melhor servico de middleman que ja usei!',
+  'Rapido e confiavel. Obrigado pela ajuda!',
+  'Muito profissional e confiavel. Recomendado!',
+  'Otima experiencia, troca perfeita!',
+  'Resposta rapida e processo seguro.',
+  'Trader legitimo, trocaria novamente!',
+  'Excelente servico, facilitou muito a troca!',
+  'Confiavel e eficiente. 5 estrelas!',
+  'Ajuda incrivel com meu cross-trade. Obrigado!',
   'Muito paciente e prestativo durante todo o processo.',
-  'TransaÃ§Ã£o segura, me senti seguro o tempo todo.',
-  'ServiÃ§o de middleman de primeira!',
-  'ExecuÃ§Ã£o de troca impecÃ¡vel. Obrigado!',
-  'O melhor do negÃ³cio, sem dÃºvida!'
+  'Transacao segura, me senti seguro o tempo todo.',
+  'Servico de middleman de primeira!',
+  'Execucao de troca impecavel. Obrigado!',
+  'O melhor do negocio, sem duvida!'
 ];
 
 const tradeTypes = [
-  'Robux â Gift Cards',
-  'Crypto â Robux',
-  'Adopt Me Pets â PayPal',
-  'MM2 Items â Crypto',
-  'Gift Cards â Robux',
-  'PayPal â Adopt Me Pets',
-  'Bitcoin â Amazon GC',
-  'Robux â Steam Cards',
-  'Limiteds â PayPal',
-  'Game Items â Crypto'
+  'Robux -> Gift Cards',
+  'Crypto -> Robux',
+  'Adopt Me Pets -> PayPal',
+  'MM2 Items -> Crypto',
+  'Gift Cards -> Robux',
+  'PayPal -> Adopt Me Pets',
+  'Bitcoin -> Amazon GC',
+  'Robux -> Steam Cards',
+  'Limiteds -> PayPal',
+  'Game Items -> Crypto'
 ];
 
 let voucherInterval = null;
@@ -162,7 +162,7 @@ function startAutoVoucher() {
       .setTitle('â Novo Vouch Recebido!')
       .setDescription(`**${username}** deixou um vouch!`)
       .addFields(
-        { name: 'ð AvaliaÃ§Ã£o', value: review, inline: false },
+        { name: 'ð Avaliacao', value: review, inline: false },
         { name: 'ð° Valor da Troca', value: `$${amount}`, inline: true },
         { name: 'ð Tipo de Troca', value: tradeType, inline: true },
         { name: 'â­ Nota', value: stars, inline: true }
@@ -228,18 +228,18 @@ client.on('messageCreate', async (message) => {
   
   if (command === 'helpadmin') {
     if (!isAdmin(message.member)) {
-      return message.reply({ embeds: [createErrorEmbed('VocÃª nÃ£o tem permissÃ£o para usar este comando.')] });
+      return message.reply({ embeds: [createErrorEmbed('Voce nao tem permissao para usar este comando.')] });
     }
     
     const embed = new EmbedBuilder()
       .setColor('#5865F2')
       .setTitle('Comandos de Administrador')
-      .setDescription('Todos os comandos $ disponÃ­veis, sua funÃ§Ã£o e como usÃ¡-los.')
+      .setDescription('Todos os comandos $ disponiveis, sua funcao e como usa-los.')
       .addFields(
         { name: 'Comandos', value: 
           '`$helpadmin` - Mostrar todos os comandos de admin\n' +
           '`$helpstaff` - Mostrar comandos para staff\n' +
-          '`$help` - Mostrar comandos pÃºblicos\n' +
+          '`$help` - Mostrar comandos publicos\n' +
           '`$vouch <1-5> <@user> <mensagem>` - Enviar vouch manual\n' +
           '`$panel` - Painel de controle do auto-vouch\n' +
           '`$role_ids <@role>` - Listar IDs dos membros de um cargo\n' +
@@ -248,33 +248,33 @@ client.on('messageCreate', async (message) => {
           '`$middleman <roleid>` - Definir cargo de middleman\n' +
           '`$staff <roleid>` - Definir cargo de staff\n' +
           '`$voucher <channelid>` - Definir canal de vouches\n' +
-          '`$supportcategory <categoryid>` - Definir categoria de suporte\n' +
-          '`$middlemancategory <categoryid>` - Definir categoria de middleman\n' +
+          '`$supportcategory <categoryid>` - Definir categoria de tickets de suporte\n' +
+          '`$middlemancategory <categoryid>` - Definir categoria de tickets de middleman\n' +
           '`$logchannel <channelid>` - Definir canal de logs'
         },
         { name: 'Comandos 2', value:
           '`$ticket support` - Enviar painel de suporte\n' +
           '`$ticket middleman` - Enviar painel de middleman\n' +
-          '`$addprofit <@user> <amount>` - Adicionar/remover lucro (use negativo para remover)\n' +
-          '`$tprofit <@user> <amount>` - Definir lucro do usuÃ¡rio\n' +
-          '`$profit <@user>` - Mostrar lucro do usuÃ¡rio\n' +
-          '`$tnotes <@user> <amount>` - Definir notas do usuÃ¡rio\n' +
-          '`$addnote <@user> <amount> [sidenote]` - Adicionar/remover notas\n' +
-          '`$notes <@user>` - Mostrar notas do usuÃ¡rio\n' +
-          '`$search <@user>` - Pesquisar estatÃ­sticas do usuÃ¡rio\n' +
+          '`$addprofit <@user> <quantidade>` - Adicionar/remover lucro (use negativo para remover)\n' +
+          '`$tprofit <@user> <quantidade>` - Definir lucro do usuario\n' +
+          '`$profit <@user>` - Mostrar lucro do usuario\n' +
+          '`$tnotes <@user> <quantidade>` - Definir notas do usuario\n' +
+          '`$addnote <@user> <quantidade> [observacao]` - Adicionar/remover notas\n' +
+          '`$notes <@user>` - Mostrar notas do usuario\n' +
+          '`$search <@user>` - Pesquisar estatisticas do usuario\n' +
           '`$embed <channel_id>` - Enviar mensagem como embed\n' +
           '`$hit <@user>` - Enviar mensagem de hit\n' +
           '`$tutorial` - Postar embed de tutorial\n' +
-          '`$mminfo` - Postar informaÃ§Ãµes do middleman'
+          '`$mminfo` - Postar informacoes do middleman'
         },
         { name: 'Comandos 3', value:
-          '`$taxamm` - Postar embed de decisÃ£o de taxa\n' +
+          '`$taxamm` - Postar embed de decisao de taxa\n' +
           '`$ban <@user> [motivo]` - Banir membro\n' +
           '`$kick <@user> [motivo]` - Expulsar membro\n' +
           '`$hackban <user_id> [motivo]` - Banir por ID\n' +
           '`$softban <@user> [motivo]` - Softban membro\n' +
           '`$timeout <@user> <duracao> [motivo]` - Silenciar membro (10m, 2h, 1d)\n' +
-          '`$unban <user_id>` - Desbanir usuÃ¡rio\n' +
+          '`$unban <user_id>` - Desbanir usuario\n' +
           '`$unhackban <user_id>` - Desfazer hackban\n' +
           '`$untimeout <@user> [motivo]` - Remover silenciamento'
         }
@@ -287,7 +287,7 @@ client.on('messageCreate', async (message) => {
   
   else if (command === 'helpstaff') {
     if (!isStaff(message.member)) {
-      return message.reply({ embeds: [createErrorEmbed('VocÃª nÃ£o tem permissÃ£o para usar este comando.')] });
+      return message.reply({ embeds: [createErrorEmbed('Voce nao tem permissao para usar este comando.')] });
     }
     
     const embed = new EmbedBuilder()
@@ -297,21 +297,21 @@ client.on('messageCreate', async (message) => {
       .addFields(
         { name: 'Comandos', value:
           '`$helpstaff` - Mostrar comandos de staff\n' +
-          '`$help` - Mostrar comandos pÃºblicos\n' +
-          '`$profit <@user>` - Mostrar lucro do usuÃ¡rio\n' +
-          '`$notes <@user>` - Mostrar notas do usuÃ¡rio\n' +
-          '`$search <@user>` - Pesquisar estatÃ­sticas do usuÃ¡rio\n' +
+          '`$help` - Mostrar comandos publicos\n' +
+          '`$profit <@user>` - Mostrar lucro do usuario\n' +
+          '`$notes <@user>` - Mostrar notas do usuario\n' +
+          '`$search <@user>` - Pesquisar estatisticas do usuario\n' +
           '`$hit <@user>` - Enviar mensagem de hit\n' +
           '`$tutorial` - Postar embed de tutorial'
         },
         { name: 'Comandos 2', value:
           '`$claim` - Reivindicar ticket atual\n' +
-          '`$unclaim` - Desfazer reivindicaÃ§Ã£o do ticket\n' +
+          '`$unclaim` - Desfazer reivindicacao do ticket\n' +
           '`$close` - Fechar ticket atual\n' +
-          '`$transferir <@user>` - Transferir ticket para outro usuÃ¡rio\n' +
-          '`$adicionar <@user>` - Adicionar usuÃ¡rio ao ticket\n' +
-          '`$remover <@user>` - Remover usuÃ¡rio do ticket\n' +
-          '`$taxamm` - Postar embed de decisÃ£o de taxa\n' +
+          '`$transferir <@user>` - Transferir ticket para outro usuario\n' +
+          '`$adicionar <@user>` - Adicionar usuario ao ticket\n' +
+          '`$remover <@user>` - Remover usuario do ticket\n' +
+          '`$taxamm` - Postar embed de decisao de taxa\n' +
           '`$timeout <@user> <duracao> [motivo]` - Silenciar membro\n' +
           '`$untimeout <@user> [motivo]` - Remover silenciamento'
         }
@@ -325,14 +325,14 @@ client.on('messageCreate', async (message) => {
   else if (command === 'help') {
     const embed = new EmbedBuilder()
       .setColor('#5865F2')
-      .setTitle('Comandos PÃºblicos')
+      .setTitle('Comandos Publicos')
       .setDescription('Todos os comandos $ que todos podem usar.')
       .addFields(
         { name: 'Comandos', value:
-          '`$help` - Mostrar comandos pÃºblicos\n' +
+          '`$help` - Mostrar comandos publicos\n' +
           '`$close` - Fechar seu ticket atual\n' +
-          '`$taxamm` - Postar embed de decisÃ£o de taxa\n' +
-          '`$vouch <@user> <mensagem>` - Enviar vouch para um usuÃ¡rio'
+          '`$taxamm` - Postar embed de decisao de taxa\n' +
+          '`$vouch <@user> <mensagem>` - Enviar vouch para um usuario'
         }
       )
       .setFooter({ text: 'Ajuda', iconURL: client.user.displayAvatarURL() })
@@ -345,7 +345,7 @@ client.on('messageCreate', async (message) => {
   
   else if (command === 'ticket') {
     if (!isAdmin(message.member)) {
-      return message.reply({ embeds: [createErrorEmbed('VocÃª nÃ£o tem permissÃ£o para usar este comando.')] });
+      return message.reply({ embeds: [createErrorEmbed('Voce nao tem permissao para usar este comando.')] });
     }
     
     const type = args[0]?.toLowerCase();
@@ -354,7 +354,7 @@ client.on('messageCreate', async (message) => {
       const embed = new EmbedBuilder()
         .setColor('#5865F2')
         .setTitle('Suporte')
-        .setDescription('ð¨ â Solicitar suporte!\n\nSomente solicite suporte em casos de:\nDÃºvidas ou perguntas gerais;\nDenÃºncias de scam;\nPedir suporte.');
+        .setDescription('ð¨ â Solicitar suporte!\n\nSomente solicite suporte em casos de:\nDuvidas ou perguntas gerais;\nDenuncias de scam;\nPedir suporte.');
       
       const row = new ActionRowBuilder()
         .addComponents(
@@ -363,12 +363,12 @@ client.on('messageCreate', async (message) => {
             .setPlaceholder('Selecione o tipo de suporte')
             .addOptions([
               {
-                label: 'DÃºvidas ou perguntas gerais',
+                label: 'Duvidas ou perguntas gerais',
                 value: 'general',
-                description: 'DÃºvidas e perguntas gerais'
+                description: 'Duvidas e perguntas gerais'
               },
               {
-                label: 'DenÃºncias de scam',
+                label: 'Denuncias de scam',
                 value: 'scam',
                 description: 'Reportar um scam'
               },
@@ -388,38 +388,38 @@ client.on('messageCreate', async (message) => {
       const embed = new EmbedBuilder()
         .setColor('#5865F2')
         .setTitle('Middleman')
-        .setDescription('ð¨ â Solicitar MM.\n\nTaxas normais.\n0.99R$ acima de 8R$.\n2.15R$ acima de 100R$.\n4.3R$ acima de 200R$.\n6.8R$ acima de 400R$.\n1.2% acima de 700R$.\nEm contas, Ã© TAXA NORMAL + 2.00R$.\n\nTaxas CrossTrade.\n40c 2 itens\n60c 3+ itens');
+        .setDescription('ð¨ â Solicitar MM.\n\nTaxas normais.\n0.99R$ acima de 8R$.\n2.15R$ acima de 100R$.\n4.3R$ acima de 200R$.\n6.8R$ acima de 400R$.\n1.2% acima de 700R$.\nEm contas, e TAXA NORMAL + 2.00R$.\n\nTaxas CrossTrade.\n40c 2 itens\n60c 3+ itens');
       
       const row = new ActionRowBuilder()
         .addComponents(
           new StringSelectMenuBuilder()
             .setCustomId('middleman_ticket')
-            .setPlaceholder('Selecione o tipo de negociaÃ§Ã£o')
+            .setPlaceholder('Selecione o tipo de negociacao')
             .addOptions([
               {
-                label: 'NegociaÃ§Ãµes atÃ© R$100',
+                label: 'Negociacoes ate R$100',
                 value: 'mm_100',
-                description: 'NegociaÃ§Ãµes atÃ© R$100'
+                description: 'Negociacoes ate R$100'
               },
               {
-                label: 'NegociaÃ§Ãµes atÃ© R$250',
+                label: 'Negociacoes ate R$250',
                 value: 'mm_250',
-                description: 'NegociaÃ§Ãµes atÃ© R$250'
+                description: 'Negociacoes ate R$250'
               },
               {
-                label: 'NegociaÃ§Ãµes atÃ© R$500',
+                label: 'Negociacoes ate R$500',
                 value: 'mm_500',
-                description: 'NegociaÃ§Ãµes atÃ© R$500'
+                description: 'Negociacoes ate R$500'
               },
               {
-                label: 'NegociaÃ§Ãµes atÃ© R$1000',
+                label: 'Negociacoes ate R$1000',
                 value: 'mm_1000',
-                description: 'NegociaÃ§Ãµes atÃ© R$1000'
+                description: 'Negociacoes ate R$1000'
               },
               {
-                label: 'NegociaÃ§Ãµes a partir de R$1000',
+                label: 'Negociacoes a partir de R$1000',
                 value: 'mm_1000plus',
-                description: 'NegociaÃ§Ãµes a partir de R$1000'
+                description: 'Negociacoes a partir de R$1000'
               },
               {
                 label: 'CrossTrade',
@@ -442,7 +442,7 @@ client.on('messageCreate', async (message) => {
   
   else if (command === 'supportcategory') {
     if (!isAdmin(message.member)) {
-      return message.reply({ embeds: [createErrorEmbed('VocÃª nÃ£o tem permissÃ£o para usar este comando.')] });
+      return message.reply({ embeds: [createErrorEmbed('Voce nao tem permissao para usar este comando.')] });
     }
     
     const categoryId = args[0];
@@ -452,7 +452,7 @@ client.on('messageCreate', async (message) => {
     
     const category = message.guild.channels.cache.get(categoryId.replace(/[<#>]/g, ''));
     if (!category || category.type !== ChannelType.GuildCategory) {
-      return message.reply({ embeds: [createErrorEmbed('Categoria nÃ£o encontrada. ForneÃ§a um ID de categoria vÃ¡lido.')] });
+      return message.reply({ embeds: [createErrorEmbed('Categoria nao encontrada. Forneca um ID de categoria valido.')] });
     }
     
     botData.supportCategory = category.id;
@@ -461,8 +461,8 @@ client.on('messageCreate', async (message) => {
     const embed = new EmbedBuilder()
       .setColor('#57F287')
       .setTitle('â Categoria de Suporte Definida')
-      .setDescription(`Tickets de suporte serÃ£o criados na categoria: **${category.name}**`)
-      .setFooter({ text: 'ConfiguraÃ§Ã£o', iconURL: client.user.displayAvatarURL() })
+      .setDescription(`Tickets de suporte serao criados na categoria: **${category.name}**`)
+      .setFooter({ text: 'Configuracao', iconURL: client.user.displayAvatarURL() })
       .setTimestamp();
     
     message.channel.send({ embeds: [embed] });
@@ -471,7 +471,7 @@ client.on('messageCreate', async (message) => {
   
   else if (command === 'middlemancategory') {
     if (!isAdmin(message.member)) {
-      return message.reply({ embeds: [createErrorEmbed('VocÃª nÃ£o tem permissÃ£o para usar este comando.')] });
+      return message.reply({ embeds: [createErrorEmbed('Voce nao tem permissao para usar este comando.')] });
     }
     
     const categoryId = args[0];
@@ -481,7 +481,7 @@ client.on('messageCreate', async (message) => {
     
     const category = message.guild.channels.cache.get(categoryId.replace(/[<#>]/g, ''));
     if (!category || category.type !== ChannelType.GuildCategory) {
-      return message.reply({ embeds: [createErrorEmbed('Categoria nÃ£o encontrada. ForneÃ§a um ID de categoria vÃ¡lido.')] });
+      return message.reply({ embeds: [createErrorEmbed('Categoria nao encontrada. Forneca um ID de categoria valido.')] });
     }
     
     botData.middlemanCategory = category.id;
@@ -490,8 +490,8 @@ client.on('messageCreate', async (message) => {
     const embed = new EmbedBuilder()
       .setColor('#57F287')
       .setTitle('â Categoria de Middleman Definida')
-      .setDescription(`Tickets de middleman serÃ£o criados na categoria: **${category.name}**`)
-      .setFooter({ text: 'ConfiguraÃ§Ã£o', iconURL: client.user.displayAvatarURL() })
+      .setDescription(`Tickets de middleman serao criados na categoria: **${category.name}**`)
+      .setFooter({ text: 'Configuracao', iconURL: client.user.displayAvatarURL() })
       .setTimestamp();
     
     message.channel.send({ embeds: [embed] });
@@ -500,7 +500,7 @@ client.on('messageCreate', async (message) => {
   
   else if (command === 'logchannel') {
     if (!isAdmin(message.member)) {
-      return message.reply({ embeds: [createErrorEmbed('VocÃª nÃ£o tem permissÃ£o para usar este comando.')] });
+      return message.reply({ embeds: [createErrorEmbed('Voce nao tem permissao para usar este comando.')] });
     }
     
     const channelId = args[0];
@@ -510,7 +510,7 @@ client.on('messageCreate', async (message) => {
     
     const channel = message.guild.channels.cache.get(channelId.replace(/[<#>]/g, ''));
     if (!channel) {
-      return message.reply({ embeds: [createErrorEmbed('Canal nÃ£o encontrado.')] });
+      return message.reply({ embeds: [createErrorEmbed('Canal nao encontrado.')] });
     }
     
     botData.logChannel = channel.id;
@@ -519,8 +519,8 @@ client.on('messageCreate', async (message) => {
     const embed = new EmbedBuilder()
       .setColor('#57F287')
       .setTitle('â Canal de Logs Definido')
-      .setDescription(`Logs serÃ£o enviados para: **${channel.name}**`)
-      .setFooter({ text: 'ConfiguraÃ§Ã£o', iconURL: client.user.displayAvatarURL() })
+      .setDescription(`Logs serao enviados para: **${channel.name}**`)
+      .setFooter({ text: 'Configuracao', iconURL: client.user.displayAvatarURL() })
       .setTimestamp();
     
     message.channel.send({ embeds: [embed] });
@@ -530,19 +530,19 @@ client.on('messageCreate', async (message) => {
   
   else if (command === 'mminfo') {
     if (!isStaff(message.member)) {
-      return message.reply({ embeds: [createErrorEmbed('VocÃª nÃ£o tem permissÃ£o para usar este comando.')] });
+      return message.reply({ embeds: [createErrorEmbed('Voce nao tem permissao para usar este comando.')] });
     }
     
     const embed = new EmbedBuilder()
       .setColor('#5865F2')
       .setTitle('O Middleman tem duas formas de funcionamento.')
       .setDescription(
-        '**1Â° forma:**\n' +
-        'O Comprador irÃ¡ enviar o Pix para o middleman, apÃ³s isso, o Vendedor irÃ¡ entregar os itens para mim ou para o Comprador diretamente. Quando confirmado a entrega, o Middleman envia o Pix ao Vendedor e entrega os itens ao comprador, caso ele decida entregar ao Middleman primeiramente.\n\n' +
+        '**1 forma:**\n' +
+        'O Comprador ira enviar o Pix para o middleman, apos isso, o Vendedor ira entregar os itens para mim ou para o Comprador diretamente. Quando confirmado a entrega, o Middleman envia o Pix ao Vendedor e entrega os itens ao comprador, caso ele decida entregar ao Middleman primeiramente.\n\n' +
         '**2 forma:**\n' +
-        'O Vendedor irÃ¡ entregar os itens ao middleman, apÃ³s isso, o Comprador ira enviar o pix para o Vendedor. Quando confirmado o recebimento do pix, o Middleman e irÃ¡ entregar os itens ao Comprador.'
+        'O Vendedor ira entregar os itens ao middleman, apos isso, o Comprador ira enviar o pix para o Vendedor. Quando confirmado o recebimento do pix, o Middleman ira entregar os itens ao Comprador.'
       )
-      .setFooter({ text: 'InformaÃ§Ãµes do Middleman', iconURL: client.user.displayAvatarURL() })
+      .setFooter({ text: 'Informacoes do Middleman', iconURL: client.user.displayAvatarURL() })
       .setTimestamp();
     
     message.channel.send({ embeds: [embed] });
@@ -552,7 +552,7 @@ client.on('messageCreate', async (message) => {
   
   else if (command === 'setadmin') {
     if (!isAdmin(message.member)) {
-      return message.reply({ embeds: [createErrorEmbed('VocÃª nÃ£o tem permissÃ£o para usar este comando.')] });
+      return message.reply({ embeds: [createErrorEmbed('Voce nao tem permissao para usar este comando.')] });
     }
     
     const role = message.mentions.roles.first();
@@ -567,7 +567,7 @@ client.on('messageCreate', async (message) => {
       .setColor('#57F287')
       .setTitle('â Cargo de Admin Definido')
       .setDescription(`Cargo de admin definido para ${role.name}`)
-      .setFooter({ text: 'ConfiguraÃ§Ã£o', iconURL: client.user.displayAvatarURL() })
+      .setFooter({ text: 'Configuracao', iconURL: client.user.displayAvatarURL() })
       .setTimestamp();
     
     message.channel.send({ embeds: [embed] });
@@ -575,7 +575,7 @@ client.on('messageCreate', async (message) => {
   
   else if (command === 'setstaff') {
     if (!isAdmin(message.member)) {
-      return message.reply({ embeds: [createErrorEmbed('VocÃª nÃ£o tem permissÃ£o para usar este comando.')] });
+      return message.reply({ embeds: [createErrorEmbed('Voce nao tem permissao para usar este comando.')] });
     }
     
     const role = message.mentions.roles.first();
@@ -590,7 +590,7 @@ client.on('messageCreate', async (message) => {
       .setColor('#57F287')
       .setTitle('â Cargo de Staff Definido')
       .setDescription(`Cargo de staff definido para ${role.name}`)
-      .setFooter({ text: 'ConfiguraÃ§Ã£o', iconURL: client.user.displayAvatarURL() })
+      .setFooter({ text: 'Configuracao', iconURL: client.user.displayAvatarURL() })
       .setTimestamp();
     
     message.channel.send({ embeds: [embed] });
@@ -598,17 +598,17 @@ client.on('messageCreate', async (message) => {
   
   else if (command === 'middleman') {
     if (!isAdmin(message.member)) {
-      return message.reply({ embeds: [createErrorEmbed('VocÃª nÃ£o tem permissÃ£o para usar este comando.')] });
+      return message.reply({ embeds: [createErrorEmbed('Voce nao tem permissao para usar este comando.')] });
     }
     
     const roleId = args[0];
     if (!roleId) {
-      return message.reply({ embeds: [createErrorEmbed('ForneÃ§a um ID de cargo. Uso: `$middleman <roleid>`')] });
+      return message.reply({ embeds: [createErrorEmbed('Forneca um ID de cargo. Uso: `$middleman <roleid>`')] });
     }
     
     const role = message.guild.roles.cache.get(roleId.replace(/[<@&>]/g, ''));
     if (!role) {
-      return message.reply({ embeds: [createErrorEmbed('Cargo nÃ£o encontrado. ForneÃ§a um ID de cargo vÃ¡lido.')] });
+      return message.reply({ embeds: [createErrorEmbed('Cargo nao encontrado. Forneca um ID de cargo valido.')] });
     }
     
     botData.middlemanRole = role.id;
@@ -618,7 +618,7 @@ client.on('messageCreate', async (message) => {
       .setColor('#57F287')
       .setTitle('â Cargo de Middleman Definido')
       .setDescription(`Cargo de middleman definido para ${role.name}`)
-      .setFooter({ text: 'ConfiguraÃ§Ã£o', iconURL: client.user.displayAvatarURL() })
+      .setFooter({ text: 'Configuracao', iconURL: client.user.displayAvatarURL() })
       .setTimestamp();
     
     message.channel.send({ embeds: [embed] });
@@ -626,17 +626,17 @@ client.on('messageCreate', async (message) => {
   
   else if (command === 'staff') {
     if (!isAdmin(message.member)) {
-      return message.reply({ embeds: [createErrorEmbed('VocÃª nÃ£o tem permissÃ£o para usar este comando.')] });
+      return message.reply({ embeds: [createErrorEmbed('Voce nao tem permissao para usar este comando.')] });
     }
     
     const roleId = args[0];
     if (!roleId) {
-      return message.reply({ embeds: [createErrorEmbed('ForneÃ§a um ID de cargo. Uso: `$staff <roleid>`')] });
+      return message.reply({ embeds: [createErrorEmbed('Forneca um ID de cargo. Uso: `$staff <roleid>`')] });
     }
     
     const role = message.guild.roles.cache.get(roleId.replace(/[<@&>]/g, ''));
     if (!role) {
-      return message.reply({ embeds: [createErrorEmbed('Cargo nÃ£o encontrado. ForneÃ§a um ID de cargo vÃ¡lido.')] });
+      return message.reply({ embeds: [createErrorEmbed('Cargo nao encontrado. Forneca um ID de cargo valido.')] });
     }
     
     botData.staffRole = role.id;
@@ -646,7 +646,7 @@ client.on('messageCreate', async (message) => {
       .setColor('#57F287')
       .setTitle('â Cargo de Staff Definido')
       .setDescription(`Cargo de staff definido para ${role.name}`)
-      .setFooter({ text: 'ConfiguraÃ§Ã£o', iconURL: client.user.displayAvatarURL() })
+      .setFooter({ text: 'Configuracao', iconURL: client.user.displayAvatarURL() })
       .setTimestamp();
     
     message.channel.send({ embeds: [embed] });
@@ -654,17 +654,17 @@ client.on('messageCreate', async (message) => {
   
   else if (command === 'voucher') {
     if (!isAdmin(message.member)) {
-      return message.reply({ embeds: [createErrorEmbed('VocÃª nÃ£o tem permissÃ£o para usar este comando.')] });
+      return message.reply({ embeds: [createErrorEmbed('Voce nao tem permissao para usar este comando.')] });
     }
     
     const channelId = args[0];
     if (!channelId) {
-      return message.reply({ embeds: [createErrorEmbed('ForneÃ§a um ID de canal. Uso: `$voucher <channelid>`')] });
+      return message.reply({ embeds: [createErrorEmbed('Forneca um ID de canal. Uso: `$voucher <channelid>`')] });
     }
     
     const channel = message.guild.channels.cache.get(channelId.replace(/[<#>]/g, ''));
     if (!channel) {
-      return message.reply({ embeds: [createErrorEmbed('Canal nÃ£o encontrado. ForneÃ§a um ID de canal vÃ¡lido.')] });
+      return message.reply({ embeds: [createErrorEmbed('Canal nao encontrado. Forneca um ID de canal valido.')] });
     }
     
     botData.voucherChannel = channel.id;
@@ -675,7 +675,7 @@ client.on('messageCreate', async (message) => {
       .setColor('#57F287')
       .setTitle('â Canal de Vouches Definido')
       .setDescription(`Canal de vouches definido para ${channel.name}\nSistema de auto-vouch **ATIVADO**`)
-      .setFooter({ text: 'ConfiguraÃ§Ã£o', iconURL: client.user.displayAvatarURL() })
+      .setFooter({ text: 'Configuracao', iconURL: client.user.displayAvatarURL() })
       .setTimestamp();
     
     message.channel.send({ embeds: [embed] });
@@ -684,7 +684,7 @@ client.on('messageCreate', async (message) => {
   
   else if (command === 'panel') {
     if (!isAdmin(message.member)) {
-      return message.reply({ embeds: [createErrorEmbed('VocÃª nÃ£o tem permissÃ£o para usar este comando.')] });
+      return message.reply({ embeds: [createErrorEmbed('Voce nao tem permissao para usar este comando.')] });
     }
     
     const embed = new EmbedBuilder()
@@ -693,7 +693,7 @@ client.on('messageCreate', async (message) => {
       .setDescription('Controle o sistema de auto-vouch')
       .addFields(
         { name: 'Status', value: botData.autoVoucherEnabled ? 'ð¢ Ativado' : 'ð´ Desativado', inline: true },
-        { name: 'Canal de Vouches', value: botData.voucherChannel ? `<#${botData.voucherChannel}>` : 'NÃ£o definido', inline: true },
+        { name: 'Canal de Vouches', value: botData.voucherChannel ? `<#${botData.voucherChannel}>` : 'Nao definido', inline: true },
         { name: 'Comandos', value: 
           '`$panel on` - Ativar auto-vouch\n' +
           '`$panel off` - Desativar auto-vouch\n' +
@@ -730,12 +730,12 @@ client.on('messageCreate', async (message) => {
     }
     
     if (!botData.voucherChannel) {
-      return message.reply({ embeds: [createErrorEmbed('Canal de vouches nÃ£o definido. Use `$voucher <channelid>`')] });
+      return message.reply({ embeds: [createErrorEmbed('Canal de vouches nao definido. Use `$voucher <channelid>`')] });
     }
     
     const channel = await client.channels.fetch(botData.voucherChannel).catch(() => null);
     if (!channel) {
-      return message.reply({ embeds: [createErrorEmbed('Canal de vouches nÃ£o encontrado.')] });
+      return message.reply({ embeds: [createErrorEmbed('Canal de vouches nao encontrado.')] });
     }
     
     const stars = 'â­'.repeat(rating);
@@ -745,7 +745,7 @@ client.on('messageCreate', async (message) => {
       .setTitle('â Novo Vouch Recebido!')
       .setDescription(`**${message.author.username}** deixou um vouch para **${user.username}**!`)
       .addFields(
-        { name: 'ð AvaliaÃ§Ã£o', value: reviewMessage, inline: false },
+        { name: 'ð Avaliacao', value: reviewMessage, inline: false },
         { name: 'â­ Nota', value: stars, inline: true }
       )
       .setFooter({ text: 'Sistema de Vouches', iconURL: client.user.displayAvatarURL() })
@@ -764,12 +764,12 @@ client.on('messageCreate', async (message) => {
     }
     
     if (!botData.voucherChannel) {
-      return message.reply({ embeds: [createErrorEmbed('Canal de vouches nÃ£o definido.')] });
+      return message.reply({ embeds: [createErrorEmbed('Canal de vouches nao definido.')] });
     }
     
     const channel = await client.channels.fetch(botData.voucherChannel).catch(() => null);
     if (!channel) {
-      return message.reply({ embeds: [createErrorEmbed('Canal de vouches nÃ£o encontrado.')] });
+      return message.reply({ embeds: [createErrorEmbed('Canal de vouches nao encontrado.')] });
     }
     
     const embed = new EmbedBuilder()
@@ -777,7 +777,7 @@ client.on('messageCreate', async (message) => {
       .setTitle('â Novo Vouch Recebido!')
       .setDescription(`**${message.author.username}** deixou um vouch para **${user.username}**!`)
       .addFields(
-        { name: 'ð AvaliaÃ§Ã£o', value: reviewMessage, inline: false }
+        { name: 'ð Avaliacao', value: reviewMessage, inline: false }
       )
       .setFooter({ text: 'Sistema de Vouches', iconURL: client.user.displayAvatarURL() })
       .setTimestamp();
@@ -790,14 +790,14 @@ client.on('messageCreate', async (message) => {
   
   else if (command === 'addprofit') {
     if (!isAdmin(message.member)) {
-      return message.reply({ embeds: [createErrorEmbed('VocÃª nÃ£o tem permissÃ£o para usar este comando.')] });
+      return message.reply({ embeds: [createErrorEmbed('Voce nao tem permissao para usar este comando.')] });
     }
     
     const user = message.mentions.users.first();
     const amount = parseInt(args[1]);
     
     if (!user || isNaN(amount)) {
-      return message.reply({ embeds: [createErrorEmbed('Uso: `$addprofit <@user> <quantidade>` (use negativo para remover)')] });
+      return message.reply({ embeds: [createErrorEmbed('Uso: `$addprofit <@user> <quantidade>` (use negativo para remover)')]});
     }
     
     if (!botData.users[user.id]) botData.users[user.id] = { profit: 0, notes: 0, history: [] };
@@ -822,7 +822,7 @@ client.on('messageCreate', async (message) => {
   
   else if (command === 'tprofit') {
     if (!isAdmin(message.member)) {
-      return message.reply({ embeds: [createErrorEmbed('VocÃª nÃ£o tem permissÃ£o para usar este comando.')] });
+      return message.reply({ embeds: [createErrorEmbed('Voce nao tem permissao para usar este comando.')] });
     }
     
     const user = message.mentions.users.first();
@@ -849,7 +849,7 @@ client.on('messageCreate', async (message) => {
   
   else if (command === 'profit') {
     if (!isStaff(message.member)) {
-      return message.reply({ embeds: [createErrorEmbed('VocÃª nÃ£o tem permissÃ£o para usar este comando.')] });
+      return message.reply({ embeds: [createErrorEmbed('Voce nao tem permissao para usar este comando.')] });
     }
     
     const user = message.mentions.users.first() || message.author;
@@ -857,8 +857,8 @@ client.on('messageCreate', async (message) => {
     
     const embed = new EmbedBuilder()
       .setColor('#5865F2')
-      .setTitle('ð° Lucro do UsuÃ¡rio')
-      .setDescription(`InformaÃ§Ãµes de lucro de ${user.username}`)
+      .setTitle('ð° Lucro do Usuario')
+      .setDescription(`Informacoes de lucro de ${user.username}`)
       .addFields(
         { name: 'Lucro Total', value: `$${userData.profit || 0}`, inline: true }
       )
@@ -870,7 +870,7 @@ client.on('messageCreate', async (message) => {
   
   else if (command === 'tnotes') {
     if (!isAdmin(message.member)) {
-      return message.reply({ embeds: [createErrorEmbed('VocÃª nÃ£o tem permissÃ£o para usar este comando.')] });
+      return message.reply({ embeds: [createErrorEmbed('Voce nao tem permissao para usar este comando.')] });
     }
     
     const user = message.mentions.users.first();
@@ -897,15 +897,15 @@ client.on('messageCreate', async (message) => {
   
   else if (command === 'addnote') {
     if (!isAdmin(message.member)) {
-      return message.reply({ embeds: [createErrorEmbed('VocÃª nÃ£o tem permissÃ£o para usar este comando.')] });
+      return message.reply({ embeds: [createErrorEmbed('Voce nao tem permissao para usar este comando.')] });
     }
     
     const user = message.mentions.users.first();
     const amount = parseInt(args[1]);
-    const sidenote = args.slice(2).join(' ') || 'Sem observaÃ§Ã£o';
+    const sidenote = args.slice(2).join(' ') || 'Sem observacao';
     
     if (!user || isNaN(amount)) {
-      return message.reply({ embeds: [createErrorEmbed('Uso: `$addnote <@user> <quantidade> [observacao]` (use negativo para remover)')] });
+      return message.reply({ embeds: [createErrorEmbed('Uso: `$addnote <@user> <quantidade> [observacao]` (use negativo para remover)')]});
     }
     
     if (!botData.users[user.id]) botData.users[user.id] = { profit: 0, notes: 0, history: [] };
@@ -920,7 +920,7 @@ client.on('messageCreate', async (message) => {
       .setDescription(`${action} ${Math.abs(amount)} notas ${amount >= 0 ? 'para' : 'de'} ${user.username}`)
       .addFields(
         { name: 'Total de Notas', value: `${botData.users[user.id].notes}`, inline: true },
-        { name: 'ObservaÃ§Ã£o', value: sidenote, inline: false }
+        { name: 'Observacao', value: sidenote, inline: false }
       )
       .setFooter({ text: 'Sistema de Notas', iconURL: client.user.displayAvatarURL() })
       .setTimestamp();
@@ -931,7 +931,7 @@ client.on('messageCreate', async (message) => {
   
   else if (command === 'notes') {
     if (!isStaff(message.member)) {
-      return message.reply({ embeds: [createErrorEmbed('VocÃª nÃ£o tem permissÃ£o para usar este comando.')] });
+      return message.reply({ embeds: [createErrorEmbed('Voce nao tem permissao para usar este comando.')] });
     }
     
     const user = message.mentions.users.first() || message.author;
@@ -939,15 +939,15 @@ client.on('messageCreate', async (message) => {
     
     const noteHistory = userData.history?.filter(h => h.type === 'note').slice(-5).map(h => 
       `â¢ ${h.amount > 0 ? '+' : ''}${h.amount} notas - ${h.sidenote || 'Sem nota'} (${new Date(h.date).toLocaleDateString()})`
-    ).join('\n') || 'Sem histÃ³rico de notas';
+    ).join('\n') || 'Sem historico de notas';
     
     const embed = new EmbedBuilder()
       .setColor('#5865F2')
-      .setTitle('ð Notas do UsuÃ¡rio')
-      .setDescription(`InformaÃ§Ãµes de notas de ${user.username}`)
+      .setTitle('ð Notas do Usuario')
+      .setDescription(`Informacoes de notas de ${user.username}`)
       .addFields(
         { name: 'Total de Notas', value: `${userData.notes || 0}`, inline: true },
-        { name: 'HistÃ³rico Recente', value: noteHistory, inline: false }
+        { name: 'Historico Recente', value: noteHistory, inline: false }
       )
       .setFooter({ text: 'Sistema de Notas', iconURL: client.user.displayAvatarURL() })
       .setTimestamp();
@@ -957,7 +957,7 @@ client.on('messageCreate', async (message) => {
   
   else if (command === 'search') {
     if (!isStaff(message.member)) {
-      return message.reply({ embeds: [createErrorEmbed('VocÃª nÃ£o tem permissÃ£o para usar este comando.')] });
+      return message.reply({ embeds: [createErrorEmbed('Voce nao tem permissao para usar este comando.')] });
     }
     
     const user = message.mentions.users.first() || message.author;
@@ -966,11 +966,11 @@ client.on('messageCreate', async (message) => {
     const embed = new EmbedBuilder()
       .setColor('#5865F2')
       .setTitle('ð Resultados da Pesquisa')
-      .setDescription(`InformaÃ§Ãµes de ${user.username}`)
+      .setDescription(`Informacoes de ${user.username}`)
       .addFields(
         { name: 'ð° Lucro Total', value: `$${userData.profit || 0}`, inline: true },
         { name: 'ð Total de Notas', value: `${userData.notes || 0}`, inline: true },
-        { name: 'ð Entradas no HistÃ³rico', value: `${userData.history?.length || 0}`, inline: true }
+        { name: 'ð Entradas no Historico', value: `${userData.history?.length || 0}`, inline: true }
       )
       .setFooter({ text: 'Sistema de Pesquisa', iconURL: client.user.displayAvatarURL() })
       .setTimestamp();
@@ -980,7 +980,7 @@ client.on('messageCreate', async (message) => {
   
   else if (command === 'role_ids') {
     if (!isAdmin(message.member)) {
-      return message.reply({ embeds: [createErrorEmbed('VocÃª nÃ£o tem permissÃ£o para usar este comando.')] });
+      return message.reply({ embeds: [createErrorEmbed('Voce nao tem permissao para usar este comando.')] });
     }
     
     const role = message.mentions.roles.first();
@@ -1007,11 +1007,11 @@ client.on('messageCreate', async (message) => {
   
   else if (command === 'ban') {
     if (!isAdmin(message.member)) {
-      return message.reply({ embeds: [createErrorEmbed('VocÃª nÃ£o tem permissÃ£o para usar este comando.')] });
+      return message.reply({ embeds: [createErrorEmbed('Voce nao tem permissao para usar este comando.')] });
     }
     
     const user = message.mentions.users.first();
-    const reason = args.slice(1).join(' ') || 'Motivo nÃ£o fornecido';
+    const reason = args.slice(1).join(' ') || 'Motivo nao fornecido';
     
     if (!user) {
       return message.reply({ embeds: [createErrorEmbed('Uso: `$ban <@user> [motivo]`')] });
@@ -1019,7 +1019,7 @@ client.on('messageCreate', async (message) => {
     
     const member = message.guild.members.cache.get(user.id);
     if (!member) {
-      return message.reply({ embeds: [createErrorEmbed('UsuÃ¡rio nÃ£o encontrado neste servidor.')] });
+      return message.reply({ embeds: [createErrorEmbed('Usuario nao encontrado neste servidor.')] });
     }
     
     try {
@@ -1027,26 +1027,26 @@ client.on('messageCreate', async (message) => {
       
       const embed = new EmbedBuilder()
         .setColor('#ED4245')
-        .setTitle('ð¨ UsuÃ¡rio Banido')
+        .setTitle('ð¨ Usuario Banido')
         .setDescription(`${user.username} foi banido`)
         .addFields({ name: 'Motivo', value: reason, inline: false })
-        .setFooter({ text: 'ModeraÃ§Ã£o', iconURL: client.user.displayAvatarURL() })
+        .setFooter({ text: 'Moderacao', iconURL: client.user.displayAvatarURL() })
         .setTimestamp();
       
       message.channel.send({ embeds: [embed] });
-      await log(message.guild, 'ð¨ UsuÃ¡rio Banido', `${user.tag} foi banido por ${message.author.tag}. Motivo: ${reason}`, '#ED4245');
+      await log(message.guild, 'ð¨ Usuario Banido', `${user.tag} foi banido por ${message.author.tag}. Motivo: ${reason}`, '#ED4245');
     } catch (error) {
-      message.reply({ embeds: [createErrorEmbed('Erro ao banir usuÃ¡rio. Verifique as permissÃµes.')] });
+      message.reply({ embeds: [createErrorEmbed('Erro ao banir usuario. Verifique as permissoes.')] });
     }
   }
   
   else if (command === 'kick') {
     if (!isAdmin(message.member)) {
-      return message.reply({ embeds: [createErrorEmbed('VocÃª nÃ£o tem permissÃ£o para usar este comando.')] });
+      return message.reply({ embeds: [createErrorEmbed('Voce nao tem permissao para usar este comando.')] });
     }
     
     const user = message.mentions.users.first();
-    const reason = args.slice(1).join(' ') || 'Motivo nÃ£o fornecido';
+    const reason = args.slice(1).join(' ') || 'Motivo nao fornecido';
     
     if (!user) {
       return message.reply({ embeds: [createErrorEmbed('Uso: `$kick <@user> [motivo]`')] });
@@ -1054,7 +1054,7 @@ client.on('messageCreate', async (message) => {
     
     const member = message.guild.members.cache.get(user.id);
     if (!member) {
-      return message.reply({ embeds: [createErrorEmbed('UsuÃ¡rio nÃ£o encontrado neste servidor.')] });
+      return message.reply({ embeds: [createErrorEmbed('Usuario nao encontrado neste servidor.')] });
     }
     
     try {
@@ -1062,26 +1062,26 @@ client.on('messageCreate', async (message) => {
       
       const embed = new EmbedBuilder()
         .setColor('#FEE75C')
-        .setTitle('ð¢ UsuÃ¡rio Expulso')
+        .setTitle('ð¢ Usuario Expulso')
         .setDescription(`${user.username} foi expulso`)
         .addFields({ name: 'Motivo', value: reason, inline: false })
-        .setFooter({ text: 'ModeraÃ§Ã£o', iconURL: client.user.displayAvatarURL() })
+        .setFooter({ text: 'Moderacao', iconURL: client.user.displayAvatarURL() })
         .setTimestamp();
       
       message.channel.send({ embeds: [embed] });
-      await log(message.guild, 'ð¢ UsuÃ¡rio Expulso', `${user.tag} foi expulso por ${message.author.tag}. Motivo: ${reason}`, '#FEE75C');
+      await log(message.guild, 'ð¢ Usuario Expulso', `${user.tag} foi expulso por ${message.author.tag}. Motivo: ${reason}`, '#FEE75C');
     } catch (error) {
-      message.reply({ embeds: [createErrorEmbed('Erro ao expulsar usuÃ¡rio. Verifique as permissÃµes.')] });
+      message.reply({ embeds: [createErrorEmbed('Erro ao expulsar usuario. Verifique as permissoes.')] });
     }
   }
   
   else if (command === 'hackban') {
     if (!isAdmin(message.member)) {
-      return message.reply({ embeds: [createErrorEmbed('VocÃª nÃ£o tem permissÃ£o para usar este comando.')] });
+      return message.reply({ embeds: [createErrorEmbed('Voce nao tem permissao para usar este comando.')] });
     }
     
     const userId = args[0];
-    const reason = args.slice(1).join(' ') || 'Motivo nÃ£o fornecido';
+    const reason = args.slice(1).join(' ') || 'Motivo nao fornecido';
     
     if (!userId) {
       return message.reply({ embeds: [createErrorEmbed('Uso: `$hackban <user_id> [motivo]`')] });
@@ -1092,26 +1092,26 @@ client.on('messageCreate', async (message) => {
       
       const embed = new EmbedBuilder()
         .setColor('#ED4245')
-        .setTitle('ð¨ UsuÃ¡rio Hackbanido')
-        .setDescription(`ID de usuÃ¡rio ${userId} foi banido`)
+        .setTitle('ð¨ Usuario Hackbanido')
+        .setDescription(`ID de usuario ${userId} foi banido`)
         .addFields({ name: 'Motivo', value: reason, inline: false })
-        .setFooter({ text: 'ModeraÃ§Ã£o', iconURL: client.user.displayAvatarURL() })
+        .setFooter({ text: 'Moderacao', iconURL: client.user.displayAvatarURL() })
         .setTimestamp();
       
       message.channel.send({ embeds: [embed] });
-      await log(message.guild, 'ð¨ UsuÃ¡rio Hackbanido', `ID ${userId} foi banido por ${message.author.tag}. Motivo: ${reason}`, '#ED4245');
+      await log(message.guild, 'ð¨ Usuario Hackbanido', `ID ${userId} foi banido por ${message.author.tag}. Motivo: ${reason}`, '#ED4245');
     } catch (error) {
-      message.reply({ embeds: [createErrorEmbed('Erro ao banir usuÃ¡rio. Verifique se o ID Ã© vÃ¡lido.')] });
+      message.reply({ embeds: [createErrorEmbed('Erro ao banir usuario. Verifique se o ID e valido.')] });
     }
   }
   
   else if (command === 'softban') {
     if (!isAdmin(message.member)) {
-      return message.reply({ embeds: [createErrorEmbed('VocÃª nÃ£o tem permissÃ£o para usar este comando.')] });
+      return message.reply({ embeds: [createErrorEmbed('Voce nao tem permissao para usar este comando.')] });
     }
     
     const user = message.mentions.users.first();
-    const reason = args.slice(1).join(' ') || 'Motivo nÃ£o fornecido';
+    const reason = args.slice(1).join(' ') || 'Motivo nao fornecido';
     
     if (!user) {
       return message.reply({ embeds: [createErrorEmbed('Uso: `$softban <@user> [motivo]`')] });
@@ -1119,7 +1119,7 @@ client.on('messageCreate', async (message) => {
     
     const member = message.guild.members.cache.get(user.id);
     if (!member) {
-      return message.reply({ embeds: [createErrorEmbed('UsuÃ¡rio nÃ£o encontrado neste servidor.')] });
+      return message.reply({ embeds: [createErrorEmbed('Usuario nao encontrado neste servidor.')] });
     }
     
     try {
@@ -1128,28 +1128,28 @@ client.on('messageCreate', async (message) => {
       
       const embed = new EmbedBuilder()
         .setColor('#ED4245')
-        .setTitle('ð¨ UsuÃ¡rio Softbanido')
+        .setTitle('ð¨ Usuario Softbanido')
         .setDescription(`${user.username} foi softbanido (mensagens deletadas)`)
         .addFields({ name: 'Motivo', value: reason, inline: false })
-        .setFooter({ text: 'ModeraÃ§Ã£o', iconURL: client.user.displayAvatarURL() })
+        .setFooter({ text: 'Moderacao', iconURL: client.user.displayAvatarURL() })
         .setTimestamp();
       
       message.channel.send({ embeds: [embed] });
-      await log(message.guild, 'ð¨ UsuÃ¡rio Softbanido', `${user.tag} foi softbanido por ${message.author.tag}. Motivo: ${reason}`, '#ED4245');
+      await log(message.guild, 'ð¨ Usuario Softbanido', `${user.tag} foi softbanido por ${message.author.tag}. Motivo: ${reason}`, '#ED4245');
     } catch (error) {
-      message.reply({ embeds: [createErrorEmbed('Erro ao softbanir usuÃ¡rio. Verifique as permissÃµes.')] });
+      message.reply({ embeds: [createErrorEmbed('Erro ao softbanir usuario. Verifique as permissoes.')] });
     }
   }
   
   // FIXED TIMEOUT COMMAND
   else if (command === 'timeout') {
     if (!isStaff(message.member)) {
-      return message.reply({ embeds: [createErrorEmbed('VocÃª nÃ£o tem permissÃ£o para usar este comando.')] });
+      return message.reply({ embeds: [createErrorEmbed('Voce nao tem permissao para usar este comando.')] });
     }
     
     const user = message.mentions.users.first();
     const durationStr = args[1];
-    const reason = args.slice(2).join(' ') || 'Motivo nÃ£o fornecido';
+    const reason = args.slice(2).join(' ') || 'Motivo nao fornecido';
     
     if (!user || !durationStr) {
       return message.reply({ embeds: [createErrorEmbed('Uso: `$timeout <@user> <duracao> [motivo]`\nExemplo: `$timeout @user 10m spam`')] });
@@ -1157,17 +1157,17 @@ client.on('messageCreate', async (message) => {
     
     const member = message.guild.members.cache.get(user.id);
     if (!member) {
-      return message.reply({ embeds: [createErrorEmbed('UsuÃ¡rio nÃ£o encontrado neste servidor.')] });
+      return message.reply({ embeds: [createErrorEmbed('Usuario nao encontrado neste servidor.')] });
     }
     
     const ms = parseDuration(durationStr);
     if (!ms) {
-      return message.reply({ embeds: [createErrorEmbed('DuraÃ§Ã£o invÃ¡lida. Use formato como: 10m, 2h, 1d, 7d')] });
+      return message.reply({ embeds: [createErrorEmbed('Duracao invalida. Use formato como: 10m, 2h, 1d, 7d')] });
     }
     
     // Max timeout is 28 days in Discord
     if (ms > 2419200000) {
-      return message.reply({ embeds: [createErrorEmbed('DuraÃ§Ã£o mÃ¡xima Ã© 28 dias (4 semanas).')] });
+      return message.reply({ embeds: [createErrorEmbed('Duracao maxima e 28 dias (4 semanas).')] });
     }
     
     try {
@@ -1177,31 +1177,31 @@ client.on('messageCreate', async (message) => {
       
       const embed = new EmbedBuilder()
         .setColor('#FEE75C')
-        .setTitle('â±ï¸ UsuÃ¡rio Silenciado')
+        .setTitle('â±ï¸ Usuario Silenciado')
         .setDescription(`${user.username} foi silenciado`)
         .addFields(
-          { name: 'DuraÃ§Ã£o', value: durationStr, inline: true },
+          { name: 'Duracao', value: durationStr, inline: true },
           { name: 'Motivo', value: reason, inline: false }
         )
-        .setFooter({ text: 'ModeraÃ§Ã£o', iconURL: client.user.displayAvatarURL() })
+        .setFooter({ text: 'Moderacao', iconURL: client.user.displayAvatarURL() })
         .setTimestamp();
       
       message.channel.send({ embeds: [embed] });
-      await log(message.guild, 'â±ï¸ UsuÃ¡rio Silenciado', `${user.tag} foi silenciado por ${durationStr} por ${message.author.tag}. Motivo: ${reason}`, '#FEE75C');
+      await log(message.guild, 'â±ï¸ Usuario Silenciado', `${user.tag} foi silenciado por ${durationStr} por ${message.author.tag}. Motivo: ${reason}`, '#FEE75C');
     } catch (error) {
       console.error('Timeout error:', error);
-      message.reply({ embeds: [createErrorEmbed('Erro ao silenciar usuÃ¡rio. Verifique as permissÃµes e se o bot estÃ¡ acima do usuÃ¡rio na hierarquia.')] });
+      message.reply({ embeds: [createErrorEmbed('Erro ao silenciar usuario. Verifique as permissoes e se o bot esta acima do usuario na hierarquia.')] });
     }
   }
   
   // FIXED UNTIMEOUT COMMAND
   else if (command === 'untimeout') {
     if (!isStaff(message.member)) {
-      return message.reply({ embeds: [createErrorEmbed('VocÃª nÃ£o tem permissÃ£o para usar este comando.')] });
+      return message.reply({ embeds: [createErrorEmbed('Voce nao tem permissao para usar este comando.')] });
     }
     
     const user = message.mentions.users.first();
-    const reason = args.slice(1).join(' ') || 'Motivo nÃ£o fornecido';
+    const reason = args.slice(1).join(' ') || 'Motivo nao fornecido';
     
     if (!user) {
       return message.reply({ embeds: [createErrorEmbed('Uso: `$untimeout <@user> [motivo]`')] });
@@ -1209,7 +1209,7 @@ client.on('messageCreate', async (message) => {
     
     const member = message.guild.members.cache.get(user.id);
     if (!member) {
-      return message.reply({ embeds: [createErrorEmbed('UsuÃ¡rio nÃ£o encontrado neste servidor.')] });
+      return message.reply({ embeds: [createErrorEmbed('Usuario nao encontrado neste servidor.')] });
     }
     
     try {
@@ -1221,20 +1221,20 @@ client.on('messageCreate', async (message) => {
         .setTitle('â Silenciamento Removido')
         .setDescription(`O silenciamento de ${user.username} foi removido`)
         .addFields({ name: 'Motivo', value: reason, inline: false })
-        .setFooter({ text: 'ModeraÃ§Ã£o', iconURL: client.user.displayAvatarURL() })
+        .setFooter({ text: 'Moderacao', iconURL: client.user.displayAvatarURL() })
         .setTimestamp();
       
       message.channel.send({ embeds: [embed] });
       await log(message.guild, 'â Silenciamento Removido', `Silenciamento de ${user.tag} removido por ${message.author.tag}. Motivo: ${reason}`, '#57F287');
     } catch (error) {
       console.error('Untimeout error:', error);
-      message.reply({ embeds: [createErrorEmbed('Erro ao remover silenciamento. Verifique as permissÃµes.')] });
+      message.reply({ embeds: [createErrorEmbed('Erro ao remover silenciamento. Verifique as permissoes.')] });
     }
   }
   
   else if (command === 'unban') {
     if (!isAdmin(message.member)) {
-      return message.reply({ embeds: [createErrorEmbed('VocÃª nÃ£o tem permissÃ£o para usar este comando.')] });
+      return message.reply({ embeds: [createErrorEmbed('Voce nao tem permissao para usar este comando.')] });
     }
     
     const userId = args[0];
@@ -1247,21 +1247,21 @@ client.on('messageCreate', async (message) => {
       
       const embed = new EmbedBuilder()
         .setColor('#57F287')
-        .setTitle('â UsuÃ¡rio Desbanido')
-        .setDescription(`ID de usuÃ¡rio ${userId} foi desbanido`)
-        .setFooter({ text: 'ModeraÃ§Ã£o', iconURL: client.user.displayAvatarURL() })
+        .setTitle('â Usuario Desbanido')
+        .setDescription(`ID de usuario ${userId} foi desbanido`)
+        .setFooter({ text: 'Moderacao', iconURL: client.user.displayAvatarURL() })
         .setTimestamp();
       
       message.channel.send({ embeds: [embed] });
-      await log(message.guild, 'â UsuÃ¡rio Desbanido', `ID ${userId} foi desbanido por ${message.author.tag}`, '#57F287');
+      await log(message.guild, 'â Usuario Desbanido', `ID ${userId} foi desbanido por ${message.author.tag}`, '#57F287');
     } catch (error) {
-      message.reply({ embeds: [createErrorEmbed('Erro ao desbanir usuÃ¡rio. Verifique se o ID estÃ¡ correto.')] });
+      message.reply({ embeds: [createErrorEmbed('Erro ao desbanir usuario. Verifique se o ID esta correto.')] });
     }
   }
   
   else if (command === 'unhackban') {
     if (!isAdmin(message.member)) {
-      return message.reply({ embeds: [createErrorEmbed('VocÃª nÃ£o tem permissÃ£o para usar este comando.')] });
+      return message.reply({ embeds: [createErrorEmbed('Voce nao tem permissao para usar este comando.')] });
     }
     
     const userId = args[0];
@@ -1275,14 +1275,14 @@ client.on('messageCreate', async (message) => {
       const embed = new EmbedBuilder()
         .setColor('#57F287')
         .setTitle('â Hackban Removido')
-        .setDescription(`ID de usuÃ¡rio ${userId} foi desbanido`)
-        .setFooter({ text: 'ModeraÃ§Ã£o', iconURL: client.user.displayAvatarURL() })
+        .setDescription(`ID de usuario ${userId} foi desbanido`)
+        .setFooter({ text: 'Moderacao', iconURL: client.user.displayAvatarURL() })
         .setTimestamp();
       
       message.channel.send({ embeds: [embed] });
       await log(message.guild, 'â Hackban Removido', `ID ${userId} foi desbanido por ${message.author.tag}`, '#57F287');
     } catch (error) {
-      message.reply({ embeds: [createErrorEmbed('Erro ao remover hackban. Verifique se o ID estÃ¡ correto.')] });
+      message.reply({ embeds: [createErrorEmbed('Erro ao remover hackban. Verifique se o ID esta correto.')] });
     }
   }
   
@@ -1290,7 +1290,7 @@ client.on('messageCreate', async (message) => {
   
   else if (command === 'embed') {
     if (!isAdmin(message.member)) {
-      return message.reply({ embeds: [createErrorEmbed('VocÃª nÃ£o tem permissÃ£o para usar este comando.')] });
+      return message.reply({ embeds: [createErrorEmbed('Voce nao tem permissao para usar este comando.')] });
     }
     
     const channelId = args[0];
@@ -1300,7 +1300,7 @@ client.on('messageCreate', async (message) => {
     
     const channel = await client.channels.fetch(channelId.replace(/[<#>]/g, '')).catch(() => null);
     if (!channel) {
-      return message.reply({ embeds: [createErrorEmbed('Canal nÃ£o encontrado.')] });
+      return message.reply({ embeds: [createErrorEmbed('Canal nao encontrado.')] });
     }
     
     const filter = m => m.author.id === message.author.id;
@@ -1324,7 +1324,7 @@ client.on('messageCreate', async (message) => {
   
   else if (command === 'hit') {
     if (!isStaff(message.member)) {
-      return message.reply({ embeds: [createErrorEmbed('VocÃª nÃ£o tem permissÃ£o para usar este comando.')] });
+      return message.reply({ embeds: [createErrorEmbed('Voce nao tem permissao para usar este comando.')] });
     }
     
     const user = message.mentions.users.first();
@@ -1335,7 +1335,7 @@ client.on('messageCreate', async (message) => {
     const embed = new EmbedBuilder()
       .setColor('#5865F2')
       .setTitle('ð¯ Mensagem de Hit')
-      .setDescription(`Ei ${user}, vocÃª foi hitado! Por favor responda esta mensagem.`)
+      .setDescription(`Ei ${user}, voce foi hitado! Por favor responda esta mensagem.`)
       .setFooter({ text: 'Sistema de Hit', iconURL: client.user.displayAvatarURL() })
       .setTimestamp();
     
@@ -1344,18 +1344,18 @@ client.on('messageCreate', async (message) => {
   
   else if (command === 'tutorial') {
     if (!isStaff(message.member)) {
-      return message.reply({ embeds: [createErrorEmbed('VocÃª nÃ£o tem permissÃ£o para usar este comando.')] });
+      return message.reply({ embeds: [createErrorEmbed('Voce nao tem permissao para usar este comando.')] });
     }
     
     const embed = new EmbedBuilder()
       .setColor('#5865F2')
-      .setTitle('ð Como Usar Nosso ServiÃ§o de Middleman')
-      .setDescription('Bem-vindo! Veja como funciona nosso serviÃ§o de middleman:')
+      .setTitle('ð Como Usar Nosso Servico de Middleman')
+      .setDescription('Bem-vindo! Veja como funciona nosso servico de middleman:')
       .addFields(
         { name: 'ð Passo 1', value: 'Crie um ticket usando o menu abaixo ou digite `$close` para fechar seu ticket.', inline: false },
         { name: 'ð¤ Passo 2', value: 'Aguarde um middleman reivindicar seu ticket.', inline: false },
-        { name: 'ð° Passo 3', value: 'Siga as instruÃ§Ãµes do middleman para completar sua troca com seguranÃ§a.', inline: false },
-        { name: 'â Passo 4', value: 'Quando a troca for concluÃ­da, deixe um vouch usando `$vouch @middleman <mensagem>`!', inline: false }
+        { name: 'ð° Passo 3', value: 'Siga as instrucoes do middleman para completar sua troca com seguranca.', inline: false },
+        { name: 'â Passo 4', value: 'Quando a troca for concluida, deixe um vouch usando `$vouch @middleman <mensagem>`!', inline: false }
       )
       .setFooter({ text: 'Tutorial', iconURL: client.user.displayAvatarURL() })
       .setTimestamp();
@@ -1366,12 +1366,12 @@ client.on('messageCreate', async (message) => {
   else if (command === 'taxamm') {
     const embed = new EmbedBuilder()
       .setColor('#5865F2')
-      .setTitle('ð° DecisÃ£o de Taxa do Middleman')
-      .setDescription('Selecione quem pagarÃ¡ a taxa do middleman:')
+      .setTitle('ð° Decisao de Taxa do Middleman')
+      .setDescription('Selecione quem pagara a taxa do middleman:')
       .addFields(
-        { name: 'OpÃ§Ã£o 1', value: 'Comprador paga a taxa', inline: true },
-        { name: 'OpÃ§Ã£o 2', value: 'Vendedor paga a taxa', inline: true },
-        { name: 'OpÃ§Ã£o 3', value: 'Dividir 50/50', inline: true }
+        { name: 'Opcao 1', value: 'Comprador paga a taxa', inline: true },
+        { name: 'Opcao 2', value: 'Vendedor paga a taxa', inline: true },
+        { name: 'Opcao 3', value: 'Dividir 50/50', inline: true }
       )
       .setFooter({ text: 'Sistema de Taxas', iconURL: client.user.displayAvatarURL() })
       .setTimestamp();
@@ -1406,11 +1406,11 @@ client.on('messageCreate', async (message) => {
   
   else if (command === 'unclaim') {
     if (!isMiddleman(message.member)) {
-      return message.reply({ embeds: [createErrorEmbed('Apenas middlemen podem desfazer reivindicaÃ§Ã£o.')] });
+      return message.reply({ embeds: [createErrorEmbed('Apenas middlemen podem desfazer reivindicacao.')] });
     }
     
     if (botData.tickets[message.channel.id]?.claimedBy !== message.author.id && !isAdmin(message.member)) {
-      return message.reply({ embeds: [createErrorEmbed('VocÃª sÃ³ pode desfazer reivindicaÃ§Ã£o de tickets que vocÃª reivindicou.')] });
+      return message.reply({ embeds: [createErrorEmbed('Voce so pode desfazer reivindicacao de tickets que voce reivindicou.')] });
     }
     
     if (botData.tickets[message.channel.id]) {
@@ -1421,7 +1421,7 @@ client.on('messageCreate', async (message) => {
     const embed = new EmbedBuilder()
       .setColor('#FEE75C')
       .setTitle('ð Ticket Liberado')
-      .setDescription(`Este ticket agora estÃ¡ liberado`)
+      .setDescription(`Este ticket agora esta liberado`)
       .setFooter({ text: 'Sistema de Tickets', iconURL: client.user.displayAvatarURL() })
       .setTimestamp();
     
@@ -1435,7 +1435,7 @@ client.on('messageCreate', async (message) => {
     if (!isStaff(message.member) && ticket?.claimedBy !== message.author.id) {
       const channelName = message.channel.name;
       if (!channelName.includes(message.author.username.toLowerCase()) && !isStaff(message.member)) {
-        return message.reply({ embeds: [createErrorEmbed('VocÃª nÃ£o tem permissÃ£o para fechar este ticket.')] });
+        return message.reply({ embeds: [createErrorEmbed('Voce nao tem permissao para fechar este ticket.')] });
       }
     }
     
@@ -1446,7 +1446,7 @@ client.on('messageCreate', async (message) => {
     const embed = new EmbedBuilder()
       .setColor('#ED4245')
       .setTitle('ð Fechando Ticket')
-      .setDescription('Este ticket serÃ¡ fechado em 5 segundos...')
+      .setDescription('Este ticket sera fechado em 5 segundos...')
       .setFooter({ text: 'Sistema de Tickets', iconURL: client.user.displayAvatarURL() })
       .setTimestamp();
     
@@ -1486,7 +1486,7 @@ client.on('messageCreate', async (message) => {
     
     const member = message.guild.members.cache.get(user.id);
     if (!isMiddleman(member)) {
-      return message.reply({ embeds: [createErrorEmbed('SÃ³ pode transferir para outros middlemen.')] });
+      return message.reply({ embeds: [createErrorEmbed('So pode transferir para outros middlemen.')] });
     }
     
     if (!botData.tickets[message.channel.id]) {
@@ -1509,7 +1509,7 @@ client.on('messageCreate', async (message) => {
   
   else if (command === 'adicionar') {
     if (!isMiddleman(message.member)) {
-      return message.reply({ embeds: [createErrorEmbed('Apenas middlemen podem adicionar usuÃ¡rios aos tickets.')] });
+      return message.reply({ embeds: [createErrorEmbed('Apenas middlemen podem adicionar usuarios aos tickets.')] });
     }
     
     const user = message.mentions.users.first();
@@ -1529,7 +1529,7 @@ client.on('messageCreate', async (message) => {
     
     const embed = new EmbedBuilder()
       .setColor('#57F287')
-      .setTitle('â UsuÃ¡rio Adicionado')
+      .setTitle('â Usuario Adicionado')
       .setDescription(`${user.username} foi adicionado a este ticket`)
       .setFooter({ text: 'Sistema de Tickets', iconURL: client.user.displayAvatarURL() })
       .setTimestamp();
@@ -1539,7 +1539,7 @@ client.on('messageCreate', async (message) => {
   
   else if (command === 'remover') {
     if (!isMiddleman(message.member)) {
-      return message.reply({ embeds: [createErrorEmbed('Apenas middlemen podem remover usuÃ¡rios dos tickets.')] });
+      return message.reply({ embeds: [createErrorEmbed('Apenas middlemen podem remover usuarios dos tickets.')] });
     }
     
     const user = message.mentions.users.first();
@@ -1556,7 +1556,7 @@ client.on('messageCreate', async (message) => {
     
     const embed = new EmbedBuilder()
       .setColor('#ED4245')
-      .setTitle('â UsuÃ¡rio Removido')
+      .setTitle('â Usuario Removido')
       .setDescription(`${user.username} foi removido deste ticket`)
       .setFooter({ text: 'Sistema de Tickets', iconURL: client.user.displayAvatarURL() })
       .setTimestamp();
@@ -1583,14 +1583,14 @@ client.on('messageCreate', async (message) => {
       
       const embed = new EmbedBuilder()
         .setColor('#57F287')
-        .setTitle('â UsuÃ¡rio Adicionado')
+        .setTitle('â Usuario Adicionado')
         .setDescription(`${member.user.username} foi adicionado a este ticket`)
         .setFooter({ text: 'Sistema de Tickets', iconURL: client.user.displayAvatarURL() })
         .setTimestamp();
       
       message.channel.send({ embeds: [embed] });
     } catch (error) {
-      return message.reply({ embeds: [createErrorEmbed('UsuÃ¡rio nÃ£o encontrado neste servidor.')] });
+      return message.reply({ embeds: [createErrorEmbed('Usuario nao encontrado neste servidor.')] });
     }
   }
 });
@@ -1604,7 +1604,7 @@ client.on('interactionCreate', async (interaction) => {
   
   if (customId === 'support_ticket') {
     if (!botData.supportCategory) {
-      return interaction.reply({ embeds: [createErrorEmbed('Categoria de suporte nÃ£o definida. Contate um admin.')], ephemeral: true });
+      return interaction.reply({ embeds: [createErrorEmbed('Categoria de suporte nao definida. Contate um admin.')], ephemeral: true });
     }
     
     botData.ticketCounter++;
@@ -1643,7 +1643,7 @@ client.on('interactionCreate', async (interaction) => {
     const embed = new EmbedBuilder()
       .setColor('#5865F2')
       .setTitle('ð« Ticket de Suporte')
-      .setDescription(`Bem-vindo <@${user.id}>! Um membro da staff irÃ¡ ajudÃ¡-lo em breve.\n\nTipo: **${typeLabels[value]}**`)
+      .setDescription(`Bem-vindo <@${user.id}>! Um membro da staff ira ajuda-lo em breve.\n\nTipo: **${typeLabels[value]}**`)
       .setFooter({ text: 'Sistema de Tickets', iconURL: client.user.displayAvatarURL() })
       .setTimestamp();
     
@@ -1654,7 +1654,7 @@ client.on('interactionCreate', async (interaction) => {
   
   else if (customId === 'middleman_ticket') {
     if (!botData.middlemanCategory) {
-      return interaction.reply({ embeds: [createErrorEmbed('Categoria de middleman nÃ£o definida. Contate um admin.')], ephemeral: true });
+      return interaction.reply({ embeds: [createErrorEmbed('Categoria de middleman nao definida. Contate um admin.')], ephemeral: true });
     }
     
     botData.ticketCounter++;
@@ -1694,10 +1694,10 @@ client.on('interactionCreate', async (interaction) => {
     saveData();
     
     const typeNames = {
-      'mm_100': 'atÃ© R$100',
-      'mm_250': 'atÃ© R$250',
-      'mm_500': 'atÃ© R$500',
-      'mm_1000': 'atÃ© R$1000',
+      'mm_100': 'ate R$100',
+      'mm_250': 'ate R$250',
+      'mm_500': 'ate R$500',
+      'mm_1000': 'ate R$1000',
       'mm_1000plus': 'a partir de R$1000',
       'crosstrade': 'CrossTrade'
     };
@@ -1705,7 +1705,7 @@ client.on('interactionCreate', async (interaction) => {
     const embed = new EmbedBuilder()
       .setColor('#5865F2')
       .setTitle('ð« Ticket de Middleman')
-      .setDescription(`Bem-vindo <@${user.id}>!\n\nTipo de NegociaÃ§Ã£o: **${typeNames[value]}**\n\nPor favor, forneÃ§a o ID da outra parte nesta troca (se houver). Use \`$add <user_id>\` para adicionÃ¡-los.`)
+      .setDescription(`Bem-vindo <@${user.id}>!\n\nTipo de Negociacao: **${typeNames[value]}**\n\nPor favor, forneca o ID da outra parte nesta troca (se houver). Use \`$add <user_id>\` para adiciona-los.`)
       .setFooter({ text: 'Sistema de Tickets', iconURL: client.user.displayAvatarURL() })
       .setTimestamp();
     
