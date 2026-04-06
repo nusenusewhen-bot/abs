@@ -5,6 +5,8 @@ const {
   PermissionsBitField, 
   ActionRowBuilder, 
   StringSelectMenuBuilder,
+  ButtonBuilder,
+  ButtonStyle,
   ChannelType,
   PermissionFlagsBits
 } = require('discord.js');
@@ -31,7 +33,12 @@ let botData = {
   voucherChannel: null,
   supportCategory: null,
   middlemanCategory: null,
+  auctionCategory: null,
+  rankCategory: null,
   logChannel: null,
+  equipeMiddlemanRole: null,
+  equipeStaffRole: null,
+  staffRolePing: null,
   users: {},
   tickets: {},
   autoVoucherEnabled: false,
@@ -250,11 +257,16 @@ client.on('messageCreate', async (message) => {
           '`$voucher <channelid>` - Definir canal de vouches\n' +
           '`$supportcategory <categoryid>` - Definir categoria de tickets de suporte\n' +
           '`$middlemancategory <categoryid>` - Definir categoria de tickets de middleman\n' +
-          '`$logchannel <channelid>` - Definir canal de logs'
+          '`$auctioncategory <categoryid>` - Definir categoria de leilao\n' +
+          '`$rankcategory <categoryid>` - Definir categoria de cargos\n' +
+          '`$logchannel <channelid>` - Definir canal de logs\n' +
+          '`$equipemiddleman <roleid>` - Definir cargo Equipe Middleman\n' +
+          '`$equipestaff <roleid>` - Definir cargo Equipe Staff\n' +
+          '`$staffping <roleid>` - Definir cargo Staff para ping'
         },
         { name: 'Comandos 2', value:
-          '`$ticket support` - Enviar painel de suporte\n' +
-          '`$ticket middleman` - Enviar painel de middleman\n' +
+          '`$ticket1` - Enviar painel "Crie seu leilao!"\n' +
+          '`$ticket2` - Enviar painel "Compre seu cargo!"\n' +
           '`$addprofit <@user> <quantidade>` - Adicionar/remover lucro (use negativo para remover)\n' +
           '`$tprofit <@user> <quantidade>` - Definir lucro do usuario\n' +
           '`$profit <@user>` - Mostrar lucro do usuario\n' +
@@ -331,7 +343,6 @@ client.on('messageCreate', async (message) => {
         { name: 'Comandos', value:
           '`$help` - Mostrar comandos publicos\n' +
           '`$close` - Fechar seu ticket atual\n' +
-          '`$taxamm` - Postar embed de decisao de taxa\n' +
           '`$vouch <@user> <mensagem>` - Enviar vouch para um usuario'
         }
       )
@@ -343,99 +354,82 @@ client.on('messageCreate', async (message) => {
   
   // ==================== TICKET PANELS ====================
   
-  else if (command === 'ticket') {
+  // $ticket1 - Crie seu leilao!
+  else if (command === 'ticket1') {
     if (!isAdmin(message.member)) {
       return message.reply({ embeds: [createErrorEmbed('Voce nao tem permissao para usar este comando.')] });
     }
     
-    const type = args[0]?.toLowerCase();
+    const embed = new EmbedBuilder()
+      .setColor('#5865F2')
+      .setTitle('Crie seu leilao!')
+      .setDescription('ð¨ â Clique no menu abaixo para criar seu leilao!');
     
-    if (type === 'support') {
-      const embed = new EmbedBuilder()
-        .setColor('#5865F2')
-        .setTitle('Suporte')
-        .setDescription('ð¨ â Solicitar suporte!\n\nSomente solicite suporte em casos de:\nDuvidas ou perguntas gerais;\nDenuncias de scam;\nPedir suporte.');
-      
-      const row = new ActionRowBuilder()
-        .addComponents(
-          new StringSelectMenuBuilder()
-            .setCustomId('support_ticket')
-            .setPlaceholder('Selecione o tipo de suporte')
-            .addOptions([
-              {
-                label: 'Duvidas ou perguntas gerais',
-                value: 'general',
-                description: 'Duvidas e perguntas gerais'
-              },
-              {
-                label: 'Denuncias de scam',
-                value: 'scam',
-                description: 'Reportar um scam'
-              },
-              {
-                label: 'Pedir suporte',
-                value: 'support',
-                description: 'Solicitar suporte'
-              }
-            ])
-        );
-      
-      await message.channel.send({ embeds: [embed], components: [row] });
-      await log(message.guild, 'ð« Painel de Suporte', `Painel de suporte criado por ${message.author.tag}`, '#57F287');
+    const row = new ActionRowBuilder()
+      .addComponents(
+        new StringSelectMenuBuilder()
+          .setCustomId('auction_ticket')
+          .setPlaceholder('Selecione o tipo de leilao')
+          .addOptions([
+            {
+              label: 'Leilao de Itens',
+              value: 'auction_items',
+              description: 'Criar leilao de itens'
+            },
+            {
+              label: 'Leilao de Conta',
+              value: 'auction_account',
+              description: 'Criar leilao de conta'
+            },
+            {
+              label: 'Outro Leilao',
+              value: 'auction_other',
+              description: 'Outro tipo de leilao'
+            }
+          ])
+      );
+    
+    await message.channel.send({ embeds: [embed], components: [row] });
+    await log(message.guild, 'ð« Painel de Leilao', `Painel "Crie seu leilao!" criado por ${message.author.tag}`, '#57F287');
+  }
+  
+  // $ticket2 - Compre seu cargo!
+  else if (command === 'ticket2') {
+    if (!isAdmin(message.member)) {
+      return message.reply({ embeds: [createErrorEmbed('Voce nao tem permissao para usar este comando.')] });
     }
     
-    else if (type === 'middleman') {
-      const embed = new EmbedBuilder()
-        .setColor('#5865F2')
-        .setTitle('Middleman')
-        .setDescription('ð¨ â Solicitar MM.\n\nTaxas normais.\n0.99R$ acima de 8R$.\n2.15R$ acima de 100R$.\n4.3R$ acima de 200R$.\n6.8R$ acima de 400R$.\n1.2% acima de 700R$.\nEm contas, e TAXA NORMAL + 2.00R$.\n\nTaxas CrossTrade.\n40c 2 itens\n60c 3+ itens');
-      
-      const row = new ActionRowBuilder()
-        .addComponents(
-          new StringSelectMenuBuilder()
-            .setCustomId('middleman_ticket')
-            .setPlaceholder('Selecione o tipo de negociacao')
-            .addOptions([
-              {
-                label: 'Negociacoes ate R$100',
-                value: 'mm_100',
-                description: 'Negociacoes ate R$100'
-              },
-              {
-                label: 'Negociacoes ate R$250',
-                value: 'mm_250',
-                description: 'Negociacoes ate R$250'
-              },
-              {
-                label: 'Negociacoes ate R$500',
-                value: 'mm_500',
-                description: 'Negociacoes ate R$500'
-              },
-              {
-                label: 'Negociacoes ate R$1000',
-                value: 'mm_1000',
-                description: 'Negociacoes ate R$1000'
-              },
-              {
-                label: 'Negociacoes a partir de R$1000',
-                value: 'mm_1000plus',
-                description: 'Negociacoes a partir de R$1000'
-              },
-              {
-                label: 'CrossTrade',
-                value: 'crosstrade',
-                description: 'Troca entre diferentes jogos/plataformas'
-              }
-            ])
-        );
-      
-      await message.channel.send({ embeds: [embed], components: [row] });
-      await log(message.guild, 'ð« Painel de Middleman', `Painel de middleman criado por ${message.author.tag}`, '#57F287');
-    }
+    const embed = new EmbedBuilder()
+      .setColor('#5865F2')
+      .setTitle('Compre seu cargo!')
+      .setDescription('ð¨ â Clique no menu abaixo para comprar seu cargo!');
     
-    else {
-      message.reply({ embeds: [createErrorEmbed('Uso: `$ticket support` ou `$ticket middleman`')] });
-    }
+    const row = new ActionRowBuilder()
+      .addComponents(
+        new StringSelectMenuBuilder()
+          .setCustomId('rank_ticket')
+          .setPlaceholder('Selecione o cargo desejado')
+          .addOptions([
+            {
+              label: 'Cargo Basico',
+              value: 'rank_basic',
+              description: 'Comprar cargo basico'
+            },
+            {
+              label: 'Cargo VIP',
+              value: 'rank_vip',
+              description: 'Comprar cargo VIP'
+            },
+            {
+              label: 'Cargo Premium',
+              value: 'rank_premium',
+              description: 'Comprar cargo Premium'
+            }
+          ])
+      );
+    
+    await message.channel.send({ embeds: [embed], components: [row] });
+    await log(message.guild, 'ð« Painel de Cargos', `Painel "Compre seu cargo!" criado por ${message.author.tag}`, '#57F287');
   }
   
   // ==================== CATEGORY CONFIGURATION ====================
@@ -498,6 +492,64 @@ client.on('messageCreate', async (message) => {
     await log(message.guild, 'âï¸ Config Atualizada', `Categoria de middleman definida para ${category.name} por ${message.author.tag}`, '#57F287');
   }
   
+  else if (command === 'auctioncategory') {
+    if (!isAdmin(message.member)) {
+      return message.reply({ embeds: [createErrorEmbed('Voce nao tem permissao para usar este comando.')] });
+    }
+    
+    const categoryId = args[0];
+    if (!categoryId) {
+      return message.reply({ embeds: [createErrorEmbed('Uso: `$auctioncategory <categoryid>`')] });
+    }
+    
+    const category = message.guild.channels.cache.get(categoryId.replace(/[<#>]/g, ''));
+    if (!category || category.type !== ChannelType.GuildCategory) {
+      return message.reply({ embeds: [createErrorEmbed('Categoria nao encontrada. Forneca um ID de categoria valido.')] });
+    }
+    
+    botData.auctionCategory = category.id;
+    saveData();
+    
+    const embed = new EmbedBuilder()
+      .setColor('#57F287')
+      .setTitle('â Categoria de Leilao Definida')
+      .setDescription(`Tickets de leilao serao criados na categoria: **${category.name}**`)
+      .setFooter({ text: 'Configuracao', iconURL: client.user.displayAvatarURL() })
+      .setTimestamp();
+    
+    message.channel.send({ embeds: [embed] });
+    await log(message.guild, 'âï¸ Config Atualizada', `Categoria de leilao definida para ${category.name} por ${message.author.tag}`, '#57F287');
+  }
+  
+  else if (command === 'rankcategory') {
+    if (!isAdmin(message.member)) {
+      return message.reply({ embeds: [createErrorEmbed('Voce nao tem permissao para usar este comando.')] });
+    }
+    
+    const categoryId = args[0];
+    if (!categoryId) {
+      return message.reply({ embeds: [createErrorEmbed('Uso: `$rankcategory <categoryid>`')] });
+    }
+    
+    const category = message.guild.channels.cache.get(categoryId.replace(/[<#>]/g, ''));
+    if (!category || category.type !== ChannelType.GuildCategory) {
+      return message.reply({ embeds: [createErrorEmbed('Categoria nao encontrada. Forneca um ID de categoria valido.')] });
+    }
+    
+    botData.rankCategory = category.id;
+    saveData();
+    
+    const embed = new EmbedBuilder()
+      .setColor('#57F287')
+      .setTitle('â Categoria de Cargos Definida')
+      .setDescription(`Tickets de cargos serao criados na categoria: **${category.name}**`)
+      .setFooter({ text: 'Configuracao', iconURL: client.user.displayAvatarURL() })
+      .setTimestamp();
+    
+    message.channel.send({ embeds: [embed] });
+    await log(message.guild, 'âï¸ Config Atualizada', `Categoria de cargos definida para ${category.name} por ${message.author.tag}`, '#57F287');
+  }
+  
   else if (command === 'logchannel') {
     if (!isAdmin(message.member)) {
       return message.reply({ embeds: [createErrorEmbed('Voce nao tem permissao para usar este comando.')] });
@@ -520,6 +572,91 @@ client.on('messageCreate', async (message) => {
       .setColor('#57F287')
       .setTitle('â Canal de Logs Definido')
       .setDescription(`Logs serao enviados para: **${channel.name}**`)
+      .setFooter({ text: 'Configuracao', iconURL: client.user.displayAvatarURL() })
+      .setTimestamp();
+    
+    message.channel.send({ embeds: [embed] });
+  }
+  
+  // Role configuration for pings
+  else if (command === 'equipemiddleman') {
+    if (!isAdmin(message.member)) {
+      return message.reply({ embeds: [createErrorEmbed('Voce nao tem permissao para usar este comando.')] });
+    }
+    
+    const roleId = args[0];
+    if (!roleId) {
+      return message.reply({ embeds: [createErrorEmbed('Uso: `$equipemiddleman <roleid>`')] });
+    }
+    
+    const role = message.guild.roles.cache.get(roleId.replace(/[<@&>]/g, ''));
+    if (!role) {
+      return message.reply({ embeds: [createErrorEmbed('Cargo nao encontrado.')] });
+    }
+    
+    botData.equipeMiddlemanRole = role.id;
+    saveData();
+    
+    const embed = new EmbedBuilder()
+      .setColor('#57F287')
+      .setTitle('â Equipe Middleman Definida')
+      .setDescription(`Cargo Equipe Middleman definido para: **${role.name}**`)
+      .setFooter({ text: 'Configuracao', iconURL: client.user.displayAvatarURL() })
+      .setTimestamp();
+    
+    message.channel.send({ embeds: [embed] });
+  }
+  
+  else if (command === 'equipestaff') {
+    if (!isAdmin(message.member)) {
+      return message.reply({ embeds: [createErrorEmbed('Voce nao tem permissao para usar este comando.')] });
+    }
+    
+    const roleId = args[0];
+    if (!roleId) {
+      return message.reply({ embeds: [createErrorEmbed('Uso: `$equipestaff <roleid>`')] });
+    }
+    
+    const role = message.guild.roles.cache.get(roleId.replace(/[<@&>]/g, ''));
+    if (!role) {
+      return message.reply({ embeds: [createErrorEmbed('Cargo nao encontrado.')] });
+    }
+    
+    botData.equipeStaffRole = role.id;
+    saveData();
+    
+    const embed = new EmbedBuilder()
+      .setColor('#57F287')
+      .setTitle('â Equipe Staff Definida')
+      .setDescription(`Cargo Equipe Staff definido para: **${role.name}**`)
+      .setFooter({ text: 'Configuracao', iconURL: client.user.displayAvatarURL() })
+      .setTimestamp();
+    
+    message.channel.send({ embeds: [embed] });
+  }
+  
+  else if (command === 'staffping') {
+    if (!isAdmin(message.member)) {
+      return message.reply({ embeds: [createErrorEmbed('Voce nao tem permissao para usar este comando.')] });
+    }
+    
+    const roleId = args[0];
+    if (!roleId) {
+      return message.reply({ embeds: [createErrorEmbed('Uso: `$staffping <roleid>`')] });
+    }
+    
+    const role = message.guild.roles.cache.get(roleId.replace(/[<@&>]/g, ''));
+    if (!role) {
+      return message.reply({ embeds: [createErrorEmbed('Cargo nao encontrado.')] });
+    }
+    
+    botData.staffRolePing = role.id;
+    saveData();
+    
+    const embed = new EmbedBuilder()
+      .setColor('#57F287')
+      .setTitle('â Staff para Ping Definido')
+      .setDescription(`Cargo Staff para ping definido para: **${role.name}**`)
       .setFooter({ text: 'Configuracao', iconURL: client.user.displayAvatarURL() })
       .setTimestamp();
     
@@ -1363,22 +1500,6 @@ client.on('messageCreate', async (message) => {
     message.channel.send({ embeds: [embed] });
   }
   
-  else if (command === 'taxamm') {
-    const embed = new EmbedBuilder()
-      .setColor('#5865F2')
-      .setTitle('ð° Decisao de Taxa do Middleman')
-      .setDescription('Selecione quem pagara a taxa do middleman:')
-      .addFields(
-        { name: 'Opcao 1', value: 'Comprador paga a taxa', inline: true },
-        { name: 'Opcao 2', value: 'Vendedor paga a taxa', inline: true },
-        { name: 'Opcao 3', value: 'Dividir 50/50', inline: true }
-      )
-      .setFooter({ text: 'Sistema de Taxas', iconURL: client.user.displayAvatarURL() })
-      .setTimestamp();
-    
-    message.channel.send({ embeds: [embed] });
-  }
-  
   // ==================== TICKET COMMANDS ====================
   
   else if (command === 'claim') {
@@ -1602,6 +1723,7 @@ client.on('interactionCreate', async (interaction) => {
   const { customId, values, user, guild } = interaction;
   const value = values[0];
   
+  // Support Ticket - Pings Equipe Staff
   if (customId === 'support_ticket') {
     if (!botData.supportCategory) {
       return interaction.reply({ embeds: [createErrorEmbed('Categoria de suporte nao definida. Contate um admin.')], ephemeral: true });
@@ -1640,18 +1762,41 @@ client.on('interactionCreate', async (interaction) => {
     };
     saveData();
     
+    // Create control buttons
+    const controlRow = new ActionRowBuilder()
+      .addComponents(
+        new ButtonBuilder()
+          .setCustomId('ticket_claim')
+          .setLabel('Claim')
+          .setStyle(ButtonStyle.Success),
+        new ButtonBuilder()
+          .setCustomId('ticket_unclaim')
+          .setLabel('Unclaim')
+          .setStyle(ButtonStyle.Secondary),
+        new ButtonBuilder()
+          .setCustomId('ticket_close')
+          .setLabel('Close')
+          .setStyle(ButtonStyle.Danger)
+      );
+    
+    const pingRole = botData.equipeStaffRole ? `<@&${botData.equipeStaffRole}>` : '';
+    
     const embed = new EmbedBuilder()
       .setColor('#5865F2')
-      .setTitle('ð« Ticket de Suporte')
-      .setDescription(`Bem-vindo <@${user.id}>! Um membro da staff ira ajuda-lo em breve.\n\nTipo: **${typeLabels[value]}**`)
+      .setTitle('Controles do Ticket')
+      .setDescription(`Por favor aguarde enquanto um membro da nossa equipe atenda o seu ticket!`)
+      .addFields(
+        { name: 'Dono Atual', value: `<@${user.id}>`, inline: false }
+      )
       .setFooter({ text: 'Sistema de Tickets', iconURL: client.user.displayAvatarURL() })
       .setTimestamp();
     
-    await channel.send({ content: `<@${user.id}>`, embeds: [embed] });
+    await channel.send({ content: `${pingRole} <@${user.id}>`, embeds: [embed], components: [controlRow] });
     await interaction.reply({ content: `Ticket criado: ${channel}`, ephemeral: true });
     await log(guild, 'ð« Ticket de Suporte Criado', `Ticket ${channel.name} criado por ${user.tag}`);
   }
   
+  // Middleman Ticket - Pings Equipe Middleman
   else if (customId === 'middleman_ticket') {
     if (!botData.middlemanCategory) {
       return interaction.reply({ embeds: [createErrorEmbed('Categoria de middleman nao definida. Contate um admin.')], ephemeral: true });
@@ -1693,25 +1838,276 @@ client.on('interactionCreate', async (interaction) => {
     };
     saveData();
     
-    const typeNames = {
-      'mm_100': 'ate R$100',
-      'mm_250': 'ate R$250',
-      'mm_500': 'ate R$500',
-      'mm_1000': 'ate R$1000',
-      'mm_1000plus': 'a partir de R$1000',
-      'crosstrade': 'CrossTrade'
-    };
+    // Create control buttons
+    const controlRow = new ActionRowBuilder()
+      .addComponents(
+        new ButtonBuilder()
+          .setCustomId('ticket_claim')
+          .setLabel('Claim')
+          .setStyle(ButtonStyle.Success),
+        new ButtonBuilder()
+          .setCustomId('ticket_unclaim')
+          .setLabel('Unclaim')
+          .setStyle(ButtonStyle.Secondary),
+        new ButtonBuilder()
+          .setCustomId('ticket_close')
+          .setLabel('Close')
+          .setStyle(ButtonStyle.Danger)
+      );
+    
+    const pingRole = botData.equipeMiddlemanRole ? `<@&${botData.equipeMiddlemanRole}>` : '';
     
     const embed = new EmbedBuilder()
       .setColor('#5865F2')
-      .setTitle('ð« Ticket de Middleman')
-      .setDescription(`Bem-vindo <@${user.id}>!\n\nTipo de Negociacao: **${typeNames[value]}**\n\nPor favor, forneca o ID da outra parte nesta troca (se houver). Use \`$add <user_id>\` para adiciona-los.`)
+      .setTitle('Controles do Ticket')
+      .setDescription(`Ola <@${user.id}>\nAguarde ate que um middleman qualificado aparecer para que voce possa prosseguir com sua trade!`)
+      .addFields(
+        { name: 'Dono Atual', value: `<@${user.id}>`, inline: false }
+      )
       .setFooter({ text: 'Sistema de Tickets', iconURL: client.user.displayAvatarURL() })
       .setTimestamp();
     
-    await channel.send({ content: `<@${user.id}>`, embeds: [embed] });
+    await channel.send({ content: `${pingRole} <@${user.id}>`, embeds: [embed], components: [controlRow] });
     await interaction.reply({ content: `Ticket criado: ${channel}`, ephemeral: true });
     await log(guild, 'ð« Ticket de Middleman Criado', `Ticket ${channel.name} criado por ${user.tag}`);
+  }
+  
+  // Auction Ticket (Crie seu leilao!) - Pings Equipe Staff
+  else if (customId === 'auction_ticket') {
+    if (!botData.auctionCategory) {
+      return interaction.reply({ embeds: [createErrorEmbed('Categoria de leilao nao definida. Contate um admin.')], ephemeral: true });
+    }
+    
+    botData.ticketCounter++;
+    saveData();
+    
+    const ticketNumber = botData.ticketCounter.toString().padStart(4, '0');
+    const auctionTypes = {
+      'auction_items': 'itens',
+      'auction_account': 'conta',
+      'auction_other': 'outro'
+    };
+    
+    const channel = await guild.channels.create({
+      name: `leilao-${auctionTypes[value]}-${ticketNumber}`,
+      type: ChannelType.GuildText,
+      parent: botData.auctionCategory,
+      permissionOverwrites: [
+        {
+          id: guild.id,
+          deny: [PermissionFlagsBits.ViewChannel]
+        },
+        {
+          id: user.id,
+          allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.SendMessages]
+        }
+      ]
+    });
+    
+    botData.tickets[channel.id] = {
+      type: 'auction',
+      creator: user.id,
+      createdAt: new Date().toISOString()
+    };
+    saveData();
+    
+    // Create control buttons
+    const controlRow = new ActionRowBuilder()
+      .addComponents(
+        new ButtonBuilder()
+          .setCustomId('ticket_claim')
+          .setLabel('Claim')
+          .setStyle(ButtonStyle.Success),
+        new ButtonBuilder()
+          .setCustomId('ticket_unclaim')
+          .setLabel('Unclaim')
+          .setStyle(ButtonStyle.Secondary),
+        new ButtonBuilder()
+          .setCustomId('ticket_close')
+          .setLabel('Close')
+          .setStyle(ButtonStyle.Danger)
+      );
+    
+    const pingRole = botData.equipeStaffRole ? `<@&${botData.equipeStaffRole}>` : '';
+    
+    const embed = new EmbedBuilder()
+      .setColor('#5865F2')
+      .setTitle('Controles do Ticket')
+      .setDescription(`Por favor aguarde enquanto um membro da nossa equipe atenda o seu ticket! (Uso obrigatorio do nosso servico de middleman apos a finalizacao do leilao).`)
+      .addFields(
+        { name: 'Dono Atual', value: `<@${user.id}>`, inline: false }
+      )
+      .setFooter({ text: 'Sistema de Tickets', iconURL: client.user.displayAvatarURL() })
+      .setTimestamp();
+    
+    await channel.send({ content: `${pingRole} <@${user.id}>`, embeds: [embed], components: [controlRow] });
+    await interaction.reply({ content: `Ticket criado: ${channel}`, ephemeral: true });
+    await log(guild, 'ð« Ticket de Leilao Criado', `Ticket ${channel.name} criado por ${user.tag}`);
+  }
+  
+  // Rank Ticket (Compre seu cargo!) - Pings Staff
+  else if (customId === 'rank_ticket') {
+    if (!botData.rankCategory) {
+      return interaction.reply({ embeds: [createErrorEmbed('Categoria de cargos nao definida. Contate um admin.')], ephemeral: true });
+    }
+    
+    botData.ticketCounter++;
+    saveData();
+    
+    const ticketNumber = botData.ticketCounter.toString().padStart(4, '0');
+    const rankTypes = {
+      'rank_basic': 'basico',
+      'rank_vip': 'vip',
+      'rank_premium': 'premium'
+    };
+    
+    const channel = await guild.channels.create({
+      name: `cargo-${rankTypes[value]}-${ticketNumber}`,
+      type: ChannelType.GuildText,
+      parent: botData.rankCategory,
+      permissionOverwrites: [
+        {
+          id: guild.id,
+          deny: [PermissionFlagsBits.ViewChannel]
+        },
+        {
+          id: user.id,
+          allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.SendMessages]
+        }
+      ]
+    });
+    
+    botData.tickets[channel.id] = {
+      type: 'rank',
+      creator: user.id,
+      createdAt: new Date().toISOString()
+    };
+    saveData();
+    
+    // Create control buttons
+    const controlRow = new ActionRowBuilder()
+      .addComponents(
+        new ButtonBuilder()
+          .setCustomId('ticket_claim')
+          .setLabel('Claim')
+          .setStyle(ButtonStyle.Success),
+        new ButtonBuilder()
+          .setCustomId('ticket_unclaim')
+          .setLabel('Unclaim')
+          .setStyle(ButtonStyle.Secondary),
+        new ButtonBuilder()
+          .setCustomId('ticket_close')
+          .setLabel('Close')
+          .setStyle(ButtonStyle.Danger)
+      );
+    
+    const pingRole = botData.staffRolePing ? `<@&${botData.staffRolePing}>` : '';
+    
+    const embed = new EmbedBuilder()
+      .setColor('#5865F2')
+      .setTitle('Controles do Ticket')
+      .setDescription(`Ola <@${user.id}>\nAguarde ate que um membro da nossa equipe atenda o seu ticket!`)
+      .addFields(
+        { name: 'Dono Atual', value: `<@${user.id}>`, inline: false }
+      )
+      .setFooter({ text: 'Sistema de Tickets', iconURL: client.user.displayAvatarURL() })
+      .setTimestamp();
+    
+    await channel.send({ content: `${pingRole} <@${user.id}>`, embeds: [embed], components: [controlRow] });
+    await interaction.reply({ content: `Ticket criado: ${channel}`, ephemeral: true });
+    await log(guild, 'ð« Ticket de Cargo Criado', `Ticket ${channel.name} criado por ${user.tag}`);
+  }
+});
+
+// Button interaction handler
+client.on('interactionCreate', async (interaction) => {
+  if (!interaction.isButton()) return;
+  
+  const { customId, user, guild, channel } = interaction;
+  
+  if (customId === 'ticket_claim') {
+    if (!isMiddleman(interaction.member)) {
+      return interaction.reply({ embeds: [createErrorEmbed('Apenas middlemen podem reivindicar tickets.')], ephemeral: true });
+    }
+    
+    if (!botData.tickets[channel.id]) {
+      botData.tickets[channel.id] = {};
+    }
+    
+    botData.tickets[channel.id].claimedBy = user.id;
+    saveData();
+    
+    // Update the embed with new owner
+    const embed = EmbedBuilder.from(interaction.message.embeds[0])
+      .spliceFields(0, 1, { name: 'Dono Atual', value: `<@${user.id}>`, inline: false });
+    
+    await interaction.update({ embeds: [embed] });
+    await channel.send({ embeds: [createSuccessEmbed(`Ticket reivindicado por ${user.username}`)] });
+    await log(guild, 'â Ticket Reivindicado', `Ticket ${channel.name} reivindicado por ${user.tag}`, '#57F287');
+  }
+  
+  else if (customId === 'ticket_unclaim') {
+    if (!isMiddleman(interaction.member)) {
+      return interaction.reply({ embeds: [createErrorEmbed('Apenas middlemen podem desfazer reivindicacao.')], ephemeral: true });
+    }
+    
+    if (botData.tickets[channel.id]?.claimedBy !== user.id && !isAdmin(interaction.member)) {
+      return interaction.reply({ embeds: [createErrorEmbed('Voce so pode desfazer reivindicacao de tickets que voce reivindicou.')], ephemeral: true });
+    }
+    
+    if (botData.tickets[channel.id]) {
+      delete botData.tickets[channel.id].claimedBy;
+      saveData();
+    }
+    
+    // Get the ticket creator
+    const creatorId = botData.tickets[channel.id]?.creator;
+    
+    // Update the embed
+    const embed = EmbedBuilder.from(interaction.message.embeds[0])
+      .spliceFields(0, 1, { name: 'Dono Atual', value: creatorId ? `<@${creatorId}>` : 'Nenhum', inline: false });
+    
+    await interaction.update({ embeds: [embed] });
+    await channel.send({ embeds: [createSuccessEmbed('Ticket liberado!')] });
+    await log(guild, 'ð Ticket Liberado', `Ticket ${channel.name} liberado por ${user.tag}`, '#FEE75C');
+  }
+  
+  else if (customId === 'ticket_close') {
+    const ticket = botData.tickets[channel.id];
+    
+    if (!isStaff(interaction.member) && ticket?.claimedBy !== user.id) {
+      const channelName = channel.name;
+      if (!channelName.includes(user.username.toLowerCase()) && !isStaff(interaction.member)) {
+        return interaction.reply({ embeds: [createErrorEmbed('Voce nao tem permissao para fechar este ticket.')], ephemeral: true });
+      }
+    }
+    
+    // Create transcript
+    const transcript = await createTranscript(channel, user);
+    const transcriptBuffer = Buffer.from(transcript, 'utf-8');
+    
+    await interaction.reply({ embeds: [createSuccessEmbed('Ticket sera fechado em 5 segundos...')] });
+    
+    // Send transcript to log channel
+    if (botData.logChannel) {
+      const logCh = await guild.channels.fetch(botData.logChannel).catch(() => null);
+      if (logCh) {
+        const logEmbed = new EmbedBuilder()
+          .setColor('#ED4245')
+          .setTitle('ð Ticket Fechado')
+          .setDescription(`Ticket: ${channel.name}\nFechado por: ${user.tag}`)
+          .setTimestamp();
+        
+        await logCh.send({ 
+          embeds: [logEmbed], 
+          files: [{ attachment: transcriptBuffer, name: `transcricao-${channel.name}.txt` }] 
+        });
+      }
+    }
+    
+    setTimeout(() => {
+      channel.delete().catch(() => {});
+    }, 5000);
   }
 });
 
